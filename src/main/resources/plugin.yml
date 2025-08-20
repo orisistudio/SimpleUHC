@@ -1,0 +1,3 @@
+name: SimpleUHC
+version: '${project.version}'
+main: fr.rammex.simpleuhc.SimpleUHC
