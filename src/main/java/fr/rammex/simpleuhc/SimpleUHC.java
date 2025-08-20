@@ -3,6 +3,7 @@ package fr.rammex.simpleuhc;
 import api.rammex.gameapi.GameAPI;
 import api.rammex.gameapi.option.OptionManager;
 import api.rammex.gameapi.scenario.ScenarioManager;
+import fr.rammex.simpleuhc.option.OptionSetup;
 import fr.rammex.simpleuhc.scenario.SimpleUHCManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -20,7 +21,7 @@ public final class SimpleUHC extends JavaPlugin {
         this.simpleUHCManager = new SimpleUHCManager();
 
         scenarioManager.addScenario(simpleUHCManager);
-
+        OptionSetup.setup();
 
     }
 
