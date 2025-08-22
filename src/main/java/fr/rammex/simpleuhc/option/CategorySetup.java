@@ -4,11 +4,9 @@ import api.rammex.gameapi.GameAPI;
 import api.rammex.gameapi.category.Category;
 import api.rammex.gameapi.category.CategoryManager;
 import api.rammex.gameapi.category.CategoryType;
-import api.rammex.gameapi.scenario.AbstractScenario;
 import fr.rammex.simpleuhc.SimpleUHC;
 
 import java.util.List;
-import java.util.Map;
 
 public class CategorySetup {
 

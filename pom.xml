@@ -76,7 +76,7 @@
     <dependency>
       <groupId>com.github.orisis</groupId>
       <artifactId>gameapi</artifactId>
-      <version>1.4.3</version>
+      <version>1.4.5</version>
       <scope>provided</scope>
     </dependency>
 
