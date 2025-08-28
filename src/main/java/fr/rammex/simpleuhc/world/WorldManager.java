@@ -76,5 +76,13 @@ public class WorldManager {
         return today.format(formatter);
     }
 
-
+    // rajouter method pour réduire progressivement la world border
+    public static void shrinkWorldBorder(int newSize, long seconds) {
+        World world = org.bukkit.Bukkit.getWorld("UHC_" + getActualDate());
+        if (world != null) {
+            world.getWorldBorder().setSize(newSize, seconds);
+        } else {
+            SimpleUHC.instance.getLogger().warning("World not found for shrinking world border.");
+        }
+    }
 }

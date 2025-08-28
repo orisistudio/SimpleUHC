@@ -27,8 +27,9 @@ public class OptionSetup {
 
         //Game options
         optionManager.addOption(new Option("Game Team", "Activer ou non les équipes", gameCategory, OptionType.BOOLEAN, false), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Game PvP", "Délais avant la phase pvp en minute", gameCategory, OptionType.INTEGER, 15), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Game Meetup", "Délais en minute avant le Meetup", gameCategory, OptionType.INTEGER, 60), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Game PvP", "Délais avant la phase pvp en minutes", gameCategory, OptionType.INTEGER, 15), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Game Meetup", "Délais en minutes avant le Meetup", gameCategory, OptionType.INTEGER, 60), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Game Meetup Speed", "Temps en minutes pour que la border atteigne la taille voulue", gameCategory, OptionType.INTEGER, 10), SimpleUHC.getSimpleUHCManager());
         optionManager.addOption(new Option("Game Meetup Radius", "Rayon du Meetup en blocs", gameCategory, OptionType.INTEGER, 100), SimpleUHC.getSimpleUHCManager());
         optionManager.addOption(new Option("Game Starter Kit", "Kit de démarrage", gameCategory, OptionType.BOOLEAN, false), SimpleUHC.getSimpleUHCManager());
 
