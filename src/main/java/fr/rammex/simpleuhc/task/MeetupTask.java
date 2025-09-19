@@ -4,7 +4,6 @@ import api.rammex.gameapi.task.AbstractTask;
 import fr.rammex.simpleuhc.option.OptionSetup;
 import fr.rammex.simpleuhc.world.WorldManager;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 public class MeetupTask extends AbstractTask {
     public MeetupTask(int meetupDelay) {
