@@ -2,12 +2,10 @@ package fr.rammex.simpleuhc.option;
 
 import api.rammex.gameapi.GameAPI;
 import api.rammex.gameapi.category.Category;
-import api.rammex.gameapi.category.CategoryManager;
 import api.rammex.gameapi.option.Option;
 import api.rammex.gameapi.option.OptionManager;
 import api.rammex.gameapi.option.OptionType;
 import fr.rammex.simpleuhc.SimpleUHC;
-import fr.rammex.simpleuhc.scenario.SimpleUHCManager;
 
 public class OptionSetup {
 

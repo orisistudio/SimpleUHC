@@ -1,4 +1,4 @@
-package fr.rammex.simpleuhc.scenario;
+package fr.rammex.simpleuhc.game;
 
 import api.rammex.gameapi.GameAPI;
 import api.rammex.gameapi.role.Role;
