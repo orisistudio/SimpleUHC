@@ -13,54 +13,64 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+// Listener principal pour gérer les événements liés aux joueurs dans l'UHC
 public class PlayerListener implements Listener {
 
+    // Gère l'arrivée d'un joueur pendant une partie en cours
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e){
         if(SimpleUHCManager.isGameRunning){
             Player player = e.getPlayer();
-            e.setJoinMessage("");
+            e.setJoinMessage(""); // Pas de message de join
 
+            // Met le joueur en mode spectateur et l'informe
             player.setGameMode(GameMode.SPECTATOR);
             player.sendMessage("§c§lL'UHC est déjà en cours, vous êtes en mode spectateur.");
         }
     }
 
+    // Gère le départ d'un joueur pendant une partie en cours
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e){
         if(SimpleUHCManager.isGameRunning){
-            e.setQuitMessage("");
+            e.setQuitMessage(""); // Pas de message de quit
             Player player = e.getPlayer();
+            // Si le joueur n'est pas spectateur ou créatif, il est considéré comme mort
             if(!player.getGameMode().equals(GameMode.SPECTATOR) || !player.getGameMode().equals(GameMode.CREATIVE)){
                 playerDie(player);
             }
         }
     }
 
+    // Gère les dégâts infligés par une entité à un joueur pendant la partie (PVP)
     @EventHandler
     public void playerGetDamagedByEntity(EntityDamageByEntityEvent e){
         if(SimpleUHCManager.isGameRunning && SimpleUHCManager.pvpEnabled){
             if(e.getEntity() instanceof Player){
                 Player p = (Player) e.getEntity();
-                playerDie(p);
-                p.setGameMode(GameMode.SPECTATOR);
+                playerDie(p); // Le joueur meurt
+                p.setGameMode(GameMode.SPECTATOR); // Passe en spectateur
             }
         }
     }
 
+    // Gère la mort d'un joueur (message et passage en spectateur)
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent e){
         if(SimpleUHCManager.isGameRunning){
-            e.setDeathMessage("");
+            e.setDeathMessage(""); // Pas de message de mort
             Player player = e.getEntity();
             playerDie(player);
             player.setGameMode(GameMode.SPECTATOR);
         }
     }
 
+    // Méthode utilitaire pour gérer la mort d'un joueur
     public void playerDie(Player player){
+        // Annonce la mort du joueur et le nombre de survivants restants
         Bukkit.broadcastMessage("§c§l" + player.getName() + " est mort ! " + "§c§l Il reste " + (Bukkit.getOnlinePlayers().size() - 1) + " joueurs en vie.");
         boolean isTeamModeActivated = (boolean) OptionSetup.getOption("Game Team").getValue();
+        // Si un seul joueur reste (hors mode équipe), il gagne la partie
         if(Bukkit.getOnlinePlayers().size() - 1 <= 1 && !isTeamModeActivated){
             for(Player p : Bukkit.getOnlinePlayers()){
                 if(p != player){
@@ -69,7 +79,7 @@ public class PlayerListener implements Listener {
                 }
             }
             SimpleUHCManager.isGameRunning = false;
-            SimpleUHC.getSimpleUHCManager().onDisable();
+            SimpleUHC.getSimpleUHCManager().onDisable(); // Arrête la partie
         }
     }
 }

@@ -34,7 +34,7 @@ public class TeamManager {
         return name != null && !name.trim().isEmpty() && name.length() <= 16 && name.matches("^[a-zA-Z0-9_]+$");
     }
 
-    public void createTeam(TeamColor color, String name, List<Player> players) throws IllegalArgumentException {
+    public void createTeam(TeamColor color, String name, List<Player> players, int teamSize) throws IllegalArgumentException {
         if (!isNameValid(name)) {
             throw new IllegalArgumentException("Le nom de l'équipe n'est pas valide.");
         }
@@ -69,6 +69,4 @@ public class TeamManager {
         }
         throw new IllegalArgumentException("L'équipe n'existe pas.");
     }
-
-
 }

@@ -1,6 +1,8 @@
 package fr.rammex.simpleuhc.task;
 
 import api.rammex.gameapi.task.AbstractTask;
+import fr.rammex.simpleuhc.SimpleUHC;
+import fr.rammex.simpleuhc.game.SimpleUHCManager;
 
 public class MainTask extends AbstractTask {
 
@@ -19,6 +21,7 @@ public class MainTask extends AbstractTask {
 
     @Override
     protected void onFinish() {
+        SimpleUHC.getSimpleUHCManager().onDisable();
     }
 
     @Override
