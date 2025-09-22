@@ -8,14 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 public class TeamManager {
-    private boolean teamActivated = (boolean) OptionSetup.getOption("Game Team").getValue();
+    private static boolean teamActivated = (boolean) OptionSetup.getOption("Game Team").getValue();
     private int teamSize = (int) OptionSetup.getOption("Game Team Size").getValue();
     private Map<Map<TeamColor,String>, List<Player>> teams = new HashMap<>(); // Map première map pour la couleur et Nom de la team et la deuxième liste pour les joueurs dans la team
 
-
-    public boolean isTeamActivated() {
-        return teamActivated;
-    }
 
     public int getTeamSize() {
         return teamSize;
@@ -68,5 +64,9 @@ public class TeamManager {
             }
         }
         throw new IllegalArgumentException("L'équipe n'existe pas.");
+    }
+
+    public static boolean isTeamActivated(){
+        return teamActivated;
     }
 }

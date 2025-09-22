@@ -2,12 +2,16 @@ package fr.rammex.simpleuhc.world;
 
 import fr.rammex.simpleuhc.SimpleUHC;
 import fr.rammex.simpleuhc.option.OptionSetup;
+import fr.rammex.simpleuhc.team.TeamColor;
+import fr.rammex.simpleuhc.team.TeamManager;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Map;
 
 public class WorldManager {
 
@@ -36,6 +40,21 @@ public class WorldManager {
             player.sendMessage("World not found.");
         }
 
+    }
+
+    public static void teleportTeam(){
+        TeamManager teamManager = new TeamManager();
+        Map<Map<TeamColor, String>, List<Player>> teams = teamManager.getTeams();
+        for (teams.values().forEach(team -> {
+            for (Player player : team) {
+                Location spawnLocation = getRandomLocation();
+                if (spawnLocation != null) {
+                    player.teleport(spawnLocation);
+                } else {
+                    player.sendMessage("Spawn location is not set.");
+                }
+            }
+        });;);
     }
 
     public static void setWorldBorder(int size) {

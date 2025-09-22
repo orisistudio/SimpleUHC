@@ -3,6 +3,11 @@ package fr.rammex.simpleuhc.task;
 import api.rammex.gameapi.GameAPI;
 import api.rammex.gameapi.task.AbstractTask;
 import fr.rammex.simpleuhc.option.OptionSetup;
+import fr.rammex.simpleuhc.team.TeamManager;
+import fr.rammex.simpleuhc.world.WorldManager;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
 
 public class StartTask extends AbstractTask {
     private static AbstractTask mainTask = new MainTask();;
@@ -32,6 +37,16 @@ public class StartTask extends AbstractTask {
 
         GameAPI.instance.getTaskManager().addTask(pvpTask);
         GameAPI.instance.getTaskManager().startTask(pvpTask);
+
+        if(TeamManager.isTeamActivated()){
+            WorldManager.teleportTeam();
+        } else {
+            for(Player player : Bukkit.getOnlinePlayers()){
+                if(player.getGameMode() == GameMode.SURVIVAL){
+                    WorldManager.teleportPlayer(player);
+                }
+            }
+        }
     }
 
     @Override
