@@ -12,7 +12,7 @@ public class TeamManager {
     private int teamSize = (int) OptionSetup.getOption("Game Team Size").getValue();
     private Map<Player, String> teamInvites = new HashMap<>(); // Map pour gérer les invitations des joueurs aux équipes, Le string est le nom de la team
     private Map<Map<TeamColor,String>, List<Player>> teams = new HashMap<>(); // Map première map pour la couleur et Nom de la team et la deuxième liste pour les joueurs dans la team
-
+    private Map<String, Player> teamLeaders = new HashMap<>(); // Map pour gérer les leaders des équipes, Le string est le nom de la team
 
     public int getTeamSize() {
         return teamSize;
@@ -44,6 +44,18 @@ public class TeamManager {
         Map<TeamColor, String> teamInfo = new HashMap<>();
         teamInfo.put(color, name);
         teams.put(teamInfo, players);
+        teamLeaders.put(name, players.get(0)); // Le premier joueur de la liste est le leader
+    }
+
+    public void disbandTeam(String teamName) throws IllegalArgumentException {
+        for (Map<TeamColor, String> teamInfo : teams.keySet()) {
+            if (teamInfo.containsValue(teamName)) {
+                teams.remove(teamInfo);
+                teamLeaders.remove(teamName);
+                return;
+            }
+        }
+        throw new IllegalArgumentException("L'équipe n'existe pas.");
     }
 
     public Map<Map<TeamColor, String>, List<Player>> getTeams() {
@@ -67,6 +79,20 @@ public class TeamManager {
         throw new IllegalArgumentException("L'équipe n'existe pas.");
     }
 
+    public void removePlayerFromTeam(String teamName, Player player) throws IllegalArgumentException {
+        for (Map<TeamColor, String> teamInfo : teams.keySet()) {
+            if (teamInfo.containsValue(teamName)) {
+                List<Player> players = teams.get(teamInfo);
+                if (!players.contains(player)) {
+                    throw new IllegalArgumentException("Le joueur n'est pas dans l'équipe.");
+                }
+                players.remove(player);
+                return;
+            }
+        }
+        throw new IllegalArgumentException("L'équipe n'existe pas.");
+    }
+
     public static boolean isTeamActivated(){
         return teamActivated;
     }
@@ -75,12 +101,52 @@ public class TeamManager {
         teamInvites.put(player, teamName);
     }
 
-    public void acceptTeamInvite(Player player) {
-        teamInvites.remove(player);
-        addPlayerToTeam(teamInvites.get(player), player);
+    public void acceptTeamInvite(Player player, String teamName) {
+        if (teamInvites.containsKey(player) && teamInvites.get(player).equals(teamName)) {
+            addPlayerToTeam(teamName, player);
+            teamInvites.remove(player);
+        } else {
+            throw new IllegalArgumentException("Aucune invitation en attente pour cette équipe.");
+        }
     }
 
-    public void declineTeamInvite(Player player) {
-        teamInvites.remove(player);
+    public boolean hasPendingInvite(Player player) {
+        return teamInvites.containsKey(player);
+    }
+
+    public boolean isPlayerInTeam(String teamName, Player player) {
+        for (Map<TeamColor, String> teamInfo : teams.keySet()) {
+            if (teamInfo.containsValue(teamName)) {
+                List<Player> players = teams.get(teamInfo);
+                return players.contains(player);
+            }
+        }
+        return false;
+    }
+
+    public boolean isPlayerInvitedToTeam(String teamName, Player player) {
+        return teamInvites.containsKey(player) && teamInvites.get(player).equals(teamName);
+    }
+
+    public boolean isPlayerInAnyTeam(Player player) {
+        for (List<Player> players : teams.values()) {
+            if (players.contains(player)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isPlayerTeamLeader(Player player) {
+        return teamLeaders.containsValue(player);
+    }
+
+    public String getPlayerTeamName(Player player) {
+        for (Map.Entry<Map<TeamColor, String>, List<Player>> entry : teams.entrySet()) {
+            if (entry.getValue().contains(player)) {
+                return entry.getKey().values().iterator().next();
+            }
+        }
+        return null;
     }
 }
