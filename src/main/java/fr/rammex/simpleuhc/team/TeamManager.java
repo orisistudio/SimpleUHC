@@ -10,6 +10,7 @@ import java.util.Map;
 public class TeamManager {
     private static boolean teamActivated = (boolean) OptionSetup.getOption("Game Team").getValue();
     private int teamSize = (int) OptionSetup.getOption("Game Team Size").getValue();
+    private Map<Player, String> teamInvites = new HashMap<>(); // Map pour gérer les invitations des joueurs aux équipes, Le string est le nom de la team
     private Map<Map<TeamColor,String>, List<Player>> teams = new HashMap<>(); // Map première map pour la couleur et Nom de la team et la deuxième liste pour les joueurs dans la team
 
 
@@ -68,5 +69,18 @@ public class TeamManager {
 
     public static boolean isTeamActivated(){
         return teamActivated;
+    }
+
+    public void invitePlayerToTeam(Player player, String teamName) {
+        teamInvites.put(player, teamName);
+    }
+
+    public void acceptTeamInvite(Player player) {
+        teamInvites.remove(player);
+        addPlayerToTeam(teamInvites.get(player), player);
+    }
+
+    public void declineTeamInvite(Player player) {
+        teamInvites.remove(player);
     }
 }
