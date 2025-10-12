@@ -71,17 +71,26 @@ public class WorldManager {
         }
     }
 
-    private static Location getRandomLocation(){
-        World world = org.bukkit.Bukkit.getWorld("UHC_"+getActualDate());
+    private static Location getRandomLocation() {
+        World world = org.bukkit.Bukkit.getWorld("UHC_" + getActualDate());
         Location spawnLocation = getSpawnLocation();
         if (world != null && spawnLocation != null) {
-            int x = (int) (Math.random() * world.getWorldBorder().getSize() - world.getWorldBorder().getSize() / 2 + spawnLocation.getX());
-            int z = (int) (Math.random() * world.getWorldBorder().getSize() - world.getWorldBorder().getSize() / 2 + spawnLocation.getZ());
-            int y = world.getHighestBlockYAt(x, z);
-            return new Location(world, x, y, z);
-        } else {
-            return null;
+            int border = (int) world.getWorldBorder().getSize() / 2;
+            for (int attempt = 0; attempt < 100; attempt++) {
+                int x = ThreadLocalRandom.current().nextInt(-border, border) + (int) spawnLocation.getX();
+                int z = ThreadLocalRandom.current().nextInt(-border, border) + (int) spawnLocation.getZ();
+                int y = world.getHighestBlockYAt(x, z);
+                Block block = world.getBlockAt(x, y - 1, z);
+                Block blockAbove = world.getBlockAt(x, y, z);
+                if (blockAbove.getType() == Material.AIR &&
+                        block.getType() != Material.WATER &&
+                        block.getType() != Material.LAVA &&
+                        block.getType().isSolid()) {
+                    return new Location(world, x, y, z);
+                }
+            }
         }
+        return null;
     }
 
     private static Location getSpawnLocation(){

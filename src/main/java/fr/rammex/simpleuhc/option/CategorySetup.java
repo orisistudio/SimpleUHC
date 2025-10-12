@@ -5,6 +5,7 @@ import api.rammex.gameapi.category.Category;
 import api.rammex.gameapi.category.CategoryManager;
 import api.rammex.gameapi.category.CategoryType;
 import fr.rammex.simpleuhc.SimpleUHC;
+import fr.rammex.simpleuhc.game.SimpleUHCManager;
 
 import java.util.List;
 
@@ -12,10 +13,14 @@ public class CategorySetup {
 
     public static void setup(){
         CategoryManager categoryManager = SimpleUHC.instance.getCategoryManager();
-
-        categoryManager.registerCategory(SimpleUHC.getSimpleUHCManager(), new Category("player", CategoryType.OPTION));
-        categoryManager.registerCategory(SimpleUHC.getSimpleUHCManager(), new Category("world", CategoryType.OPTION));
-        categoryManager.registerCategory(SimpleUHC.getSimpleUHCManager(), new Category("game", CategoryType.OPTION));
+        SimpleUHCManager manager = SimpleUHC.getSimpleUHCManager();
+        if (manager != null) {
+            categoryManager.registerCategory(manager, new Category("player", CategoryType.OPTION));
+            categoryManager.registerCategory(manager, new Category("world", CategoryType.OPTION));
+            categoryManager.registerCategory(manager, new Category("game", CategoryType.OPTION));
+        } else {
+            System.out.println("[SimpleUHC] Erreur : SimpleUHCManager non instancié !");
+        }
     }
 
     public static Category getCategory(String name) {

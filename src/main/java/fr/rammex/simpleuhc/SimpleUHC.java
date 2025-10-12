@@ -23,11 +23,16 @@ public final class SimpleUHC extends JavaPlugin {
         this.scenarioManager = GameAPI.instance.getScenarioManager();
         this.optionManager = GameAPI.instance.getOptionManager();
         this.categoryManager = GameAPI.instance.getCategoryManager();
+
         this.simpleUHCManager = new SimpleUHCManager();
 
-        scenarioManager.addScenario(simpleUHCManager);
         CategorySetup.setup();
         OptionSetup.setup();
+
+        scenarioManager.addScenario(simpleUHCManager);
+        simpleUHCManager.startGame();
+
+        registerEvents();
     }
 
     @Override

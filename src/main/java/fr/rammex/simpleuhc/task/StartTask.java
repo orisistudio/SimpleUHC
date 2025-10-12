@@ -2,6 +2,7 @@ package fr.rammex.simpleuhc.task;
 
 import api.rammex.gameapi.GameAPI;
 import api.rammex.gameapi.task.AbstractTask;
+import fr.rammex.simpleuhc.game.SimpleUHCManager;
 import fr.rammex.simpleuhc.option.OptionSetup;
 import fr.rammex.simpleuhc.team.TeamManager;
 import fr.rammex.simpleuhc.world.WorldManager;
@@ -29,6 +30,7 @@ public class StartTask extends AbstractTask {
 
     @Override
     protected void onFinish() {
+        SimpleUHCManager.isGameRunning = true;
         GameAPI.instance.getTaskManager().addTask(mainTask);
         GameAPI.instance.getTaskManager().startTask(mainTask);
 

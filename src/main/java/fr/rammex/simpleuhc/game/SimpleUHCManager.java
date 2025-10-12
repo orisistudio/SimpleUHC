@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleUHCManager extends AbstractScenario {
-    private AbstractTask startTask = new StartTask(30);
+    private AbstractTask startTask;
     private List<Role> roles = new ArrayList<>();
     public static boolean pvpEnabled = false;
     public static boolean isGameRunning = false;
@@ -31,11 +31,12 @@ public class SimpleUHCManager extends AbstractScenario {
 
     @Override
     public void onEnable() {
-        isGameRunning = true;
+    }
+
+    public void startGame() {
         WorldManager.createWorld();
-
+        startTask = new StartTask((int) (30));
         GameAPI.instance.getTaskManager().startTask(startTask);
-
     }
 
     @Override

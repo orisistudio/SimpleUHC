@@ -3,6 +3,7 @@ package fr.rammex.simpleuhc.events;
 import fr.rammex.simpleuhc.SimpleUHC;
 import fr.rammex.simpleuhc.option.OptionSetup;
 import fr.rammex.simpleuhc.game.SimpleUHCManager;
+import fr.rammex.simpleuhc.world.WorldManager;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
