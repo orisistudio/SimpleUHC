@@ -4,14 +4,16 @@ import fr.rammex.simpleuhc.SimpleUHC;
 import fr.rammex.simpleuhc.option.OptionSetup;
 import fr.rammex.simpleuhc.team.TeamColor;
 import fr.rammex.simpleuhc.team.TeamManager;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class WorldManager {
 
@@ -25,6 +27,8 @@ public class WorldManager {
         }
         world.getWorldBorder().setSize((int) OptionSetup.getOption("World Border").getValue());
         world.getWorldBorder().setCenter(world.getSpawnLocation());
+        addSapling();
+        taiga();
     }
 
     public static void teleportPlayer(Player player) {
@@ -104,4 +108,72 @@ public class WorldManager {
             SimpleUHC.instance.getLogger().warning("World not found for shrinking world border.");
         }
     }
+
+    private static void addSapling() {
+        World gameWorld = org.bukkit.Bukkit.getWorld("UHC_" + getActualDate());
+        System.out.println("Start the creation of the roofed forest");
+        (new Thread(() -> (new BukkitRunnable() {
+            int yInicial = 50;
+
+            int progress = 0;
+
+            int YChange = this.yInicial;
+            @Override
+            public void run() {
+                for (int radius = 250, x = 0 - radius; x <= radius; x++) {
+                    for (int z = 0 - radius; z <= radius; z++) {
+                        Block block = gameWorld.getBlockAt(x, this.YChange, z);
+                        if (block.getType() == Material.AIR && (gameWorld.getBlockAt(x, this.YChange - 1, z).getType().equals(Material.DIRT) || gameWorld.getBlockAt(x, this.YChange - 1, z).getType().equals(Material.GRASS))) {
+                            int i = ThreadLocalRandom.current().nextInt(100);
+                            if (i <= 6)
+                                block.getWorld().generateTree(block.getLocation(), TreeType.DARK_OAK);
+                            if (i == 90) {
+                                block.getWorld().generateTree(block.getLocation(), TreeType.BROWN_MUSHROOM);
+                            } else if (i == 91) {
+                                block.getWorld().generateTree(block.getLocation(), TreeType.RED_MUSHROOM);
+                            }
+                        }
+                    }
+                }
+                this.YChange++;
+                this.progress++;
+                if (this.progress >= 100){
+                    this.cancel();
+                }
+            }
+        }).runTaskTimer(SimpleUHC.instance, 1L, 5L))).run();
+    }
+
+    private static void taiga(){
+        World world = org.bukkit.Bukkit.getWorld("UHC_" + getActualDate());
+        System.out.println("Start the creation of the taiga");
+        (new Thread(() -> (new BukkitRunnable() {
+            int yInicial = 50;
+
+            int progress = 0;
+
+            int YChange = this.yInicial;
+            @Override
+            public void run() {
+                for (int radius = 250, x = 0 - radius; x <= radius; x++) {
+                    for (int z = 0 - radius; z <= radius; z++) {
+                        Block block = world.getBlockAt(x, this.YChange, z);
+                        if (block.getType() == Material.AIR && (world.getBlockAt(x, this.YChange - 1, z).getType().equals(Material.DIRT) || world.getBlockAt(x, this.YChange - 1, z).getType().equals(Material.GRASS))) {
+                            int i = ThreadLocalRandom.current().nextInt(36);
+                            if (i <= 34)
+                                block.getWorld().generateTree(block.getLocation(), TreeType.REDWOOD);
+                        }
+                    }
+                }
+                this.YChange++;
+                this.progress++;
+                if (this.progress >= 100){
+                    this.cancel();
+                }
+            }
+        }).runTaskTimer(SimpleUHC.instance, 1L, 5L))).run();
+    }
 }
+
+    // https://github.com/Antoo42/UHC/blob/master/src/main/java/fr/anto42/emma/coreManager/worldManager/WorldPopulator.java
+    // méthode pour gen les arbres dans le monde
