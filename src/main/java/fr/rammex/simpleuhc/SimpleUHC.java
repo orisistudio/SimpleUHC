@@ -11,6 +11,7 @@ import fr.rammex.simpleuhc.option.CategorySetup;
 import fr.rammex.simpleuhc.option.OptionSetup;
 import fr.rammex.simpleuhc.game.SimpleUHCManager;
 import fr.rammex.simpleuhc.team.util.ChangeValueListener;
+import fr.rammex.simpleuhc.world.WorldManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SimpleUHC extends JavaPlugin {
