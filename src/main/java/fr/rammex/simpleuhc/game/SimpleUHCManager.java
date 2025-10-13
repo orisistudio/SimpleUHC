@@ -16,7 +16,13 @@ public class SimpleUHCManager extends AbstractScenario {
     public static boolean pvpEnabled = false;
     public static boolean isGameRunning = false;
     public SimpleUHCManager() {
-        super("SimpleUHC", "L'UHC le plus simple qui soit !", ".rammex", "1.0", "", 100, 4);
+        super("SimpleUHC",
+                "L'UHC le plus simple qui soit !",
+                ".rammex",
+                "1.0",
+                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2JiMzExZjNiYTFjMDdjM2QxMTQ3Y2QyMTBkODFmZTExZmQ4YWU5ZTNkYjIxMmEwZmE3NDg5NDZjMzYzMyJ9fX0",
+                100,
+                4);
     }
 
     @Override
@@ -31,6 +37,7 @@ public class SimpleUHCManager extends AbstractScenario {
 
     @Override
     public void onEnable() {
+
     }
 
     public void startGame() {
