@@ -30,9 +30,6 @@ public final class SimpleUHC extends JavaPlugin {
         OptionSetup.setup();
 
         scenarioManager.addScenario(simpleUHCManager);
-        simpleUHCManager.startGame();
-
-        registerEvents();
     }
 
     @Override
@@ -58,6 +55,14 @@ public final class SimpleUHC extends JavaPlugin {
 
     private void registerEvents(){
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
+    }
+
+
+    public void startGameMode(){
+        System.out.println("Starting game mode | " + getSimpleUHCManager().getName() + " | by " + getSimpleUHCManager().getAuthor() + " | Version: " + getSimpleUHCManager().getVersion());
+        getSimpleUHCManager().startGame();
+
+        registerEvents();
     }
 
 
