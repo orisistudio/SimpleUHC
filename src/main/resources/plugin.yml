@@ -1,3 +1,9 @@
 name: SimpleUHC
 version: '${project.version}'
 main: fr.rammex.simpleuhc.SimpleUHC
+commands:
+  team:
+    description: Manage teams
+  simpleuhc:
+    description: Main command for SimpleUHC
+    permission: simpleuhc.admin

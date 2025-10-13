@@ -16,7 +16,7 @@ import java.util.List;
 public class TeamColorGUI {
 
     public static void setupGUI(Player player) {
-        Pane pane = new Pane(Types.CHEST, "§6§Choisit une couleur");
+        Pane pane = new Pane(Types.CHEST, "§6§eChoisit une couleur");
         List<GuiElement> elements = getColorButtons(pane, player);
         for (GuiElement element : elements) {
             pane.addElement(element);
@@ -29,7 +29,7 @@ public class TeamColorGUI {
     private static List<GuiElement> getColorButtons(Pane pane, Player playerB) {
         List<GuiElement> buttons = new ArrayList<>();
 
-        List<TeamColor> colors = new ArrayList<>();
+        List<TeamColor> colors;
 
         colors = Arrays.asList(TeamColor.values());
         int x = 0;

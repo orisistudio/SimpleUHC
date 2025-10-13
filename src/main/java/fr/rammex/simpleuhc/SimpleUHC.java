@@ -4,10 +4,13 @@ import api.rammex.gameapi.GameAPI;
 import api.rammex.gameapi.category.CategoryManager;
 import api.rammex.gameapi.option.OptionManager;
 import api.rammex.gameapi.scenario.ScenarioManager;
+import fr.rammex.simpleuhc.commands.SimpleUHCcommand;
+import fr.rammex.simpleuhc.commands.TeamCommand;
 import fr.rammex.simpleuhc.events.PlayerListener;
 import fr.rammex.simpleuhc.option.CategorySetup;
 import fr.rammex.simpleuhc.option.OptionSetup;
 import fr.rammex.simpleuhc.game.SimpleUHCManager;
+import fr.rammex.simpleuhc.team.util.ChangeValueListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SimpleUHC extends JavaPlugin {
@@ -28,6 +31,8 @@ public final class SimpleUHC extends JavaPlugin {
 
         CategorySetup.setup();
         OptionSetup.setup();
+
+        startGameMode();
 
         scenarioManager.addScenario(simpleUHCManager);
     }
@@ -55,14 +60,21 @@ public final class SimpleUHC extends JavaPlugin {
 
     private void registerEvents(){
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
+        getServer().getPluginManager().registerEvents(new ChangeValueListener(), this);
+    }
+
+    private void registerCommands(){
+        getCommand("team").setExecutor(new TeamCommand());
+        getCommand("simpleuhc").setExecutor(new SimpleUHCcommand());
     }
 
 
     public void startGameMode(){
         System.out.println("Starting game mode | " + getSimpleUHCManager().getName() + " | by " + getSimpleUHCManager().getAuthor() + " | Version: " + getSimpleUHCManager().getVersion());
-        getSimpleUHCManager().startGame();
+        //getSimpleUHCManager().startGame();
 
         registerEvents();
+        registerCommands();
     }
 
 

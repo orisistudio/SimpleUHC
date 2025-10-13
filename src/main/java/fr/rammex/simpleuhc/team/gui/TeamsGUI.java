@@ -15,10 +15,10 @@ import java.util.List;
 import java.util.Map;
 
 public class TeamsGUI {
-    static TeamManager teamManager = new TeamManager();
+    private static TeamManager teamManager = new TeamManager();
 
     public static void setupGUI(Player player) {
-        Pane pane = new Pane(Types.DOUBLE_CHEST, "§6§Teams");
+        Pane pane = new Pane(Types.DOUBLE_CHEST, "§6§lTeams");
         List<GuiElement> elements = getTeamsButtons(pane);
         for (GuiElement element : elements) {
             pane.addElement(element);
@@ -74,6 +74,14 @@ public class TeamsGUI {
                 } // handle le clique droit pour quitter l'équipe si il en fait partie
                 else if (clickType.isRightClick()){
                     if(teamManager.isPlayerInTeam(teamName, player)) {
+                        if(teamManager.isPlayerAloneInTeam(player)){
+                            player.sendMessage("§cVous êtes le seul membre de l'équipe, vous devez la supprimer.");
+                            return;
+                        }
+                        if(teamManager.isPlayerTeamLeader(player)){
+                            player.sendMessage("§cVous êtes le leader de l'équipe, vous devez transférer le leadership avant de quitter l'équipe.");
+                            return;
+                        }
                         try {
                             teamManager.removePlayerFromTeam(teamName, player);
                             player.sendMessage("§cVous avez quitté l'équipe §6"+teamName+"§c.");
@@ -101,7 +109,7 @@ public class TeamsGUI {
         }
 
         buttons.add(new TeamsGUI().getCreateTeamButton());
-        buttons.add(new TeamsGUI().getDeleteTeamButton());
+        buttons.add(new TeamsGUI().getDeleteTeamButton(pane));
 
         return buttons;
     }
@@ -116,8 +124,7 @@ public class TeamsGUI {
             // handle le clique gauche pour créer une équipe
             if(clickType.isLeftClick()) {
                 if(!teamManager.isPlayerInAnyTeam(player)) {
-
-
+                    TeamCreationGUI.setupGUI(player);
                 } else {
                     player.sendMessage("§cVous êtes déjà dans une équipe.");
                 }
@@ -125,7 +132,7 @@ public class TeamsGUI {
         }));
     }
 
-    private Button getDeleteTeamButton() {
+    private Button getDeleteTeamButton(Pane pane) {
         List<String> lore = new ArrayList<>();
         lore.add("§e§nClic gauche§r §cpour supprimer votre équipe");
         ItemStack iconItem = Icon.getHead("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWRmNWMyZjg5M2JkM2Y4OWNhNDA3MDNkZWQzZTQyZGQwZmJkYmE2ZjY3NjhjODc4OWFmZGZmMWZhNzhiZjYifX19");
@@ -139,6 +146,7 @@ public class TeamsGUI {
                         String teamName = teamManager.getPlayerTeamName(player);
                         teamManager.disbandTeam(teamName);
                         player.sendMessage("§cVous avez supprimé l'équipe §6"+teamName+"§c.");
+                        player.closeInventory();
                     } catch (IllegalArgumentException e) {
                         player.sendMessage("§cErreur: "+e.getMessage());
                     }

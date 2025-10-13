@@ -11,14 +11,14 @@ public class TeamManager {
     private static boolean teamActivated = (boolean) OptionSetup.getOption("Game Team").getValue();
     private int teamSize = (int) OptionSetup.getOption("Game Team Size").getValue();
     private Map<Player, String> teamInvites = new HashMap<>(); // Map pour gérer les invitations des joueurs aux équipes, Le string est le nom de la team
-    private Map<Map<TeamColor,String>, List<Player>> teams = new HashMap<>(); // Map première map pour la couleur et Nom de la team et la deuxième liste pour les joueurs dans la team
-    private Map<String, Player> teamLeaders = new HashMap<>(); // Map pour gérer les leaders des équipes, Le string est le nom de la team
+    private static Map<Map<TeamColor,String>, List<Player>> teams = new HashMap<>(); // Map première map pour la couleur et Nom de la team et la deuxième liste pour les joueurs dans la team
+    private static Map<String, Player> teamLeaders = new HashMap<>(); // Map pour gérer les leaders des équipes, Le string est le nom de la team
 
     public int getTeamSize() {
         return teamSize;
     }
 
-    private boolean isNameInUse(String name) {
+    private static boolean isNameInUse(String name) {
         for (Map<TeamColor, String> teamInfo : teams.keySet()) {
             if (teamInfo.containsValue(name)) {
                 return true;
@@ -27,11 +27,11 @@ public class TeamManager {
         return false;
     }
 
-    private boolean isNameValid(String name) {
+    private static boolean isNameValid(String name) {
         return name != null && !name.trim().isEmpty() && name.length() <= 16 && name.matches("^[a-zA-Z0-9_]+$");
     }
 
-    public void createTeam(TeamColor color, String name, List<Player> players, int teamSize) throws IllegalArgumentException {
+    public static void createTeam(TeamColor color, String name, List<Player> players, int teamSize) throws IllegalArgumentException {
         if (!isNameValid(name)) {
             throw new IllegalArgumentException("Le nom de l'équipe n'est pas valide.");
         }
@@ -148,5 +148,24 @@ public class TeamManager {
             }
         }
         return null;
+    }
+
+    public boolean isPlayerAloneInTeam(Player player) {
+        String teamName = getPlayerTeamName(player);
+        if (teamName != null) {
+            for (Map.Entry<Map<TeamColor, String>, List<Player>> entry : teams.entrySet()) {
+                if (entry.getKey().containsValue(teamName)) {
+                    return entry.getValue().size() == 1;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void changeTeamLeader(String teamName, Player newLeader) throws IllegalArgumentException {
+        if (!isPlayerInTeam(teamName, newLeader)) {
+            throw new IllegalArgumentException("Le joueur n'est pas dans l'équipe.");
+        }
+        teamLeaders.put(teamName, newLeader);
     }
 }
