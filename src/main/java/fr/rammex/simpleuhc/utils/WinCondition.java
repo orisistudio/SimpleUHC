@@ -1,7 +1,5 @@
 package fr.rammex.simpleuhc.utils;
 
-import api.rammex.gameapi.team.Team;
-import fr.rammex.simpleuhc.SimpleUHC;
 import fr.rammex.simpleuhc.team.TeamManager;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -11,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WinCondition {
+
+    static TeamManager teamManager = new TeamManager();
 
     public static Boolean isWinConditionMetNoTeams(){
         int alivePlayers = 0;
@@ -33,8 +33,7 @@ public class WinCondition {
         int playerAliveWithoutTeam = 0;
         for(Player p : Bukkit.getOnlinePlayers()){
             if(!p.getGameMode().equals(GameMode.SPECTATOR) && !p.getGameMode().equals(GameMode.CREATIVE)){
-                if(SimpleUHC.instance.getTeamManager().isPlayerInAnyTeam(p)){
-                    TeamManager teamManager = SimpleUHC.instance.getTeamManager();
+                if(teamManager.isPlayerInAnyTeam(p)){
                     String teamName = teamManager.getPlayerTeamName(p);
                     if(!teams.contains(teamName)){
                         teams.add(teamName);
