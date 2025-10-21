@@ -2,6 +2,8 @@ package fr.rammex.simpleuhc.task;
 
 import api.rammex.gameapi.GameAPI;
 import api.rammex.gameapi.task.AbstractTask;
+import api.rammex.gameapi.uhc.UHCScoreBoard;
+import fr.rammex.simpleuhc.SimpleUHC;
 import fr.rammex.simpleuhc.game.SimpleUHCManager;
 import fr.rammex.simpleuhc.option.OptionSetup;
 import fr.rammex.simpleuhc.team.TeamManager;
@@ -16,7 +18,7 @@ public class StartTask extends AbstractTask {
     private static AbstractTask pvpTask = new PvpTask((int) OptionSetup.getOption("Game PvP").getValue());
 
     public StartTask(int startDelay) {
-        super("MainTask", "Main task for SimpleUHC", startDelay);
+        super("StartTask", "Start task for SimpleUHC", startDelay);
     }
 
     @Override
@@ -25,7 +27,8 @@ public class StartTask extends AbstractTask {
 
     @Override
     protected void onTick() {
-        setActualDuration(getActualDuration()+1);
+        int timeLeft = getDuration() - getActualDuration();
+        System.out.println("Time left: " + timeLeft + " - " + getDuration() + " - " + getActualDuration());
     }
 
     @Override
@@ -67,4 +70,6 @@ public class StartTask extends AbstractTask {
     public static AbstractTask getPvpTask() {
         return pvpTask;
     }
+
+
 }

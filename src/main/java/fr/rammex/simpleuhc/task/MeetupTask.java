@@ -12,10 +12,6 @@ public class MeetupTask extends AbstractTask {
 
     @Override
     public void onTick() {
-        setActualDuration(getActualDuration() - 1);
-        if (getActualDuration() <= 0) {
-            stop();
-        }
     }
 
     @Override

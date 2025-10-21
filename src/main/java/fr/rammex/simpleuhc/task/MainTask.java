@@ -1,6 +1,7 @@
 package fr.rammex.simpleuhc.task;
 
 import api.rammex.gameapi.task.AbstractTask;
+import api.rammex.gameapi.uhc.UHCScoreBoard;
 import fr.rammex.simpleuhc.SimpleUHC;
 import fr.rammex.simpleuhc.game.SimpleUHCManager;
 
@@ -16,7 +17,7 @@ public class MainTask extends AbstractTask {
 
     @Override
     protected void onTick() {
-        setActualDuration(getActualDuration()+1);
+        UHCScoreBoard.refreshScoreBoard(SimpleUHC.getSimpleUHCManager().getName(), formatTime(getDuration() - getActualDuration()));
     }
 
     @Override
@@ -27,5 +28,12 @@ public class MainTask extends AbstractTask {
     @Override
     protected void onStop() {
         setActualDuration(0);
+    }
+
+    private static String formatTime(int totalSeconds) {
+        int hours = totalSeconds / 3600;
+        int minutes = (totalSeconds % 3600) / 60;
+        int seconds = totalSeconds % 60;
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 }
