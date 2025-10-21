@@ -10,6 +10,7 @@ import fr.rammex.simpleuhc.events.PlayerListener;
 import fr.rammex.simpleuhc.option.CategorySetup;
 import fr.rammex.simpleuhc.option.OptionSetup;
 import fr.rammex.simpleuhc.game.SimpleUHCManager;
+import fr.rammex.simpleuhc.team.TeamManager;
 import fr.rammex.simpleuhc.team.util.ChangeValueListener;
 import fr.rammex.simpleuhc.world.WorldManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,6 +21,7 @@ public final class SimpleUHC extends JavaPlugin {
     private OptionManager optionManager;
     private SimpleUHCManager simpleUHCManager;
     private CategoryManager categoryManager;
+    private TeamManager teamManager;
 
     @Override
     public void onEnable() {
@@ -27,6 +29,7 @@ public final class SimpleUHC extends JavaPlugin {
         this.scenarioManager = GameAPI.instance.getScenarioManager();
         this.optionManager = GameAPI.instance.getOptionManager();
         this.categoryManager = GameAPI.instance.getCategoryManager();
+        this.teamManager = new TeamManager();
 
         this.simpleUHCManager = new SimpleUHCManager();
 
@@ -46,17 +49,17 @@ public final class SimpleUHC extends JavaPlugin {
     public static SimpleUHCManager getSimpleUHCManager() {
         return instance.simpleUHCManager;
     }
-
     public ScenarioManager getScenarioManager() {
         return scenarioManager;
     }
-
     public OptionManager getOptionManager() {
         return optionManager;
     }
-
     public CategoryManager getCategoryManager() {
         return categoryManager;
+    }
+    public TeamManager getTeamManager() {
+        return teamManager;
     }
 
     private void registerEvents(){

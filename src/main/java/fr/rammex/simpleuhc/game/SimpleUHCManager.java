@@ -6,6 +6,9 @@ import api.rammex.gameapi.scenario.AbstractScenario;
 import api.rammex.gameapi.task.AbstractTask;
 import fr.rammex.simpleuhc.task.StartTask;
 import fr.rammex.simpleuhc.world.WorldManager;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,5 +58,12 @@ public class SimpleUHCManager extends AbstractScenario {
         GameAPI.instance.getTaskManager().stopTask(StartTask.getMainTask());
         GameAPI.instance.getTaskManager().stopTask(StartTask.getMeetupTask());
         GameAPI.instance.getTaskManager().stopTask(StartTask.getPvpTask());
+
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            p.setGameMode(GameMode.SURVIVAL);
+            p.teleport(WorldManager.getOriginalWorld().getSpawnLocation());
+            p.sendMessage("§cLe SimpleUHC est terminé Merci d'y avoir joué!");
+        }
+        GameAPI.instance.getScenarioManager().unloadScenario(this);
     }
 }

@@ -3,6 +3,7 @@ package fr.rammex.simpleuhc.events;
 import fr.rammex.simpleuhc.SimpleUHC;
 import fr.rammex.simpleuhc.option.OptionSetup;
 import fr.rammex.simpleuhc.game.SimpleUHCManager;
+import fr.rammex.simpleuhc.utils.WinCondition;
 import fr.rammex.simpleuhc.world.WorldManager;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -72,15 +73,19 @@ public class PlayerListener implements Listener {
         Bukkit.broadcastMessage("§c§l" + player.getName() + " est mort ! " + "§c§l Il reste " + (Bukkit.getOnlinePlayers().size() - 1) + " joueurs en vie.");
         boolean isTeamModeActivated = (boolean) OptionSetup.getOption("Game Team").getValue();
         // Si un seul joueur reste (hors mode équipe), il gagne la partie
-        if(Bukkit.getOnlinePlayers().size() - 1 <= 1 && !isTeamModeActivated){
-            for(Player p : Bukkit.getOnlinePlayers()){
-                if(p != player){
-                    Bukkit.broadcastMessage("§6§l" + p.getName() + " a gagné la partie !");
-                    p.setGameMode(GameMode.CREATIVE);
-                }
+        if(!isTeamModeActivated && WinCondition.isWinConditionMetNoTeams()){
+            Bukkit.broadcastMessage("§6§l" + player.getName() + " a gagné la partie !");
+            SimpleUHC.getSimpleUHCManager().onDisable();
+        } else if(isTeamModeActivated){ // Vérifie la condition de victoire en mode équipe
+            Object winCondition = WinCondition.isWinConditionMetTeams();
+            if(winCondition instanceof String){ // Si une équipe a gagné
+                String winningTeam = (String) winCondition;
+                Bukkit.broadcastMessage("§6§lL'équipe " + winningTeam + " a gagné la partie !");
+                SimpleUHC.getSimpleUHCManager().onDisable();
+            } else if(winCondition instanceof Boolean && (Boolean) winCondition){ // Si un joueur solo a gagné
+                Bukkit.broadcastMessage("§6§lLe joueur "+player.getName()+" a gagné la partie !");
+                SimpleUHC.getSimpleUHCManager().onDisable();
             }
-            SimpleUHCManager.isGameRunning = false;
-            SimpleUHC.getSimpleUHCManager().onDisable(); // Arrête la partie
         }
     }
 }

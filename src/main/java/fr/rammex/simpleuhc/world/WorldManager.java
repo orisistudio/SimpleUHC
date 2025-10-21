@@ -18,6 +18,16 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class WorldManager {
     private static final List<String> SEEDS = new ArrayList<>();
+    private static World oriniginalWorld;
+
+    private static void setOriginalWorld(World world) {
+        oriniginalWorld = world;
+    }
+
+    public static World getOriginalWorld() {
+        return oriniginalWorld;
+    }
+
     private static String getRandomSeed() {
         SEEDS.clear();
         SEEDS.add("1449369639546214984");
@@ -61,6 +71,7 @@ public class WorldManager {
     }
 
     public static void teleportPlayer(Player player) {
+        setOriginalWorld(player.getWorld());
         World world = org.bukkit.Bukkit.getWorld("UHC_"+getActualDate());
         if (world != null) {
             Location spawnLocation = getRandomLocation();
@@ -79,8 +90,8 @@ public class WorldManager {
         TeamManager teamManager = new TeamManager();
         Map<Map<TeamColor, String>, List<Player>> teams = teamManager.getTeams();
         for (teams.values().forEach(team -> {
+            Location spawnLocation = getRandomLocation();
             for (Player player : team) {
-                Location spawnLocation = getRandomLocation();
                 if (spawnLocation != null) {
                     player.teleport(spawnLocation);
                 } else {
