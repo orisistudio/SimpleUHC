@@ -3,6 +3,7 @@ package fr.rammex.simpleuhc.events;
 import fr.rammex.simpleuhc.SimpleUHC;
 import fr.rammex.simpleuhc.option.OptionSetup;
 import fr.rammex.simpleuhc.game.SimpleUHCManager;
+import fr.rammex.simpleuhc.team.TeamManager;
 import fr.rammex.simpleuhc.utils.WinCondition;
 import fr.rammex.simpleuhc.world.WorldManager;
 import org.bukkit.Bukkit;
@@ -17,6 +18,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 // Listener principal pour gérer les événements liés aux joueurs dans l'UHC
 public class PlayerListener implements Listener {
+
+    TeamManager teamManager = new TeamManager();
 
     // Gère l'arrivée d'un joueur pendant une partie en cours
     @EventHandler
@@ -64,6 +67,27 @@ public class PlayerListener implements Listener {
             Player player = e.getEntity();
             playerDie(player);
             player.setGameMode(GameMode.SPECTATOR);
+        }
+    }
+
+    @EventHandler
+    public void onDamageTaken(EntityDamageByEntityEvent e){
+        if(SimpleUHCManager.isGameRunning){
+            if(e.getEntity() instanceof Player){
+                Player player = (Player) e.getEntity();
+                if(e.getDamager() instanceof Player){
+                    Player damager = (Player) e.getDamager();
+                    boolean isTeamModeActivated = (boolean) OptionSetup.getOption("Game Team").getValue();
+                    if(isTeamModeActivated){
+                        String playerTeam = teamManager.getPlayerTeamName(player);
+                        String damagerTeam = teamManager.getPlayerTeamName(damager);
+                        // Empêche les dégâts entre membres de la même équipe
+                        if(playerTeam != null && damagerTeam != null && playerTeam.equals(damagerTeam)){
+                            e.setCancelled(true);
+                        }
+                    }
+                }
+            }
         }
     }
 
