@@ -12,7 +12,6 @@ import fr.rammex.simpleuhc.events.PlayerListener;
 import fr.rammex.simpleuhc.option.CategorySetup;
 import fr.rammex.simpleuhc.option.OptionSetup;
 import fr.rammex.simpleuhc.game.SimpleUHCManager;
-import fr.rammex.simpleuhc.team.TeamManager;
 import fr.rammex.simpleuhc.team.util.ChangeValueListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
