@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +34,8 @@ public class MiningEvent implements Listener {
 
         if (current >= limit) {
             event.setCancelled(true);
-            player.sendMessage("§cTu as atteint la limite de diamants minables (" + limit + ").");
+            event.getBlock().setType(Material.AIR);
+            player.getInventory().addItem(new ItemStack(Material.GOLD_INGOT));
             return;
         }
 
