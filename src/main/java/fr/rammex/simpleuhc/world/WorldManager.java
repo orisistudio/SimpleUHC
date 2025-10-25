@@ -61,7 +61,7 @@ public class WorldManager {
             world.setGameRuleValue("doWeatherCycle", "false");
             world.setGameRuleValue("keepInventory", "true");
             world.getWorldBorder().setCenter(0, 0);
-            world.getWorldBorder().setSize((int) OptionSetup.getOption("World Border").getValue());
+            world.getWorldBorder().setSize((int) OptionSetup.getOption("World Border").getValue()*2);
 
             addSapling();
             //taiga();
@@ -144,7 +144,7 @@ public class WorldManager {
     public static void shrinkWorldBorder(int newSize, long seconds) {
         World world = org.bukkit.Bukkit.getWorld("UHC_" + getActualDate());
         if (world != null) {
-            world.getWorldBorder().setSize(newSize, seconds);
+            world.getWorldBorder().setSize(newSize*2, seconds);
         } else {
             SimpleUHC.instance.getLogger().warning("World not found for shrinking world border.");
         }
