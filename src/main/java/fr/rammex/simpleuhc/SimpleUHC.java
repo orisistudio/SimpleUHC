@@ -6,11 +6,12 @@ import api.rammex.gameapi.option.OptionManager;
 import api.rammex.gameapi.scenario.ScenarioManager;
 import fr.rammex.simpleuhc.commands.SimpleUHCcommand;
 import fr.rammex.simpleuhc.commands.TeamCommand;
+import fr.rammex.simpleuhc.events.EnchantListener;
+import fr.rammex.simpleuhc.events.MiningEvent;
 import fr.rammex.simpleuhc.events.PlayerListener;
 import fr.rammex.simpleuhc.option.CategorySetup;
 import fr.rammex.simpleuhc.option.OptionSetup;
 import fr.rammex.simpleuhc.game.SimpleUHCManager;
-import fr.rammex.simpleuhc.team.TeamManager;
 import fr.rammex.simpleuhc.team.util.ChangeValueListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -58,6 +59,8 @@ public final class SimpleUHC extends JavaPlugin {
 
     private void registerEvents(){
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
+        getServer().getPluginManager().registerEvents(new EnchantListener(), this);
+        getServer().getPluginManager().registerEvents(new MiningEvent(), this);
         getServer().getPluginManager().registerEvents(new ChangeValueListener(), this);
     }
 
