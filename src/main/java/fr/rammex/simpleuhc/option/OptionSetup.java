@@ -82,9 +82,6 @@ public class OptionSetup {
                         String key = enchantment.getName() + "_" + level;
                         if (!enchants.containsKey(key)) {
                             enchants.put(key, true);
-                            System.out.println("[DEBUG] Ajout enchant autorisé: " + key + " pour " + mat);
-                        } else {
-                            System.out.println("[DEBUG] Duplication détectée: " + key + " pour " + mat);
                         }
                     }
                 }

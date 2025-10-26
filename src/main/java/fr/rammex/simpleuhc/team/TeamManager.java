@@ -168,4 +168,40 @@ public class TeamManager {
         }
         teamLeaders.put(teamName, newLeader);
     }
+
+    public TeamColor getTeamColor(String teamName) {
+        for (Map<TeamColor, String> teamInfo : teams.keySet()) {
+            if (teamInfo.containsValue(teamName)) {
+                return teamInfo.keySet().iterator().next();
+            }
+        }
+        return null;
+    }
+
+    public String ConvertTeamColorToMinecraftCode(TeamColor color){
+        switch (color) {
+            case RED:
+                return "§c";
+            case BLUE:
+                return "§9";
+            case GREEN:
+                return "§a";
+            case YELLOW:
+                return "§e";
+            case PURPLE:
+                return "§5";
+            case ORANGE:
+                return "§6";
+            case PINK:
+                return "§d";
+            case CYAN:
+                return "§b";
+            case WHITE:
+                return "§f";
+            case BLACK:
+                return "§0";
+            default:
+                return "§f"; // Default to white if color not recognized
+        }
+    }
 }

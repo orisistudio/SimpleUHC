@@ -13,6 +13,7 @@ import fr.rammex.simpleuhc.option.CategorySetup;
 import fr.rammex.simpleuhc.option.OptionSetup;
 import fr.rammex.simpleuhc.game.SimpleUHCManager;
 import fr.rammex.simpleuhc.team.util.ChangeValueListener;
+import fr.rammex.simpleuhc.utils.TeamPlaceHolder;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SimpleUHC extends JavaPlugin {
@@ -37,6 +38,12 @@ public final class SimpleUHC extends JavaPlugin {
         startGameMode();
 
         scenarioManager.addScenario(simpleUHCManager);
+
+        if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new TeamPlaceHolder().register();
+        } else {
+            getLogger().severe("PlaceholderAPI not found. Placeholders will not be available.");
+        }
     }
 
     @Override
