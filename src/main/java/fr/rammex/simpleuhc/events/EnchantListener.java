@@ -2,6 +2,7 @@ package fr.rammex.simpleuhc.events;
 
 import api.rammex.gameapi.option.Option;
 import api.rammex.gameapi.option.OptionType;
+import com.avaje.ebeaninternal.server.type.ScalarTypeScalaDouble;
 import fr.rammex.simpleuhc.option.OptionSetup;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -43,14 +44,16 @@ public class EnchantListener implements Listener {
     @EventHandler
     public void onAnvilClick(InventoryClickEvent event) {
         if (event.getInventory().getType() != InventoryType.ANVIL) return;
+        if (event.getRawSlot() != 2) return; // Slot de sortie
 
         AnvilInventory anvil = (AnvilInventory) event.getInventory();
+        ItemStack result = anvil.getItem(2);
+        if (result == null || !result.hasItemMeta() || !result.getItemMeta().hasEnchants()) return;
+
         ItemStack left = anvil.getItem(0);
-        ItemStack right = anvil.getItem(1);
+        if (left == null) return;
 
-        if (left == null || right == null) return;
-
-        org.bukkit.Material mat = left.getType();
+        Material mat = left.getType();
         Option option = null;
         if (mat.name().startsWith("IRON_")) {
             option = OptionSetup.getOption("Iron Alowed Enchants");
@@ -61,13 +64,12 @@ public class EnchantListener implements Listener {
 
         Map<String, Boolean> allowed = (Map<String, Boolean>) option.getValue();
 
-        if (right.hasItemMeta() && right.getItemMeta().hasEnchants()) {
-            for (Map.Entry<Enchantment, Integer> entry : right.getItemMeta().getEnchants().entrySet()) {
-                String key = entry.getKey().getName() + "_" + entry.getValue();
-                if (!allowed.getOrDefault(key, false)) {
-                    event.setCancelled(true);
-                    return;
-                }
+        for (Map.Entry<Enchantment, Integer> entry : result.getItemMeta().getEnchants().entrySet()) {
+            String key = entry.getKey().getName() + "_" + entry.getValue();
+            if (!allowed.getOrDefault(key, false)) {
+                event.setCancelled(true);
+                event.getWhoClicked().sendMessage("§cVous ne pouvez pas appliquer cet enchantement sur cet objet car il à été désactivé.");
+                return;
             }
         }
     }
