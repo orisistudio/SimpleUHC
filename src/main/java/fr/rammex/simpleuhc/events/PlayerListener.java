@@ -8,6 +8,7 @@ import fr.rammex.simpleuhc.utils.WinCondition;
 import fr.rammex.simpleuhc.world.WorldManager;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -94,7 +95,14 @@ public class PlayerListener implements Listener {
     // Méthode utilitaire pour gérer la mort d'un joueur
     public void playerDie(Player player){
         // Annonce la mort du joueur et le nombre de survivants restants
-        Bukkit.broadcastMessage("§c§l" + player.getName() + " est mort ! " + "§c§l Il reste " + (Bukkit.getOnlinePlayers().size() - 1) + " joueurs en vie.");
+        int playersAlive = 0;
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            p.playSound(p.getLocation(), Sound.ENDERDRAGON_GROWL, 1, 1);
+            if (p.getGameMode() == GameMode.SURVIVAL) {
+                playersAlive++;
+            }
+        }
+        Bukkit.broadcastMessage("§c§l" + player.getName() + " est mort ! " + "§c§l Il reste " + (playersAlive-1) + " joueurs en vie.");
         boolean isTeamModeActivated = (boolean) OptionSetup.getOption("Game Team").getValue();
         // Si un seul joueur reste (hors mode équipe), il gagne la partie
         if(!isTeamModeActivated && WinCondition.isWinConditionMetNoTeams()){

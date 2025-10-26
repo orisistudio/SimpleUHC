@@ -16,6 +16,12 @@ public class MeetupTask extends AbstractTask {
 
     @Override
     protected void onFinish() {
+        setActualDuration(getDuration());
+        WorldManager.shrinkWorldBorder(
+                (int) OptionSetup.getOption("Game Meetup Radius").getValue(),
+                (int) OptionSetup.getOption("Game Meetup Speed").getValue()*60);
+
+        Bukkit.broadcastMessage("§c§lLe meetup a commencé ! Le monde rétrécit !");
     }
 
     @Override
@@ -24,11 +30,6 @@ public class MeetupTask extends AbstractTask {
 
     @Override
     public void onStop() {
-        setActualDuration(getDuration());
-        WorldManager.shrinkWorldBorder(
-                (int) OptionSetup.getOption("Game Meetup Radius").getValue(),
-                (int) OptionSetup.getOption("Game Meetup Speed").getValue()*60);
 
-        Bukkit.broadcastMessage("§c§lLe meetup a commencé ! Le monde rétrécit !");
     }
 }

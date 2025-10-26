@@ -9,7 +9,9 @@ import fr.rammex.simpleuhc.option.OptionSetup;
 import fr.rammex.simpleuhc.team.TeamManager;
 import fr.rammex.simpleuhc.world.WorldManager;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 public class StartTask extends AbstractTask {
@@ -27,8 +29,27 @@ public class StartTask extends AbstractTask {
 
     @Override
     protected void onTick() {
-        int timeLeft = getDuration() - getActualDuration();
-        System.out.println("Time left: " + timeLeft + " - " + getDuration() + " - " + getActualDuration());
+        int timeLeft = 30 - (getDuration() - getActualDuration());
+        if (timeLeft <= 10 && timeLeft >= 4) {
+            Bukkit.broadcastMessage("§a§lLe jeu commence dans §e§l" + timeLeft + "§a§l secondes !");
+        } else if (timeLeft <= 3 && timeLeft > 0 ){
+            String message = "§a§lLe jeu commence dans §e§l" + timeLeft + "§a§l seconde";
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 1, 1);
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+            }
+        }
+        else if (timeLeft == 0) {
+            Bukkit.broadcastMessage("§a§lLe jeu commence maintenant !");
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                player.playSound(player.getLocation(), Sound.EXPLODE, 1, 1);
+            }
+        } else if (timeLeft == 30) {
+            Bukkit.broadcastMessage("§a§lLe jeu commence dans §e§l30§a§l secondes !");
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                player.playSound(player.getLocation(), Sound.NOTE_PLING, 1, 1);
+            }
+        }
     }
 
     @Override
