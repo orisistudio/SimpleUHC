@@ -73,15 +73,19 @@ public class OptionSetup {
         return optionManager.getOption(SimpleUHC.getSimpleUHCManager(), name);
     }
 
-    private static Map<String, Boolean> checkEnchants(List<Material> material) {
+    private static Map<String, Boolean> checkEnchants(List<Material> materials) {
         Map<String, Boolean> enchants = new HashMap<>();
-
-        for (Material mat : material) {
+        for (Material mat : materials) {
             for (Enchantment enchantment : Enchantment.values()) {
                 if (enchantment.canEnchantItem(new ItemStack(mat))) {
                     for (int level = 1; level <= enchantment.getMaxLevel(); level++) {
                         String key = enchantment.getName() + "_" + level;
-                        enchants.put(key, true);
+                        if (!enchants.containsKey(key)) {
+                            enchants.put(key, true);
+                            System.out.println("[DEBUG] Ajout enchant autorisé: " + key + " pour " + mat);
+                        } else {
+                            System.out.println("[DEBUG] Duplication détectée: " + key + " pour " + mat);
+                        }
                     }
                 }
             }
