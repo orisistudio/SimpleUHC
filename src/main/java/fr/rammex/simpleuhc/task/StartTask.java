@@ -18,6 +18,7 @@ public class StartTask extends AbstractTask {
     private static AbstractTask mainTask = new MainTask();;
     private static AbstractTask meetupTask = new MeetupTask((int) OptionSetup.getOption("Game Meetup").getValue());
     private static AbstractTask pvpTask = new PvpTask((int) OptionSetup.getOption("Game PvP").getValue());
+    private static AbstractTask invisibleTask = new InvisibleTask(10);
 
     public StartTask(int startDelay) {
         super("StartTask", "Start task for SimpleUHC", startDelay);
@@ -39,12 +40,12 @@ public class StartTask extends AbstractTask {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
             }
         }
-        else if (timeLeft == 0) {
+        else if (timeLeft == 1) {
             Bukkit.broadcastMessage("§a§lLe jeu commence maintenant !");
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.playSound(player.getLocation(), Sound.EXPLODE, 1, 1);
             }
-        } else if (timeLeft == 30) {
+        } else if (timeLeft == 29) {
             Bukkit.broadcastMessage("§a§lLe jeu commence dans §e§l30§a§l secondes !");
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.playSound(player.getLocation(), Sound.NOTE_PLING, 1, 1);
@@ -63,6 +64,9 @@ public class StartTask extends AbstractTask {
 
         GameAPI.instance.getTaskManager().addTask(pvpTask);
         GameAPI.instance.getTaskManager().startTask(pvpTask);
+
+        GameAPI.instance.getTaskManager().addTask(invisibleTask);
+        GameAPI.instance.getTaskManager().startTask(invisibleTask);
 
         if(TeamManager.isTeamActivated()){
             WorldManager.teleportTeam();
@@ -90,6 +94,10 @@ public class StartTask extends AbstractTask {
 
     public static AbstractTask getPvpTask() {
         return pvpTask;
+    }
+
+    public static AbstractTask getInvisibleTask() {
+        return invisibleTask;
     }
 
 

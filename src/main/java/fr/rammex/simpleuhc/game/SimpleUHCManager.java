@@ -17,6 +17,7 @@ public class SimpleUHCManager extends AbstractScenario {
     private AbstractTask startTask;
     private List<Role> roles = new ArrayList<>();
     public static boolean pvpEnabled = false;
+    public static boolean damageEnabled = false;
     public static boolean isGameRunning = false;
     public SimpleUHCManager() {
         super("SimpleUHC",
@@ -65,5 +66,21 @@ public class SimpleUHCManager extends AbstractScenario {
             p.sendMessage("§cLe SimpleUHC est terminé Merci d'y avoir joué!");
         }
         GameAPI.instance.getScenarioManager().unloadScenario(this);
+    }
+
+    public Boolean isPvpEnabled() {
+        return pvpEnabled;
+    }
+
+    public void setPvpEnabled(Boolean enabled) {
+        pvpEnabled = enabled;
+    }
+
+    public Boolean isDamageEnabled() {
+        return damageEnabled;
+    }
+
+    public void setDamageEnabled(Boolean enabled) {
+        damageEnabled = enabled;
     }
 }

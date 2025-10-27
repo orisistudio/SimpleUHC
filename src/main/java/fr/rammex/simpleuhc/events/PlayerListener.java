@@ -74,10 +74,24 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onDamageTaken(EntityDamageByEntityEvent e){
         if(SimpleUHCManager.isGameRunning){
+            Boolean damageEnabled = SimpleUHC.getSimpleUHCManager().isDamageEnabled();
+            if(!damageEnabled){
+                e.setCancelled(true);
+                return;
+            }
             if(e.getEntity() instanceof Player){
                 Player player = (Player) e.getEntity();
                 if(e.getDamager() instanceof Player){
                     Player damager = (Player) e.getDamager();
+
+                    boolean isPvpEnabled = SimpleUHC.getSimpleUHCManager().isPvpEnabled();
+
+                    if(!isPvpEnabled){
+                        e.getDamager().sendMessage("§cLe PVP n'est pas encore activé !");
+                        e.setCancelled(true);
+                        return;
+                    }
+
                     boolean isTeamModeActivated = (boolean) OptionSetup.getOption("Game Team").getValue();
                     if(isTeamModeActivated){
                         String playerTeam = teamManager.getPlayerTeamName(player);

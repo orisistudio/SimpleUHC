@@ -76,6 +76,8 @@ public class WorldManager {
         if (world != null) {
             Location spawnLocation = getRandomLocation();
             if (spawnLocation != null) {
+                player.setHealth(20.0);
+                player.setFoodLevel(20);
                 player.teleport(spawnLocation);
             } else {
                 player.sendMessage("Spawn location is not set.");

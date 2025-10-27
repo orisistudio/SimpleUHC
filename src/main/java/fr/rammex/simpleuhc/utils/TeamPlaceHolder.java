@@ -1,5 +1,6 @@
 package fr.rammex.simpleuhc.utils;
 
+import fr.rammex.simpleuhc.team.TeamColor;
 import fr.rammex.simpleuhc.team.TeamManager;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
@@ -42,17 +43,23 @@ public class TeamPlaceHolder extends PlaceholderExpansion {
             if (teamName != null) {
                 return teamName;
             } else {
-                return "";
+                return "X";
             }
 
         }
 
         if (identifier.startsWith("team_color")){
-            String teamColor = teamManager.ConvertTeamColorToMinecraftCode(teamManager.getTeamColor(teamManager.getPlayerTeamName(player)));
+            String teamName = teamManager.getPlayerTeamName(player);
+            if (teamName == null) {
+                return "&r";
+            }
+            TeamColor teamColorEnum = teamManager.getTeamColor(teamName);
+
+            String teamColor = teamManager.ConvertTeamColorToMinecraftCode(teamColorEnum);
             if (teamColor != null) {
                 return teamColor;
             } else {
-                return "";
+                return "&r";
             }
 
         }
