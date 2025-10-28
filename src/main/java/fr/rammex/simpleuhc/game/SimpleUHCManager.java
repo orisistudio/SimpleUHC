@@ -59,6 +59,7 @@ public class SimpleUHCManager extends AbstractScenario {
         GameAPI.instance.getTaskManager().stopTask(StartTask.getMainTask());
         GameAPI.instance.getTaskManager().stopTask(StartTask.getMeetupTask());
         GameAPI.instance.getTaskManager().stopTask(StartTask.getPvpTask());
+        GameAPI.instance.getTaskManager().stopTask(StartTask.getInvisibleTask());
 
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.setGameMode(GameMode.SURVIVAL);

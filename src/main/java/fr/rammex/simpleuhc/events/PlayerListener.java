@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -71,16 +72,27 @@ public class PlayerListener implements Listener {
         }
     }
 
+
+    @EventHandler
+    public void onDamageTakenGeneral(EntityDamageEvent e){
+        if(SimpleUHCManager.isGameRunning){
+            if(e.getEntity() instanceof Player){
+                Player player = (Player) e.getEntity();
+                Boolean damageEnabled = SimpleUHC.getSimpleUHCManager().isDamageEnabled();
+                if(!damageEnabled){
+                    e.setCancelled(true);
+                    return;
+                }
+            }
+        }
+    }
+
     @EventHandler
     public void onDamageTaken(EntityDamageByEntityEvent e){
         if(SimpleUHCManager.isGameRunning){
-            Boolean damageEnabled = SimpleUHC.getSimpleUHCManager().isDamageEnabled();
-            if(!damageEnabled){
-                e.setCancelled(true);
-                return;
-            }
             if(e.getEntity() instanceof Player){
                 Player player = (Player) e.getEntity();
+
                 if(e.getDamager() instanceof Player){
                     Player damager = (Player) e.getDamager();
 

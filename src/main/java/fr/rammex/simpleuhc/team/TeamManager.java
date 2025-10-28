@@ -94,7 +94,7 @@ public class TeamManager {
     }
 
     public static boolean isTeamActivated(){
-        return teamActivated;
+        return (boolean) OptionSetup.getOption("Game Team").getValue();
     }
 
     public void invitePlayerToTeam(Player player, String teamName) {

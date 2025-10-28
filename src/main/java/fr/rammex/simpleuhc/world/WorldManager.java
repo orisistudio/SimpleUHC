@@ -54,7 +54,7 @@ public class WorldManager {
             seed = 0L;
         }
         creator.seed(seed);
-
+        Bukkit.broadcastMessage("§a§lCréation du monde en cours des freezes peuvent survenir...");
         World world = org.bukkit.Bukkit.createWorld(creator);
         if (world != null) {
             world.setGameRuleValue("doDaylightCycle", "false");
@@ -88,23 +88,46 @@ public class WorldManager {
 
     }
 
-    public static void teleportTeam(){
+    public static void teleportTeam() {
         TeamManager teamManager = new TeamManager();
         Map<Map<TeamColor, String>, List<Player>> teams = teamManager.getTeams();
-        for (teams.values().forEach(team -> {
+
+        // Téléporte chaque équipe
+        teams.values().forEach(team -> {
+            System.out.println("Teleporting team of size: " + team.size());
             Location spawnLocation = getRandomLocation();
             for (Player player : team) {
+                setOriginalWorld(player.getWorld());
                 if (spawnLocation != null) {
+                    player.setHealth(20.0);
+                    player.setFoodLevel(20);
                     player.teleport(spawnLocation);
                 } else {
                     player.sendMessage("Spawn location is not set.");
                 }
             }
-        });;);
+        });
+
+        // Téléporte les joueurs sans équipe
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            setOriginalWorld(player.getWorld());
+            System.out.println("Teleporting player: " + player.getName());
+            if (!teamManager.isPlayerInAnyTeam(player)) {
+                Location spawnLocation = getRandomLocation();
+                if (spawnLocation != null) {
+                    player.setHealth(20.0);
+                    player.setFoodLevel(20);
+                    player.teleport(spawnLocation);
+                } else {
+                    player.sendMessage("Spawn location is not set.");
+                }
+            }
+        }
     }
 
 
 
+    // Java
     private static Location getRandomLocation() {
         World world = org.bukkit.Bukkit.getWorld("UHC_" + getActualDate());
         Location spawnLocation = getSpawnLocation();
@@ -114,6 +137,7 @@ public class WorldManager {
                 int x = ThreadLocalRandom.current().nextInt(-border, border) + (int) spawnLocation.getX();
                 int z = ThreadLocalRandom.current().nextInt(-border, border) + (int) spawnLocation.getZ();
                 int y = world.getHighestBlockYAt(x, z);
+                if (y < 50) continue;
                 Block block = world.getBlockAt(x, y - 1, z);
                 Block blockAbove = world.getBlockAt(x, y, z);
                 if (blockAbove.getType() == Material.AIR &&

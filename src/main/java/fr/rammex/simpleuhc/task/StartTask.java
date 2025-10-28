@@ -18,7 +18,7 @@ public class StartTask extends AbstractTask {
     private static AbstractTask mainTask = new MainTask();;
     private static AbstractTask meetupTask = new MeetupTask((int) OptionSetup.getOption("Game Meetup").getValue());
     private static AbstractTask pvpTask = new PvpTask((int) OptionSetup.getOption("Game PvP").getValue());
-    private static AbstractTask invisibleTask = new InvisibleTask(10);
+    private static AbstractTask invisibleTask = new InvisibleTask(100);
 
     public StartTask(int startDelay) {
         super("StartTask", "Start task for SimpleUHC", startDelay);
@@ -68,9 +68,14 @@ public class StartTask extends AbstractTask {
         GameAPI.instance.getTaskManager().addTask(invisibleTask);
         GameAPI.instance.getTaskManager().startTask(invisibleTask);
 
+
+        System.out.println("Team actived : "+TeamManager.isTeamActivated());
+
         if(TeamManager.isTeamActivated()){
+            System.out.println("Teleporting teams...");
             WorldManager.teleportTeam();
         } else {
+            System.out.println("Teleporting players...");
             for(Player player : Bukkit.getOnlinePlayers()){
                 if(player.getGameMode() == GameMode.SURVIVAL){
                     WorldManager.teleportPlayer(player);
