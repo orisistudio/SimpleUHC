@@ -1,6 +1,9 @@
 name: SimpleUHC
 version: '${project.version}'
 main: fr.rammex.simpleuhc.SimpleUHC
+depend:
+  - GameAPI
+  - GUIToolkit
 commands:
   team:
     description: Manage teams

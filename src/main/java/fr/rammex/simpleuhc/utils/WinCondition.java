@@ -20,7 +20,7 @@ public class WinCondition {
             }
         }
 
-        if (alivePlayers <= 1){
+        if (alivePlayers-1 <= 1){
             return true;
         }
 
@@ -45,13 +45,13 @@ public class WinCondition {
             }
         }
 
-        if (teamAlive <= 1 && playerAliveWithoutTeam == 0){
-            if(teamAlive == 1){
+        if (teamAlive-1 <= 1 && playerAliveWithoutTeam-1 == 0){
+            if(teamAlive-1 == 1){
                 return teams.get(0);
             } else {
                 return true;
             }
-        } else if (teamAlive == 0 && playerAliveWithoutTeam == 1){
+        } else if (teamAlive-1 == 0 && playerAliveWithoutTeam-1 == 1){
             return true;
         }
 

@@ -18,6 +18,9 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 // Listener principal pour gérer les événements liés aux joueurs dans l'UHC
 public class PlayerListener implements Listener {
 
@@ -60,7 +63,7 @@ public class PlayerListener implements Listener {
             }
         } else {
             int minPlayer = (int) OptionSetup.getOption("Player Min").getValue();
-            if (Bukkit.getOnlinePlayers().size() - 1 < minPlayer) {
+            if (Bukkit.getOnlinePlayers().size() - 1 < minPlayer && SimpleUHCManager.isGameRunning) {
                 SimpleUHC.getSimpleUHCManager().onDisable();
             }
         }
@@ -137,29 +140,41 @@ public class PlayerListener implements Listener {
 
     // Méthode utilitaire pour gérer la mort d'un joueur
     public void playerDie(Player player){
-        // Annonce la mort du joueur et le nombre de survivants restants
-        int playersAlive = 0;
+        // Met immédiatement le joueur en spectateur pour que le comptage soit correct
+        player.setGameMode(GameMode.SPECTATOR);
+
+        // Construire la liste des survivants (mode SURVIVAL)
+        List<Player> survivors = new ArrayList<>();
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.playSound(p.getLocation(), Sound.ENDERDRAGON_GROWL, 1, 1);
             if (p.getGameMode() == GameMode.SURVIVAL) {
-                playersAlive++;
+                survivors.add(p);
             }
         }
-        Bukkit.broadcastMessage("§c§l" + player.getName() + " est mort ! " + "§c§l Il reste " + (playersAlive-1) + " joueurs en vie.");
+
+        int playersAlive = survivors.size();
+        Bukkit.broadcastMessage("§c§l" + player.getName() + " est mort ! " + "§c§l Il reste " + playersAlive + " joueurs en vie.");
+
         boolean isTeamModeActivated = (boolean) OptionSetup.getOption("Game Team").getValue();
         // Si un seul joueur reste (hors mode équipe), il gagne la partie
-        if(!isTeamModeActivated && WinCondition.isWinConditionMetNoTeams()){
-            Bukkit.broadcastMessage("§6§l" + player.getName() + " a gagné la partie !");
-            SimpleUHC.getSimpleUHCManager().onDisable();
-        } else if(isTeamModeActivated){ // Vérifie la condition de victoire en mode équipe
+        if(!isTeamModeActivated){
+            if(playersAlive == 1){
+                Player winner = survivors.get(0);
+                Bukkit.broadcastMessage("§6§l" + winner.getName() + " a gagné la partie !");
+                SimpleUHC.getSimpleUHCManager().onDisable();
+            }
+        } else { // Vérifie la condition de victoire en mode équipe
             Object winCondition = WinCondition.isWinConditionMetTeams();
             if(winCondition instanceof String){ // Si une équipe a gagné
                 String winningTeam = (String) winCondition;
                 Bukkit.broadcastMessage("§6§lL'équipe " + winningTeam + " a gagné la partie !");
                 SimpleUHC.getSimpleUHCManager().onDisable();
             } else if(winCondition instanceof Boolean && (Boolean) winCondition){ // Si un joueur solo a gagné
-                Bukkit.broadcastMessage("§6§lLe joueur "+player.getName()+" a gagné la partie !");
-                SimpleUHC.getSimpleUHCManager().onDisable();
+                if(playersAlive == 1){
+                    Player winner = survivors.get(0);
+                    Bukkit.broadcastMessage("§6§lLe joueur " + winner.getName() + " a gagné la partie !");
+                    SimpleUHC.getSimpleUHCManager().onDisable();
+                }
             }
         }
     }

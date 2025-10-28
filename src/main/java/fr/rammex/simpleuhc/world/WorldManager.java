@@ -62,6 +62,7 @@ public class WorldManager {
             world.setGameRuleValue("keepInventory", "true");
             world.getWorldBorder().setCenter(0, 0);
             world.getWorldBorder().setSize((int) OptionSetup.getOption("World Border").getValue()*2);
+            world.setDifficulty(Difficulty.HARD);
 
             addSapling();
             //taiga();
