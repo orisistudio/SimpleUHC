@@ -35,9 +35,10 @@ public final class SimpleUHC extends JavaPlugin {
         CategorySetup.setup();
         OptionSetup.setup();
 
-        startGameMode();
-
         scenarioManager.addScenario(simpleUHCManager);
+
+        registerEvents();
+        registerCommands();
 
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new TeamPlaceHolder().register();
@@ -75,18 +76,5 @@ public final class SimpleUHC extends JavaPlugin {
         getCommand("team").setExecutor(new TeamCommand());
         getCommand("simpleuhc").setExecutor(new SimpleUHCcommand());
     }
-
-
-    public void startGameMode(){
-        System.out.println("Starting game mode | " + getSimpleUHCManager().getName() + " | by " + getSimpleUHCManager().getAuthor() + " | Version: " + getSimpleUHCManager().getVersion());
-        //getSimpleUHCManager().startGame();
-
-        registerEvents();
-        registerCommands();
-    }
-
-
-
-
 
 }

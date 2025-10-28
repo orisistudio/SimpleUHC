@@ -41,12 +41,8 @@ public class SimpleUHCManager extends AbstractScenario {
 
     @Override
     public void onEnable() {
-
-    }
-
-    public void startGame() {
         WorldManager.createWorld();
-        startTask = new StartTask((int) (30));
+        startTask = new StartTask(30);
         GameAPI.instance.getTaskManager().startTask(startTask);
     }
 

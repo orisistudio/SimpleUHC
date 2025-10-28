@@ -30,7 +30,7 @@ public class SimpleUHCcommand implements CommandExecutor {
         } else {
             String subcommand = args[0].toLowerCase();
             if(subcommand.equals("start")){
-                SimpleUHC.getSimpleUHCManager().startGame();
+                SimpleUHC.getSimpleUHCManager().onEnable();
             }
             else if(subcommand.equals("stop")){
                 SimpleUHC.getSimpleUHCManager().onDisable();

@@ -33,6 +33,18 @@ public class PlayerListener implements Listener {
             // Met le joueur en mode spectateur et l'informe
             player.setGameMode(GameMode.SPECTATOR);
             player.sendMessage("§c§lL'UHC est déjà en cours, vous êtes en mode spectateur.");
+        } else {
+            int minPlayer = (int) OptionSetup.getOption("Player Min").getValue();
+            int maxPlayer = (int) OptionSetup.getOption("Player Max").getValue();
+
+            if (Bukkit.getOnlinePlayers().size() > maxPlayer) {
+                e.getPlayer().kickPlayer("§cLe nombre maximum de joueurs est atteint. Vous ne pouvez pas rejoindre la partie.");
+                return;
+            }
+
+            if (Bukkit.getOnlinePlayers().size() == minPlayer) {
+                SimpleUHC.getSimpleUHCManager().onEnable();
+            }
         }
     }
 
@@ -45,6 +57,11 @@ public class PlayerListener implements Listener {
             // Si le joueur n'est pas spectateur ou créatif, il est considéré comme mort
             if(!player.getGameMode().equals(GameMode.SPECTATOR) || !player.getGameMode().equals(GameMode.CREATIVE)){
                 playerDie(player);
+            }
+        } else {
+            int minPlayer = (int) OptionSetup.getOption("Player Min").getValue();
+            if (Bukkit.getOnlinePlayers().size() - 1 < minPlayer) {
+                SimpleUHC.getSimpleUHCManager().onDisable();
             }
         }
     }
