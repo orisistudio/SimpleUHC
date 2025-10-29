@@ -8,6 +8,7 @@ import fr.rammex.simpleuhc.utils.WinCondition;
 import fr.rammex.simpleuhc.world.WorldManager;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -161,6 +162,8 @@ public class PlayerListener implements Listener {
             if(playersAlive == 1){
                 Player winner = survivors.get(0);
                 Bukkit.broadcastMessage("§6§l" + winner.getName() + " a gagné la partie !");
+                Location spawnLocation = WorldManager.getOriginalWorld().getSpawnLocation();
+                winner.teleport(spawnLocation);
                 SimpleUHC.getSimpleUHCManager().onDisable();
             }
         } else { // Vérifie la condition de victoire en mode équipe
@@ -168,11 +171,21 @@ public class PlayerListener implements Listener {
             if(winCondition instanceof String){ // Si une équipe a gagné
                 String winningTeam = (String) winCondition;
                 Bukkit.broadcastMessage("§6§lL'équipe " + winningTeam + " a gagné la partie !");
+                for (Player p : Bukkit.getOnlinePlayers()){
+                    if(teamManager.getPlayerTeamName(p) != null && teamManager.getPlayerTeamName(p).equals(winningTeam)){
+                        p.getInventory().clear();
+                        Location spawnLocation = WorldManager.getOriginalWorld().getSpawnLocation();
+                        p.teleport(spawnLocation);
+                    }
+                }
                 SimpleUHC.getSimpleUHCManager().onDisable();
             } else if(winCondition instanceof Boolean && (Boolean) winCondition){ // Si un joueur solo a gagné
                 if(playersAlive == 1){
                     Player winner = survivors.get(0);
                     Bukkit.broadcastMessage("§6§lLe joueur " + winner.getName() + " a gagné la partie !");
+                    winner.getInventory().clear();
+                    Location spawnLocation = WorldManager.getOriginalWorld().getSpawnLocation();
+                    winner.teleport(spawnLocation);
                     SimpleUHC.getSimpleUHCManager().onDisable();
                 }
             }
