@@ -3,6 +3,8 @@ package fr.rammex.simpleuhc.task;
 import api.rammex.gameapi.task.AbstractTask;
 import fr.rammex.simpleuhc.SimpleUHC;
 import fr.rammex.simpleuhc.game.SimpleUHCManager;
+import fr.rammex.simpleuhc.utils.LangMessages;
+import org.bukkit.Bukkit;
 
 public class PvpTask extends AbstractTask {
     public PvpTask(int pvpDelay) {
@@ -16,6 +18,7 @@ public class PvpTask extends AbstractTask {
     @Override
     protected void onFinish() {
         SimpleUHC.getSimpleUHCManager().setPvpEnabled(true);
+        Bukkit.broadcastMessage(LangMessages.getMessage("task.pvp.start", null));
     }
 
     @Override

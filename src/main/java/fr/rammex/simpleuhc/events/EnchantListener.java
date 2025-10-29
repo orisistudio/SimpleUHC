@@ -4,6 +4,7 @@ import api.rammex.gameapi.option.Option;
 import api.rammex.gameapi.option.OptionType;
 import com.avaje.ebeaninternal.server.type.ScalarTypeScalaDouble;
 import fr.rammex.simpleuhc.option.OptionSetup;
+import fr.rammex.simpleuhc.utils.LangMessages;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
@@ -68,7 +69,7 @@ public class EnchantListener implements Listener {
             String key = entry.getKey().getName() + "_" + entry.getValue();
             if (!allowed.getOrDefault(key, false)) {
                 event.setCancelled(true);
-                event.getWhoClicked().sendMessage("§cVous ne pouvez pas appliquer cet enchantement sur cet objet car il à été désactivé.");
+                event.getWhoClicked().sendMessage(LangMessages.getMessage("events.enchant.cant_use_that_enchant", null));
                 return;
             }
         }

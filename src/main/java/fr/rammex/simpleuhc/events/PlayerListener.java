@@ -4,6 +4,7 @@ import fr.rammex.simpleuhc.SimpleUHC;
 import fr.rammex.simpleuhc.option.OptionSetup;
 import fr.rammex.simpleuhc.game.SimpleUHCManager;
 import fr.rammex.simpleuhc.team.TeamManager;
+import fr.rammex.simpleuhc.utils.LangMessages;
 import fr.rammex.simpleuhc.utils.WinCondition;
 import fr.rammex.simpleuhc.world.WorldManager;
 import org.bukkit.Bukkit;
@@ -36,13 +37,13 @@ public class PlayerListener implements Listener {
 
             // Met le joueur en mode spectateur et l'informe
             player.setGameMode(GameMode.SPECTATOR);
-            player.sendMessage("§c§lL'UHC est déjà en cours, vous êtes en mode spectateur.");
+            player.sendMessage(LangMessages.getMessage("events.player.game_already_started", null));
         } else {
             int minPlayer = (int) OptionSetup.getOption("Player Min").getValue();
             int maxPlayer = (int) OptionSetup.getOption("Player Max").getValue();
 
             if (Bukkit.getOnlinePlayers().size() > maxPlayer) {
-                e.getPlayer().kickPlayer("§cLe nombre maximum de joueurs est atteint. Vous ne pouvez pas rejoindre la partie.");
+                e.getPlayer().kickPlayer(LangMessages.getMessage("events.player.game_player_max_reached", null));
                 return;
             }
 
@@ -120,7 +121,7 @@ public class PlayerListener implements Listener {
                     boolean isPvpEnabled = SimpleUHC.getSimpleUHCManager().isPvpEnabled();
 
                     if(!isPvpEnabled){
-                        e.getDamager().sendMessage("§cLe PVP n'est pas encore activé !");
+                        e.getDamager().sendMessage(LangMessages.getMessage("events.player.pvp_not_active", null));
                         e.setCancelled(true);
                         return;
                     }
@@ -154,14 +155,17 @@ public class PlayerListener implements Listener {
         }
 
         int playersAlive = survivors.size();
-        Bukkit.broadcastMessage("§c§l" + player.getName() + " est mort ! " + "§c§l Il reste " + playersAlive + " joueurs en vie.");
+        String deathMsg = LangMessages.getMessage("events.player.player_dead", null)
+                .replace("{player}", player.getName())
+                .replace("{playersAlive}", String.valueOf(playersAlive));
+        Bukkit.broadcastMessage(deathMsg);
 
         boolean isTeamModeActivated = (boolean) OptionSetup.getOption("Game Team").getValue();
         // Si un seul joueur reste (hors mode équipe), il gagne la partie
         if(!isTeamModeActivated){
             if(playersAlive == 1){
                 Player winner = survivors.get(0);
-                Bukkit.broadcastMessage("§6§l" + winner.getName() + " a gagné la partie !");
+                Bukkit.broadcastMessage(LangMessages.getMessage("events.player.player_won", null).replace("{player}", winner.getName()));
                 Location spawnLocation = WorldManager.getOriginalWorld().getSpawnLocation();
                 winner.teleport(spawnLocation);
                 SimpleUHC.getSimpleUHCManager().onDisable();
@@ -170,7 +174,7 @@ public class PlayerListener implements Listener {
             Object winCondition = WinCondition.isWinConditionMetTeams();
             if(winCondition instanceof String){ // Si une équipe a gagné
                 String winningTeam = (String) winCondition;
-                Bukkit.broadcastMessage("§6§lL'équipe " + winningTeam + " a gagné la partie !");
+                Bukkit.broadcastMessage(LangMessages.getMessage("events.player.team_won", null).replace("{team}", winningTeam));
                 for (Player p : Bukkit.getOnlinePlayers()){
                     if(teamManager.getPlayerTeamName(p) != null && teamManager.getPlayerTeamName(p).equals(winningTeam)){
                         p.getInventory().clear();
@@ -182,7 +186,7 @@ public class PlayerListener implements Listener {
             } else if(winCondition instanceof Boolean && (Boolean) winCondition){ // Si un joueur solo a gagné
                 if(playersAlive == 1){
                     Player winner = survivors.get(0);
-                    Bukkit.broadcastMessage("§6§lLe joueur " + winner.getName() + " a gagné la partie !");
+                    Bukkit.broadcastMessage(LangMessages.getMessage("events.player.player_won", null).replace("{player}", winner.getName()));
                     winner.getInventory().clear();
                     Location spawnLocation = WorldManager.getOriginalWorld().getSpawnLocation();
                     winner.teleport(spawnLocation);

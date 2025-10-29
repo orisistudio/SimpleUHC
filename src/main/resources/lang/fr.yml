@@ -1,0 +1,94 @@
+commands:
+  team:
+    player_not_found: "§cLe joueur spécifié est introuvable ou hors ligne."
+    player_invited: "§aVous avez invité {targetPlayerName} à rejoindre l'équipe {team}." #valid placeholder: {team}, {targetPlayerName}
+    invite_received: "§aVous avez été invité à rejoindre l'équipe {team} par {player} Utilisez /team accept {team} pour accepter l'invitation."#valid placeholder: {team}, {player}
+    not_team_leader_invite: "§cVous devez être le chef d'une équipe pour inviter des joueurs."
+    team_joined: "§aVous avez rejoint l'équipe {team}."#valid placeholder: {team}
+    team_leader_transferred: "§aVous avez transféré la direction de l'équipe à {targetPlayerName}"#valid placeholder: {targetPlayerName}
+    new_team_leader: "§aVous êtes maintenant le chef de l'équipe {teamName}."
+    not_team_leader_transfer: "§cVous devez être le chef d'une équipe pour transférer la direction."
+  team_inventory:
+    scenario_not_active: "Le module d'inventaire d'équipe est désactivé."
+    team_not_active: "Les équipes sont désactivées."
+    not_in_team: "Vous n'êtes dans aucune équipe."
+
+events:
+  enchant:
+    cant_use_that_enchant: "§cVous ne pouvez pas appliquer cet enchantement sur cet objet car il à été désactivé."
+  player:
+    game_already_started: "§c§lL'UHC est déjà en cours, vous êtes en mode spectateur."
+    game_player_max_reached: "§cLe nombre maximum de joueurs est atteint. Vous ne pouvez pas rejoindre la partie." # message on player kicked due to max player reached
+    pvp_not_active: "§cLe PVP n'est pas encore activé !"
+    player_dead: "§c§l{player} est mort ! §c§l Il reste {playersAlive} joueurs en vie." #valid placeholder : {player}, {playerAlive}
+    player_won: "§6§l{player} a gagné la partie !" #valid placeholder : {player}
+    team_won: "§6§lL'équipe {team} a gagné la partie !" #valid placeholder: {team}
+
+game:
+  game_ended: "§cLe SimpleUHC est terminé Merci d'y avoir joué!"
+
+team:
+  player:
+    no_in_team: "Le joueur n'est pas dans l'équipe."
+    no_invite_pending: "Aucune invitation en attente pour cette équipe."
+    player_already_in_team: "Le joueur est déjà dans l'équipe."
+  team:
+    not_existing: "L'équipe n'existe pas."
+    team_full: "L'équipe est déjà pleine."
+    team_member_over_limite: "Le nombre de joueurs dépasse la taille maximale de l'équipe."
+    name_already_used: "Le nom de l'équipe est déjà utilisé."
+    name_not_valid: "Le nom de l'équipe n'est pas valide."
+
+gui:
+  teams_gui:
+    gui_name: "§6§lTeams"
+    left_click_to_join: "&e&nClic gauche&r &apour rejoindre l'équipe"
+    right_click_to_leave: "&e&nClic droit&r &cpour quitter l'équipe"
+    member_of_team: "&7Membres de l'équipe:"
+    team_joined: "§aVous avez rejoint l'équipe §6{teamName}§a." #valid placeholder:  {teamName}
+    not_invited: "§cVous n'êtes pas invité dans cette équipe."
+    only_member: "§cVous êtes le seul membre de l'équipe, vous devez la supprimer."
+    leader_cant_leave: "§cVous êtes le leader de l'équipe, vous devez transférer le leadership avant de quitter l'équipe."
+    team_leaved: "§cVous avez quitté l'équipe §6{teamName}§c." #valid placeholder:  {teamName}
+    not_in_team: "§cVous n'êtes pas dans cette équipe."
+    left_click_to_create_team: "§e§nClic gauche§r §apour créer une équipe"
+    create_team: "§aCrée vôtre team"
+    already_in_team: "§cVous êtes déjà dans une équipe."
+    left_click_delete_team: "§e§nClic gauche§r §cpour supprimer votre équipe"
+    delete_team: "§cSupprimer votre équipe"
+    team_deleted: "§cVous avez supprimé l'équipe §6{teamName}§c." # valid placeholder: {teamName}
+    not_team_leader: "Vous devez être le leader de la team"
+  team_creation_gui:
+    gui_name: "§6§eTeam Creation"
+    left_click_to_change_team_name: "§e§nClic gauche§r §cpour changer le nom de l'équipe"
+    actual_team_name: "§7Nom actuel: §a{team_name}" # valid placeholder : {team_name}
+    team_name: "§eNom de l'équipe"
+    put_new_team_name_in_chat: "§e§lVeuillez entrer le nouveau nom de l'équipe dans le chat:"
+    left_click_change_team_color: "§e§nClic gauche§r §cpour changer la couleur de l'équipe"
+    actual_color: "§7Couleur actuelle: §a{team_color}" # valid placeholder : {team_color}
+    team_color: "§eCouleur de l'équipe"
+    left_click_valid_team_creation: "§e§nClic gauche§r §cpour valider la création de l'équipe"
+    valid_team_creation: "§aValider la création"
+    left_click_stop_team_creation: "§e§nClic gauche§r §cpour annuler la création de l'équipe"
+    stop_team_creation: "§cAnnuler"
+  team_color_gui:
+    gui_name: "§6§eChoisit une couleur"
+    actual_color: "§a§l✔ Couleur actuelle" # if it's the color actual choose
+    left_click_select_color: "§e§nClic gauche§r §cpour choisir cette couleur"
+
+world:
+  world_creation: "§a§lCréation du monde en cours des freezes peuvent survenir..."
+
+task:
+  invincible:
+    start: "§c§lL'invincibilité est terminée ! Vous pouvez désormais mourir !"
+    stop: "§c§lL'invincibilité est terminée ! Vous pouvez désormais mourir !"
+  meetup:
+    start: "§c§lLe meetup a commencé ! Le monde rétrécit !"
+  pvp:
+    start: "§c§lLe PvP est désormais activé ! Vous pouvez désormais attaquer les autres joueurs !"
+  start_task:
+    between_10_and_4_seconds: "§a§lLe jeu commence dans §e§l{timeLeft}§a§l secondes !" #valid placeholder {timeLeft}
+    between_3_and_1_seconds: "§a§lLe jeu commence dans §e§l{timeLeft}§a§l seconde"#valid placeholder {timeLeft}
+    start: "§a§lLe jeu commence dans §e§l30§a§l secondes !"
+    finished: "§a§lLe jeu commence maintenant !"

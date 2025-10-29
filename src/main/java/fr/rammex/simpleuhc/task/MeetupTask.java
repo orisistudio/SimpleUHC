@@ -2,6 +2,7 @@ package fr.rammex.simpleuhc.task;
 
 import api.rammex.gameapi.task.AbstractTask;
 import fr.rammex.simpleuhc.option.OptionSetup;
+import fr.rammex.simpleuhc.utils.LangMessages;
 import fr.rammex.simpleuhc.world.WorldManager;
 import org.bukkit.Bukkit;
 
@@ -21,7 +22,7 @@ public class MeetupTask extends AbstractTask {
                 (int) OptionSetup.getOption("Game Meetup Radius").getValue(),
                 (int) OptionSetup.getOption("Game Meetup Speed").getValue()*60);
 
-        Bukkit.broadcastMessage("§c§lLe meetup a commencé ! Le monde rétrécit !");
+        Bukkit.broadcastMessage(LangMessages.getMessage("task.meetup.start", null));
     }
 
     @Override

@@ -1,3 +1,4 @@
+
 package fr.rammex.simpleuhc.task;
 
 import api.rammex.gameapi.GameAPI;
@@ -7,9 +8,9 @@ import fr.rammex.simpleuhc.SimpleUHC;
 import fr.rammex.simpleuhc.game.SimpleUHCManager;
 import fr.rammex.simpleuhc.option.OptionSetup;
 import fr.rammex.simpleuhc.team.TeamManager;
+import fr.rammex.simpleuhc.utils.LangMessages;
 import fr.rammex.simpleuhc.world.WorldManager;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -32,21 +33,24 @@ public class StartTask extends AbstractTask {
     protected void onTick() {
         int timeLeft = 30 - (getDuration() - getActualDuration());
         if (timeLeft <= 10 && timeLeft >= 4) {
-            Bukkit.broadcastMessage("§a§lLe jeu commence dans §e§l" + timeLeft + "§a§l secondes !");
+            String msg = LangMessages.getMessage("task.start_task.between_10_and_4_seconds", null)
+                    .replace("{timeLeft}", String.valueOf(timeLeft));
+            Bukkit.broadcastMessage(msg);
         } else if (timeLeft <= 3 && timeLeft > 0 ){
-            String message = "§a§lLe jeu commence dans §e§l" + timeLeft + "§a§l seconde";
+            String msg = LangMessages.getMessage("task.start_task.between_3_and_1_seconds", null)
+                    .replace("{timeLeft}", String.valueOf(timeLeft));
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 1, 1);
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+                player.sendMessage(msg);
             }
         }
         else if (timeLeft == 1) {
-            Bukkit.broadcastMessage("§a§lLe jeu commence maintenant !");
+            Bukkit.broadcastMessage(LangMessages.getMessage("task.start_task.finished", null));
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.playSound(player.getLocation(), Sound.EXPLODE, 1, 1);
             }
         } else if (timeLeft == 29) {
-            Bukkit.broadcastMessage("§a§lLe jeu commence dans §e§l30§a§l secondes !");
+            Bukkit.broadcastMessage(LangMessages.getMessage("task.start_task.start", null));
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.playSound(player.getLocation(), Sound.NOTE_PLING, 1, 1);
             }
@@ -67,7 +71,6 @@ public class StartTask extends AbstractTask {
 
         GameAPI.instance.getTaskManager().addTask(invisibleTask);
         GameAPI.instance.getTaskManager().startTask(invisibleTask);
-
 
         System.out.println("Team actived : "+TeamManager.isTeamActivated());
 
@@ -104,6 +107,4 @@ public class StartTask extends AbstractTask {
     public static AbstractTask getInvisibleTask() {
         return invisibleTask;
     }
-
-
 }

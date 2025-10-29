@@ -37,7 +37,14 @@ public class SimpleUHCcommand implements CommandExecutor {
             }
             else if(subcommand.equals("tp")){
                 WorldManager.teleportPlayer(player);
-            } else {
+            }
+            else if(subcommand.equals("reload")){
+                SimpleUHC.instance.reloadConfig();
+                SimpleUHC.instance.getLangMessages().loadMessages();
+                player.sendMessage("§6§lSimpleUHC §r§7- §eConfiguration reloaded.");
+            }
+
+            else {
                 player.sendMessage(message);
             }
         }

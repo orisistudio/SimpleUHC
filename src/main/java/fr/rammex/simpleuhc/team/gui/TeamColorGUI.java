@@ -6,6 +6,7 @@ import com.itsmavey.GUIToolkit.Elements.Icon;
 import com.itsmavey.GUIToolkit.Pane.Pane;
 import com.itsmavey.GUIToolkit.Pane.Types;
 import fr.rammex.simpleuhc.team.TeamColor;
+import fr.rammex.simpleuhc.utils.LangMessages;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -16,7 +17,7 @@ import java.util.List;
 public class TeamColorGUI {
 
     public static void setupGUI(Player player) {
-        Pane pane = new Pane(Types.CHEST, "§6§eChoisit une couleur");
+        Pane pane = new Pane(Types.CHEST, LangMessages.getMessage("gui.team_color_gui.gui_name", null));
         List<GuiElement> elements = getColorButtons(pane, player);
         for (GuiElement element : elements) {
             pane.addElement(element);
@@ -38,9 +39,9 @@ public class TeamColorGUI {
         for (TeamColor color : colors) {
             List<String> lore = new ArrayList<>();
             if (color == (TeamColor) TeamCreationGUI.getPlayerOption(playerB, "TeamColor")) {
-                lore.add("§a§l✔ Couleur actuelle");
+                lore.add(LangMessages.getMessage("gui.team_color_gui.actual_color", null));
             } else {
-                lore.add("§e§nClic gauche§r §cpour choisir cette couleur");
+                lore.add(LangMessages.getMessage("gui.team_color_gui.left_click_select_color", null));
             }
             ItemStack iconItem = Icon.getHead(color.getHeadBase64());
             Icon icon = new Icon(color.getColorName(), iconItem, lore);

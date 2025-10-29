@@ -2,6 +2,7 @@
 package fr.rammex.simpleuhc.team;
 
 import fr.rammex.simpleuhc.option.OptionSetup;
+import fr.rammex.simpleuhc.utils.LangMessages;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.entity.Player;
@@ -39,13 +40,13 @@ public class TeamManager {
 
     public static void createTeam(TeamColor color, String name, List<Player> players, int teamSize) throws IllegalArgumentException {
         if (!isNameValid(name)) {
-            throw new IllegalArgumentException("Le nom de l'équipe n'est pas valide.");
+            throw new IllegalArgumentException(LangMessages.getMessage("team.team.name_not_valid", null));
         }
         if (isNameInUse(name)) {
-            throw new IllegalArgumentException("Le nom de l'équipe est déjà utilisé.");
+            throw new IllegalArgumentException(LangMessages.getMessage("team.team.name_already_used", null));
         }
         if (players.size() > teamSize) {
-            throw new IllegalArgumentException("Le nombre de joueurs dépasse la taille maximale de l'équipe.");
+            throw new IllegalArgumentException(LangMessages.getMessage("team.team.team_member_over_limite", null));
         }
         Map<TeamColor, String> teamInfo = new HashMap<>();
         teamInfo.put(color, name);
@@ -67,7 +68,7 @@ public class TeamManager {
                 return;
             }
         }
-        throw new IllegalArgumentException("L'équipe n'existe pas.");
+        throw new IllegalArgumentException(LangMessages.getMessage("team.team.not_existing", null));
     }
 
     public Map<Map<TeamColor, String>, List<Player>> getTeams() {
@@ -79,16 +80,16 @@ public class TeamManager {
             if (teamInfo.containsValue(teamName)) {
                 List<Player> players = teams.get(teamInfo);
                 if (players.size() >= teamSize) {
-                    throw new IllegalArgumentException("L'équipe est déjà pleine.");
+                    throw new IllegalArgumentException(LangMessages.getMessage("team.team.team_full", null));
                 }
                 if (players.contains(player)) {
-                    throw new IllegalArgumentException("Le joueur est déjà dans l'équipe.");
+                    throw new IllegalArgumentException(LangMessages.getMessage("team.player.player_already_in_team", null));
                 }
                 players.add(player);
                 return;
             }
         }
-        throw new IllegalArgumentException("L'équipe n'existe pas.");
+        throw new IllegalArgumentException(LangMessages.getMessage("team.team.not_existing", null));
     }
 
     public void removePlayerFromTeam(String teamName, Player player) throws IllegalArgumentException {
@@ -96,13 +97,13 @@ public class TeamManager {
             if (teamInfo.containsValue(teamName)) {
                 List<Player> players = teams.get(teamInfo);
                 if (!players.contains(player)) {
-                    throw new IllegalArgumentException("Le joueur n'est pas dans l'équipe.");
+                    throw new IllegalArgumentException(LangMessages.getMessage("team.player.no_in_team", null));
                 }
                 players.remove(player);
                 return;
             }
         }
-        throw new IllegalArgumentException("L'équipe n'existe pas.");
+        throw new IllegalArgumentException(LangMessages.getMessage("team.team.not_existing", null));
     }
 
     public static boolean isTeamActivated(){
@@ -118,7 +119,7 @@ public class TeamManager {
             addPlayerToTeam(teamName, player);
             teamInvites.remove(player);
         } else {
-            throw new IllegalArgumentException("Aucune invitation en attente pour cette équipe.");
+            throw new IllegalArgumentException(LangMessages.getMessage("team.player.no_invite_pending", null));
         }
     }
 
@@ -176,7 +177,7 @@ public class TeamManager {
 
     public void changeTeamLeader(String teamName, Player newLeader) throws IllegalArgumentException {
         if (!isPlayerInTeam(teamName, newLeader)) {
-            throw new IllegalArgumentException("Le joueur n'est pas dans l'équipe.");
+            throw new IllegalArgumentException(LangMessages.getMessage("team.team.no_in_team", null));
         }
         teamLeaders.put(teamName, newLeader);
     }

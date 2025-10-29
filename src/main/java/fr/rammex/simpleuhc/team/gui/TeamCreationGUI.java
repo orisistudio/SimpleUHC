@@ -9,6 +9,7 @@ import fr.rammex.simpleuhc.option.OptionSetup;
 import fr.rammex.simpleuhc.team.TeamColor;
 import fr.rammex.simpleuhc.team.TeamManager;
 import fr.rammex.simpleuhc.team.util.ChangeValueListener;
+import fr.rammex.simpleuhc.utils.LangMessages;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -22,7 +23,7 @@ public class TeamCreationGUI {
     private static Map<Map<String, Object>, Player> configuration = new HashMap<>(); // Map configuration des options en cours Map<String, String> pour Le Nom de L'option et sa value, et le player pour obtenir qui moifie
 
     public static void setupGUI(Player player) {
-        Pane pane = new Pane(Types.CHEST, "§6§eTeam Creation");
+        Pane pane = new Pane(Types.CHEST, LangMessages.getMessage("gui.team_creation_gui.gui_name", null));
         addPlayerWithDefaults(player);
         List<GuiElement> elements = getCreationButtons(pane, player);
         for (GuiElement element : elements) {
@@ -50,14 +51,14 @@ public class TeamCreationGUI {
 
         String teamName = (String) getPlayerOption(playerb,"TeamName");
 
-        lore.add("§e§nClic gauche§r §cpour changer le nom de l'équipe");
-        lore.add("\n\n§7Nom actuel: §a"+teamName);
+        lore.add(LangMessages.getMessage("gui.team_creation_gui.left_click_to_change_team_name", null));
+        lore.add(LangMessages.getMessage("gui.team_creation_gui.actual_team_name", null).replace("{team_name}", teamName));
         ItemStack iconItem = Icon.getHead("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODkyNmMxZjJjM2MxNGQwODZjNDBjZmMyMzVmZTkzODY5NGY0YTUxMDY3YWRhNDcyNmI0ODZlYTFjODdiMDNlMiJ9fX0=");
-        Icon icon = new Icon("§eNom de l'équipe", iconItem, lore);
+        Icon icon = new Icon(LangMessages.getMessage("gui.team_creation_gui.team_name", null), iconItem, lore);
 
         return new Button(2,1,icon, ( (player, clickType) -> {
             player.closeInventory();
-            player.sendMessage("§e§lVeuillez entrer le nouveau nom de l'équipe dans le chat:");
+            player.sendMessage(LangMessages.getMessage("gui.team_creation_gui.put_new_team_name_in_chat", null));
             ChangeValueListener.setWaitForValue(player, "TeamName", teamName);
         }));
     }
@@ -67,10 +68,10 @@ public class TeamCreationGUI {
 
         TeamColor teamColor = (TeamColor) getPlayerOption(playerb,"TeamColor");
 
-        lore.add("§e§nClic gauche§r §cpour changer la couleur de l'équipe");
-        lore.add("\n\n§7Couleur actuelle: §a"+teamColor.getColorName());
+        lore.add(LangMessages.getMessage("gui.team_creation_gui.left_click_change_team_color", null));
+        lore.add(LangMessages.getMessage("gui.team_creation_gui.actual_color", null).replace("{team_color}", teamColor.getColorName()));
         ItemStack iconItem = Icon.getHead(teamColor.getHeadBase64());
-        Icon icon = new Icon("§eCouleur de l'équipe", iconItem, lore);
+        Icon icon = new Icon(LangMessages.getMessage("gui.team_creation_gui.team_color", null), iconItem, lore);
 
         return new Button(6,1,icon, ( (player, clickType) -> {
             TeamColorGUI.setupGUI(player);
@@ -79,7 +80,7 @@ public class TeamCreationGUI {
 
     private Button getValidateCreationButton(Player playerb){
         List<String> lore = new ArrayList<>();
-        lore.add("§e§nClic gauche§r §cpour valider la création de l'équipe");
+        lore.add(LangMessages.getMessage("gui.team_creation_gui.left_click_valid_team_creation", null));
         ItemStack iconItem = Icon.getHead("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzUyOTk1MjZiNGEzNTM5MmQ0YTQxYmNiNGJmMzJlMGRiMDRkMGYwMWQyNWNkYTEzNzE5OGEzNTcxOTY4NWY2In19fQ==");
 
         TeamColor teamColor = (TeamColor) getPlayerOption(playerb,"TeamColor");
@@ -89,12 +90,12 @@ public class TeamCreationGUI {
 
         int teamSize = (int) OptionSetup.getOption("Game Team Size").getValue();
 
-        Icon icon = new Icon("§aValider la création", iconItem, lore);
+        Icon icon = new Icon(LangMessages.getMessage("gui.team_creation_gui.valid_team_creation", null), iconItem, lore);
         return new Button(3,2,icon, ( (player, clickType) -> {
             try{
                 TeamManager.createTeam(teamColor, teamName, players, teamSize);
             } catch (IllegalArgumentException e){ // handle l'erreur si le nom est déjà utilisé ou invalide
-                player.sendMessage("§cErreur: "+e.getMessage());
+                player.sendMessage("§c" + e.getMessage());
                 return;
             }
             player.closeInventory();
@@ -103,10 +104,10 @@ public class TeamCreationGUI {
 
     private Button getCancelButton() {
         List<String> lore = new ArrayList<>();
-        lore.add("§e§nClic gauche§r §cpour annuler la création de l'équipe");
+        lore.add(LangMessages.getMessage("gui.team_creation_gui.left_click_stop_team_creation", null));
         ItemStack iconItem = Icon.getHead("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGZmOTY4YzkwNTIyMzQ5MWE0ZTM5MGM3ZDVmMTBjMTg0M2E2YmEwNDgyMGQ2YjE3ODRmNTJlNDEwZDExYWI1YiJ9fX0=");
 
-        Icon icon = new Icon("§cAnnuler", iconItem, lore);
+        Icon icon = new Icon(LangMessages.getMessage("gui.team_creation_gui.stop_team_creation", null), iconItem, lore);
         return new Button(5, 2, icon, ((player, clickType) -> {
             player.closeInventory();
         }));
@@ -141,5 +142,3 @@ public class TeamCreationGUI {
         }
     }
 }
-
-

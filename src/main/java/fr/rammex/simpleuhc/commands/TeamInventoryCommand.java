@@ -2,6 +2,7 @@ package fr.rammex.simpleuhc.commands;
 
 import fr.rammex.simpleuhc.SimpleUHC;
 import fr.rammex.simpleuhc.team.TeamManager;
+import fr.rammex.simpleuhc.utils.LangMessages;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,18 +22,18 @@ public class TeamInventoryCommand implements CommandExecutor {
         TeamManager teamManager = new TeamManager();
 
         if (!TeamManager.isTeamActivated()) {
-            player.sendMessage("Les équipes sont désactivées.");
+            player.sendMessage(LangMessages.getMessage("commands.team_inventory.team_not_active", null));
             return true;
         }
 
         if (!SimpleUHC.instance.getModuleManager().isModuleEnabled("TeamInventory")) {
-            player.sendMessage("Le module d'inventaire d'équipe est désactivé.");
+            player.sendMessage(LangMessages.getMessage("commands.team_inventory.scenario_not_active", null));
             return true;
         }
 
         String teamName = teamManager.getPlayerTeamName(player);
         if (teamName == null) {
-            player.sendMessage("Vous n'êtes dans aucune équipe.");
+            player.sendMessage(LangMessages.getMessage("commands.team_inventory.not_in_team", null));
             return true;
         }
 

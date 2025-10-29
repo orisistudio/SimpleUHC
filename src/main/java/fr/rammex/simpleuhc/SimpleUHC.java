@@ -15,6 +15,7 @@ import fr.rammex.simpleuhc.option.CategorySetup;
 import fr.rammex.simpleuhc.option.OptionSetup;
 import fr.rammex.simpleuhc.game.SimpleUHCManager;
 import fr.rammex.simpleuhc.team.util.ChangeValueListener;
+import fr.rammex.simpleuhc.utils.LangMessages;
 import fr.rammex.simpleuhc.utils.TeamPlaceHolder;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,10 +26,12 @@ public final class SimpleUHC extends JavaPlugin {
     private SimpleUHCManager simpleUHCManager;
     private CategoryManager categoryManager;
     private ModuleManager moduleManager;
+    private LangMessages langMessages = new LangMessages();
 
     @Override
     public void onEnable() {
         instance = this;
+        saveDefaultConfig();
         this.scenarioManager = GameAPI.instance.getScenarioManager();
         this.optionManager = GameAPI.instance.getOptionManager();
         this.categoryManager = GameAPI.instance.getCategoryManager();
@@ -38,6 +41,8 @@ public final class SimpleUHC extends JavaPlugin {
 
         CategorySetup.setup();
         OptionSetup.setup();
+
+        langMessages.loadMessages();
 
         scenarioManager.addScenario(simpleUHCManager);
 
@@ -83,6 +88,10 @@ public final class SimpleUHC extends JavaPlugin {
         getCommand("team").setExecutor(new TeamCommand());
         getCommand("simpleuhc").setExecutor(new SimpleUHCcommand());
         getCommand("teaminventory").setExecutor(new TeamInventoryCommand());
+    }
+
+    public LangMessages getLangMessages() {
+        return langMessages;
     }
 
 }

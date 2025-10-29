@@ -3,6 +3,7 @@ package fr.rammex.simpleuhc.commands;
 import fr.rammex.simpleuhc.team.TeamManager;
 import fr.rammex.simpleuhc.team.gui.TeamCreationGUI;
 import fr.rammex.simpleuhc.team.gui.TeamsGUI;
+import fr.rammex.simpleuhc.utils.LangMessages;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -28,25 +29,36 @@ public class TeamCommand implements CommandExecutor {
                     if(args.length >= 2){
                         Player targetPlayerName = Bukkit.getPlayer(args[1]);
                         if(targetPlayerName == null || !targetPlayerName.isOnline()){
-                            player.sendMessage("§cLe joueur spécifié est introuvable ou hors ligne.");
+                            player.sendMessage(LangMessages.getMessage("commands.team.player_not_found", null));
                             return true;
                         }
                         String teamName = teamManager.getPlayerTeamName(player);
                         teamManager.invitePlayerToTeam(targetPlayerName, teamName);
-                        player.sendMessage("§aVous avez invité " + targetPlayerName.getName() + " à rejoindre l'équipe " + teamName + ".");
-                        targetPlayerName.sendMessage("§aVous avez été invité à rejoindre l'équipe " + teamName + " par " + player.getName() + ". Utilisez /team accept " +teamName + " pour accepter l'invitation.");
+                        player.sendMessage(
+                                LangMessages.getMessage("commands.team.player_invited", null)
+                                        .replace("{targetPlayerName}", targetPlayerName.getName())
+                                        .replace("{team}", teamName)
+                        );
+                        targetPlayerName.sendMessage(
+                                LangMessages.getMessage("commands.team.invite_received", null)
+                                        .replace("{team}", teamName)
+                                        .replace("{player}", player.getName())
+                        );
                     } else {
                         player.sendMessage("§cUsage: /team invite <player>");
                     }
                 } else {
-                    player.sendMessage("§cVous devez être le chef d'une équipe pour inviter des joueurs.");
+                    player.sendMessage(LangMessages.getMessage("commands.team.not_team_leader_invite", null));
                 }
             } else if (subcommand.equals("accept")){
                 if(args.length >= 2){
                     String teamName = args[1];
                     try {
                         teamManager.addPlayerToTeam(teamName, player);
-                        player.sendMessage("§aVous avez rejoint l'équipe " + teamName + ".");
+                        player.sendMessage(
+                                LangMessages.getMessage("commands.team.team_joined", null)
+                                        .replace("{team}", teamName)
+                        );
                     } catch (IllegalArgumentException e) {
                         player.sendMessage("§c" + e.getMessage());
                     }
@@ -58,18 +70,24 @@ public class TeamCommand implements CommandExecutor {
                     if(args.length >= 2){
                         Player targetPlayerName = Bukkit.getPlayer(args[1]);
                         if(targetPlayerName == null || !targetPlayerName.isOnline()){
-                            player.sendMessage("§cLe joueur spécifié est introuvable ou hors ligne.");
+                            player.sendMessage(LangMessages.getMessage("commands.team.player_not_found", null));
                             return true;
                         }
                         String teamName = teamManager.getPlayerTeamName(player);
                         if (!teamManager.isPlayerInTeam(teamName, targetPlayerName)) {
-                            player.sendMessage("§cLe joueur spécifié n'est pas dans votre équipe.");
+                            player.sendMessage(LangMessages.getMessage("team.player.no_in_team", null));
                             return true;
                         }
                         try {
                             teamManager.changeTeamLeader(teamName, targetPlayerName);
-                            player.sendMessage("§aVous avez transféré la direction de l'équipe à " + targetPlayerName.getName() + ".");
-                            targetPlayerName.sendMessage("§aVous êtes maintenant le chef de l'équipe " + teamName + ".");
+                            player.sendMessage(
+                                    LangMessages.getMessage("commands.team.team_leader_transferred", null)
+                                            .replace("{targetPlayerName}", targetPlayerName.getName())
+                            );
+                            targetPlayerName.sendMessage(
+                                    LangMessages.getMessage("commands.team.new_team_leader", null)
+                                            .replace("{teamName}", teamName)
+                            );
                         } catch (IllegalArgumentException e) {
                             player.sendMessage("§c" + e.getMessage());
                         }

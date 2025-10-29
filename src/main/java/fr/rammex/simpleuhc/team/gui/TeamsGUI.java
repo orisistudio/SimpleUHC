@@ -7,6 +7,7 @@ import com.itsmavey.GUIToolkit.Pane.Pane;
 import com.itsmavey.GUIToolkit.Pane.Types;
 import fr.rammex.simpleuhc.team.TeamColor;
 import fr.rammex.simpleuhc.team.TeamManager;
+import fr.rammex.simpleuhc.utils.LangMessages;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -18,7 +19,7 @@ public class TeamsGUI {
     private static TeamManager teamManager = new TeamManager();
 
     public static void setupGUI(Player player) {
-        Pane pane = new Pane(Types.DOUBLE_CHEST, "§6§lTeams");
+        Pane pane = new Pane(Types.DOUBLE_CHEST, LangMessages.getMessage("gui.teams_gui.gui_name", null));
         List<GuiElement> elements = getTeamsButtons(pane);
         for (GuiElement element : elements) {
             pane.addElement(element);
@@ -44,13 +45,13 @@ public class TeamsGUI {
             String teamName = teamInfo.get(color);
 
             List<String> lore = new ArrayList<>();
-            lore.add("§7Membres de l'équipe:");
+            lore.add(LangMessages.getMessage("gui.teams_gui.member_of_team", null));
             for (Player member : players) {
                 lore.add("§a- "+member.getName());
             }
 
-            lore.add("\n\n§e§nClic gauche§r §apour rejoindre l'équipe");
-            lore.add("\n\n§e§nClic droit§r §cpour quitter l'équipe");
+            lore.add(LangMessages.getMessage("gui.teams_gui.left_click_to_join", null));
+            lore.add(LangMessages.getMessage("gui.teams_gui.right_click_to_leave", null));
 
 
             ItemStack iconItem = Icon.getHead(color.getHeadBase64());
@@ -63,34 +64,34 @@ public class TeamsGUI {
                     if(!teamManager.isPlayerInAnyTeam(player) && teamManager.isPlayerInvitedToTeam(teamName, player)) {
                         try {
                             teamManager.acceptTeamInvite(player, teamName);
-                            player.sendMessage("§aVous avez rejoint l'équipe §6"+teamName+"§a.");
+                            player.sendMessage(LangMessages.getMessage("gui.teams_gui.team_joined", null).replace("{teamName}", teamName));
                             pane.refresh();
                         } catch (IllegalArgumentException e) {
-                            player.sendMessage("§cErreur: "+e.getMessage());
+                            player.sendMessage("§cError: "+e.getMessage());
                         }
                     }else {
-                        player.sendMessage("§cVous n'êtes pas invité dans cette équipe.");
+                        player.sendMessage(LangMessages.getMessage("gui.teams_gui.not_invited", null));
                     }
                 } // handle le clique droit pour quitter l'équipe si il en fait partie
                 else if (clickType.isRightClick()){
                     if(teamManager.isPlayerInTeam(teamName, player)) {
                         if(teamManager.isPlayerAloneInTeam(player)){
-                            player.sendMessage("§cVous êtes le seul membre de l'équipe, vous devez la supprimer.");
+                            player.sendMessage(LangMessages.getMessage("gui.teams_gui.only_member", null));
                             return;
                         }
                         if(teamManager.isPlayerTeamLeader(player)){
-                            player.sendMessage("§cVous êtes le leader de l'équipe, vous devez transférer le leadership avant de quitter l'équipe.");
+                            player.sendMessage(LangMessages.getMessage("gui.teams_gui.leader_cant_leave", null));
                             return;
                         }
                         try {
                             teamManager.removePlayerFromTeam(teamName, player);
-                            player.sendMessage("§cVous avez quitté l'équipe §6"+teamName+"§c.");
+                            player.sendMessage(LangMessages.getMessage("gui.teams_gui.team_leaved", null).replace("{teamName}", teamName));
                             pane.refresh();
                         } catch (IllegalArgumentException e) {
-                            player.sendMessage("§cErreur: "+e.getMessage());
+                            player.sendMessage("§cError: "+e.getMessage());
                         }
                     }else {
-                        player.sendMessage("§cVous n'êtes pas dans cette équipe.");
+                        player.sendMessage(LangMessages.getMessage("gui.teams_gui.not_in_team", null));
                     }
                 }
             }));
@@ -116,9 +117,9 @@ public class TeamsGUI {
 
     private Button getCreateTeamButton() {
         List<String> lore = new ArrayList<>();
-        lore.add("§e§nClic gauche§r §apour créer une équipe");
+        lore.add(LangMessages.getMessage("gui.teams_gui.left_click_to_create_team", null));
         ItemStack iconItem = Icon.getHead("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzkwZjYyZWM1ZmEyZTkzZTY3Y2YxZTAwZGI4YWY0YjQ3YWM3YWM3NjlhYTA5YTIwM2ExZjU3NWExMjcxMGIxMCJ9fX0=");
-        Icon icon = new Icon("§aCréer une équipe", iconItem, lore);
+        Icon icon = new Icon(LangMessages.getMessage("gui.teams_gui.create_team", null), iconItem, lore);
 
         return new Button(3,5,icon, ( (player, clickType) -> {
             // handle le clique gauche pour créer une équipe
@@ -126,7 +127,7 @@ public class TeamsGUI {
                 if(!teamManager.isPlayerInAnyTeam(player)) {
                     TeamCreationGUI.setupGUI(player);
                 } else {
-                    player.sendMessage("§cVous êtes déjà dans une équipe.");
+                    player.sendMessage(LangMessages.getMessage("gui.teams_gui.already_in_team", null));
                 }
             }
         }));
@@ -134,9 +135,9 @@ public class TeamsGUI {
 
     private Button getDeleteTeamButton(Pane pane) {
         List<String> lore = new ArrayList<>();
-        lore.add("§e§nClic gauche§r §cpour supprimer votre équipe");
+        lore.add(LangMessages.getMessage("gui.teams_gui.left_click_delete_team", null));
         ItemStack iconItem = Icon.getHead("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWRmNWMyZjg5M2JkM2Y4OWNhNDA3MDNkZWQzZTQyZGQwZmJkYmE2ZjY3NjhjODc4OWFmZGZmMWZhNzhiZjYifX19");
-        Icon icon = new Icon("§cSupprimer votre équipe", iconItem, lore);
+        Icon icon = new Icon(LangMessages.getMessage("gui.teams_gui.delete_team", null), iconItem, lore);
 
         return new Button(5,5,icon, ( (player, clickType) -> {
             // handle le clique gauche pour supprimer son équipe
@@ -145,13 +146,13 @@ public class TeamsGUI {
                     try {
                         String teamName = teamManager.getPlayerTeamName(player);
                         teamManager.disbandTeam(teamName);
-                        player.sendMessage("§cVous avez supprimé l'équipe §6"+teamName+"§c.");
+                        player.sendMessage(LangMessages.getMessage("gui.teams_gui.team_deleted", null).replace("{teamName}", teamName));
                         player.closeInventory();
                     } catch (IllegalArgumentException e) {
-                        player.sendMessage("§cErreur: "+e.getMessage());
+                        player.sendMessage("§cError: "+e.getMessage());
                     }
                 } else {
-                    player.sendMessage("§cVous n'êtes pas le leader de votre équipe.");
+                    player.sendMessage(LangMessages.getMessage("gui.teams_gui.not_team_leader", null));
                 }
             }
         }));
