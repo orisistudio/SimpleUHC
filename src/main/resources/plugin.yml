@@ -10,3 +10,8 @@ commands:
   simpleuhc:
     description: Main command for SimpleUHC
     permission: simpleuhc.admin
+  teaminventory:
+    description: Team Inventory
+    aliases:
+      - ti
+      - bp

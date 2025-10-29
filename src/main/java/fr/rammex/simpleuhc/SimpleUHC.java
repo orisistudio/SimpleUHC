@@ -2,10 +2,12 @@ package fr.rammex.simpleuhc;
 
 import api.rammex.gameapi.GameAPI;
 import api.rammex.gameapi.category.CategoryManager;
+import api.rammex.gameapi.module.ModuleManager;
 import api.rammex.gameapi.option.OptionManager;
 import api.rammex.gameapi.scenario.ScenarioManager;
 import fr.rammex.simpleuhc.commands.SimpleUHCcommand;
 import fr.rammex.simpleuhc.commands.TeamCommand;
+import fr.rammex.simpleuhc.commands.TeamInventoryCommand;
 import fr.rammex.simpleuhc.events.EnchantListener;
 import fr.rammex.simpleuhc.events.MiningEvent;
 import fr.rammex.simpleuhc.events.PlayerListener;
@@ -22,6 +24,7 @@ public final class SimpleUHC extends JavaPlugin {
     private OptionManager optionManager;
     private SimpleUHCManager simpleUHCManager;
     private CategoryManager categoryManager;
+    private ModuleManager moduleManager;
 
     @Override
     public void onEnable() {
@@ -29,6 +32,7 @@ public final class SimpleUHC extends JavaPlugin {
         this.scenarioManager = GameAPI.instance.getScenarioManager();
         this.optionManager = GameAPI.instance.getOptionManager();
         this.categoryManager = GameAPI.instance.getCategoryManager();
+        this.moduleManager = GameAPI.instance.getModuleManager();
 
         this.simpleUHCManager = new SimpleUHCManager();
 
@@ -64,6 +68,9 @@ public final class SimpleUHC extends JavaPlugin {
     public CategoryManager getCategoryManager() {
         return categoryManager;
     }
+    public ModuleManager getModuleManager() {
+        return moduleManager;
+    }
 
     private void registerEvents(){
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
@@ -75,6 +82,7 @@ public final class SimpleUHC extends JavaPlugin {
     private void registerCommands(){
         getCommand("team").setExecutor(new TeamCommand());
         getCommand("simpleuhc").setExecutor(new SimpleUHCcommand());
+        getCommand("teaminventory").setExecutor(new TeamInventoryCommand());
     }
 
 }

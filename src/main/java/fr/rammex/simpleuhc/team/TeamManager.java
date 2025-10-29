@@ -1,6 +1,9 @@
+// TeamManager.java
 package fr.rammex.simpleuhc.team;
 
 import fr.rammex.simpleuhc.option.OptionSetup;
+import org.bukkit.Bukkit;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -13,6 +16,9 @@ public class TeamManager {
     private Map<Player, String> teamInvites = new HashMap<>(); // Map pour gérer les invitations des joueurs aux équipes, Le string est le nom de la team
     private static Map<Map<TeamColor,String>, List<Player>> teams = new HashMap<>(); // Map première map pour la couleur et Nom de la team et la deuxième liste pour les joueurs dans la team
     private static Map<String, Player> teamLeaders = new HashMap<>(); // Map pour gérer les leaders des équipes, Le string est le nom de la team
+
+    // Inventaires partagés par nom d'équipe
+    private static Map<String, Inventory> teamInventories = new HashMap<>();
 
     public int getTeamSize() {
         return teamSize;
@@ -45,6 +51,11 @@ public class TeamManager {
         teamInfo.put(color, name);
         teams.put(teamInfo, players);
         teamLeaders.put(name, players.get(0)); // Le premier joueur de la liste est le leader
+
+        // Crée un inventaire partagé pour cette équipe
+        int invSize = Math.max(9, ((teamSize + 8) / 9) * 9);
+        Inventory inv = Bukkit.createInventory(null, invSize, "Inventaire équipe : " + name);
+        teamInventories.put(name, inv);
     }
 
     public void disbandTeam(String teamName) throws IllegalArgumentException {
@@ -52,6 +63,7 @@ public class TeamManager {
             if (teamInfo.containsValue(teamName)) {
                 teams.remove(teamInfo);
                 teamLeaders.remove(teamName);
+                teamInventories.remove(teamName); // supprime l'inventaire partagé
                 return;
             }
         }
@@ -201,7 +213,34 @@ public class TeamManager {
             case BLACK:
                 return "§0";
             default:
-                return "§f"; // Default to white if color not recognized
+                return "§f";
         }
+    }
+
+    /**
+     * Retourne (et crée si nécessaire) l'inventaire partagé pour une équipe.
+     * @param teamName nom de l'équipe
+     * @param requestedTeamSize taille maximale de l'équipe (utilisée pour calculer la taille de l'inventaire)
+     * @return Inventory partagé
+     */
+    public Inventory getTeamInventory(String teamName, int requestedTeamSize) {
+        Inventory existing = teamInventories.get(teamName);
+        int desiredSize = Math.max(9, ((requestedTeamSize + 8) / 9) * 9);
+        if (existing == null) {
+            Inventory inv = Bukkit.createInventory(null, desiredSize, "Inventaire équipe : " + teamName);
+            teamInventories.put(teamName, inv);
+            return inv;
+        }
+        if (existing.getSize() != desiredSize) {
+            // recrée en conservant les items existants
+            Inventory inv = Bukkit.createInventory(null, desiredSize, "Inventaire équipe : " + teamName);
+            int copyLimit = Math.min(existing.getSize(), inv.getSize());
+            for (int i = 0; i < copyLimit; i++) {
+                inv.setItem(i, existing.getItem(i));
+            }
+            teamInventories.put(teamName, inv);
+            return inv;
+        }
+        return existing;
     }
 }
