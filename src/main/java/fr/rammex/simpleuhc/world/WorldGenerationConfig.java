@@ -21,6 +21,10 @@ public class WorldGenerationConfig {
         return (double) OptionSetup.getOption("Terrain Scale").getValue();
     }
 
+    public static String getWorldBiome() {
+        return (String) OptionSetup.getOption("World Biome").getValue();
+    }
+
     // ========== ARBRES ==========
     public static boolean isTreeGenerationEnabled() {
         return (boolean) OptionSetup.getOption("Enable Trees").getValue();

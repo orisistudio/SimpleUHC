@@ -94,11 +94,25 @@ public class CustomChunkGenerator extends ChunkGenerator {
     }
 
     private Biome getBiomeAt(int x, int z) {
-        // Utiliser le bruit pour d\u00e9terminer les biomes (sans biomes aquatiques)
+        // Vérifier si un biome spécifique est configuré
+        String configuredBiome = WorldGenerationConfig.getWorldBiome();
+
+        if (configuredBiome != null && !configuredBiome.equalsIgnoreCase("AUTO")) {
+            // Essayer de convertir le nom en biome
+            try {
+                return Biome.valueOf(configuredBiome.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                // Si le biome n'est pas valide, continuer avec la génération automatique
+                System.err.println("[SimpleUHC] Biome invalide: " + configuredBiome + ", utilisation de la génération automatique.");
+            }
+        }
+
+        // Génération automatique par bruit (comportement par défaut)
+        // Utiliser le bruit pour déterminer les biomes (sans biomes aquatiques)
         double biomeValue = biomeNoise.noise(x * 0.001, z * 0.001);
         double temperatureValue = biomeNoise.noise(x * 0.002, z * 0.002);
 
-        // Liste de biomes terrestres uniquement (pas d'oc\u00e9ans, rivi\u00e8res, etc.)
+        // Liste de biomes terrestres uniquement (pas d'océans, rivières, etc.)
         if (biomeValue < -0.5) {
             return Biome.PLAINS;
         } else if (biomeValue < -0.2) {

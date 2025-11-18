@@ -35,6 +35,7 @@ public class OptionSetup {
         optionManager.addOption(new Option("Terrain Min Height", "Hauteur minimale du terrain", worldCategory, OptionType.INTEGER, 60), SimpleUHC.getSimpleUHCManager());
         optionManager.addOption(new Option("Terrain Max Height", "Hauteur maximale du terrain", worldCategory, OptionType.INTEGER, 90), SimpleUHC.getSimpleUHCManager());
         optionManager.addOption(new Option("Terrain Scale", "\u00c9chelle de variation du terrain (0.1=plat, 1.0=montagneux)", worldCategory, OptionType.DOUBLE, 0.5), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("World Biome", "Biome du monde (AUTO pour g\u00e9n\u00e9ration automatique, ou nom d'un biome)", worldCategory, OptionType.STRING, "AUTO"), SimpleUHC.getSimpleUHCManager());
 
         // Options d'arbres
         optionManager.addOption(new Option("Enable Trees", "Activer la g\u00e9n\u00e9ration d'arbres", worldCategory, OptionType.BOOLEAN, true), SimpleUHC.getSimpleUHCManager());
