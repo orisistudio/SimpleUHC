@@ -19,6 +19,10 @@ commands:
     description: Toggle team chat mode
     aliases:
       - teamchat
+  tcc:
+    description: Send your coordinates to team chat
+    aliases:
+      - teamcoords
   uhcconfig:
     description: Manage UHC configurations
     permission: simpleuhc.admin

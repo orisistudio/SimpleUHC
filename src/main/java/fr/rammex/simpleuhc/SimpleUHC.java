@@ -9,6 +9,7 @@ import fr.rammex.simpleuhc.commands.ConfigCommand;
 import fr.rammex.simpleuhc.commands.SimpleUHCcommand;
 import fr.rammex.simpleuhc.commands.TeamCommand;
 import fr.rammex.simpleuhc.commands.TeamChatCommand;
+import fr.rammex.simpleuhc.commands.TeamCoordinatesCommand;
 import fr.rammex.simpleuhc.commands.TeamInventoryCommand;
 import fr.rammex.simpleuhc.config.ConfigManager;
 import fr.rammex.simpleuhc.events.EnchantListener;
@@ -98,6 +99,7 @@ public final class SimpleUHC extends JavaPlugin {
         getCommand("simpleuhc").setExecutor(new SimpleUHCcommand());
         getCommand("teaminventory").setExecutor(new TeamInventoryCommand());
         getCommand("tc").setExecutor(new TeamChatCommand());
+        getCommand("tcc").setExecutor(new TeamCoordinatesCommand());
         ConfigCommand configCommand = new ConfigCommand();
         getCommand("uhcconfig").setExecutor(configCommand);
         getCommand("uhcconfig").setTabCompleter(configCommand);
