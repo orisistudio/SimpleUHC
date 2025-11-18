@@ -97,6 +97,7 @@ public class OptionSetup {
         optionManager.addOption(new Option("Game Starter Kit", "Kit de démarrage ( pas dispo encore )", gameCategory, OptionType.BOOLEAN, false), SimpleUHC.getSimpleUHCManager());
         optionManager.addOption(new Option("Game Diams Limit", "Limite de diamants minable par joueur", gameCategory, OptionType.INTEGER, 16), SimpleUHC.getSimpleUHCManager());
         optionManager.addOption(new Option("Apple Drop Rate", "Multiplicateur du taux de drop de pommes (1.0 = normal, 2.0 = double, etc.)", gameCategory, OptionType.DOUBLE, 1.0), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Flint Drop Rate", "Multiplicateur du taux de drop de silex (1.0 = normal, 2.0 = double, etc.)", gameCategory, OptionType.DOUBLE, 1.0), SimpleUHC.getSimpleUHCManager());
         optionManager.addOption(new Option("XP Multiplier", "Multiplicateur du drop d'XP (1.0 = normal, 2.0 = double, etc.)", gameCategory, OptionType.DOUBLE, 1.0), SimpleUHC.getSimpleUHCManager());
 
 

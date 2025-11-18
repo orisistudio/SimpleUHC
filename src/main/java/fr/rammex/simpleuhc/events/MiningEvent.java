@@ -38,6 +38,11 @@ public class MiningEvent implements Listener {
         if (isLeaves(mat)) {
             handleAppleDrop(event.getBlock().getLocation());
         }
+
+        // Gestion du drop de silex pour le gravier
+        if (mat == Material.GRAVEL) {
+            handleFlintDrop(event.getBlock().getLocation());
+        }
     }
 
     @EventHandler
@@ -97,6 +102,38 @@ public class MiningEvent implements Listener {
         // Drop des pommes
         for (int i = 0; i < applesToDrop; i++) {
             location.getWorld().dropItemNaturally(location, new ItemStack(Material.APPLE));
+        }
+    }
+
+    /**
+     * Gère le drop boosté de silex pour le gravier
+     */
+    private void handleFlintDrop(Location location) {
+        Option option = OptionSetup.getOption("Flint Drop Rate");
+        if (option == null) return;
+
+        double dropRate = (double) option.getValue();
+        if (dropRate <= 1.0) return; // Pas de boost
+
+        // Chance de base vanilla pour le silex : 10% (1/10)
+        // On augmente cette chance en fonction du multiplicateur
+        double vanillaChance = 0.10; // 10%
+        double boostedChance = vanillaChance * dropRate;
+
+        // Calcul du nombre de silex à drop
+        int flintToDrop = 0;
+
+        // On teste plusieurs fois pour permettre le drop de plusieurs silex avec des taux élevés
+        int maxTests = (int) Math.ceil(dropRate);
+        for (int i = 0; i < maxTests; i++) {
+            if (random.nextDouble() < boostedChance) {
+                flintToDrop++;
+            }
+        }
+
+        // Drop des silex
+        for (int i = 0; i < flintToDrop; i++) {
+            location.getWorld().dropItemNaturally(location, new ItemStack(Material.FLINT));
         }
     }
 
