@@ -15,3 +15,12 @@ commands:
     aliases:
       - ti
       - bp
+  tc:
+    description: Toggle team chat mode
+    aliases:
+      - teamchat
+  uhcconfig:
+    description: Manage UHC configurations
+    permission: simpleuhc.admin
+    aliases:
+      - config

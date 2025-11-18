@@ -11,13 +11,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class WorldManager {
-    private static final List<String> SEEDS = new ArrayList<>();
     private static World oriniginalWorld;
 
     private static void setOriginalWorld(World world) {
@@ -28,33 +26,15 @@ public class WorldManager {
         return oriniginalWorld;
     }
 
-    private static String getRandomSeed() {
-        SEEDS.clear();
-        SEEDS.add("1449369639546214984");
-        SEEDS.add("-6505837170832228537");
-        SEEDS.add("-670278141449929333");
-        SEEDS.add("932475610972574098");
-        SEEDS.add("-4705034784483231674");
-        SEEDS.add("4155519082845793722");
-
-        int idx = ThreadLocalRandom.current().nextInt(SEEDS.size());
-        return SEEDS.get(idx);
-    }
-
 
 
     public static void createWorld(){
         WorldCreator creator = new WorldCreator("UHC_" + getActualDate());
-        String seedStr = getRandomSeed();
-        long seed;
-        try {
-            seed = Long.parseLong(seedStr);
-        } catch (NumberFormatException e) {
-            SimpleUHC.instance.getLogger().warning("Seed invalide : " + seedStr + ". Utilisation de la seed 0.");
-            seed = 0L;
-        }
-        creator.seed(seed);
-        Bukkit.broadcastMessage("§a§lCréation du monde en cours des freezes peuvent survenir...");
+
+        // Utiliser le g\u00e9n\u00e9rateur personnalis\u00e9 avec des biomes terrestres uniquement
+        creator.generator(new CustomChunkGenerator());
+
+        Bukkit.broadcastMessage("\u00a7a\u00a7lCr\u00e9ation du monde personnalis\u00e9 en cours, des freezes peuvent survenir...");
         World world = org.bukkit.Bukkit.createWorld(creator);
         if (world != null) {
             world.setGameRuleValue("doDaylightCycle", "false");
@@ -67,7 +47,7 @@ public class WorldManager {
             addSapling();
             //taiga();
         } else {
-            SimpleUHC.instance.getLogger().warning("La création du monde a échoué.");
+            SimpleUHC.instance.getLogger().warning("La cr\u00e9ation du monde a \u00e9chou\u00e9.");
         }
     }
 

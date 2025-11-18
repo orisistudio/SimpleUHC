@@ -38,6 +38,11 @@ team:
     team_member_over_limite: "Le nombre de joueurs dépasse la taille maximale de l'équipe."
     name_already_used: "Le nom de l'équipe est déjà utilisé."
     name_not_valid: "Le nom de l'équipe n'est pas valide."
+  chat:
+    not_in_team: "§cVous devez être dans une équipe pour utiliser le chat d'équipe."
+    enabled: "§aChat d'équipe activé ! Vos messages seront uniquement visibles par votre équipe."
+    disabled: "§cChat d'équipe désactivé ! Vos messages seront visibles par tous."
+    format: "{color}[Team {team}] §r{player}§7: §f{message}" #valid placeholder: {color}, {team}, {player}, {message}
 
 gui:
   teams_gui:

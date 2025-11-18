@@ -5,15 +5,19 @@ import api.rammex.gameapi.category.CategoryManager;
 import api.rammex.gameapi.module.ModuleManager;
 import api.rammex.gameapi.option.OptionManager;
 import api.rammex.gameapi.scenario.ScenarioManager;
+import fr.rammex.simpleuhc.commands.ConfigCommand;
 import fr.rammex.simpleuhc.commands.SimpleUHCcommand;
 import fr.rammex.simpleuhc.commands.TeamCommand;
+import fr.rammex.simpleuhc.commands.TeamChatCommand;
 import fr.rammex.simpleuhc.commands.TeamInventoryCommand;
+import fr.rammex.simpleuhc.config.ConfigManager;
 import fr.rammex.simpleuhc.events.EnchantListener;
 import fr.rammex.simpleuhc.events.MiningEvent;
 import fr.rammex.simpleuhc.events.PlayerListener;
 import fr.rammex.simpleuhc.option.CategorySetup;
 import fr.rammex.simpleuhc.option.OptionSetup;
 import fr.rammex.simpleuhc.game.SimpleUHCManager;
+import fr.rammex.simpleuhc.team.TeamChatListener;
 import fr.rammex.simpleuhc.team.util.ChangeValueListener;
 import fr.rammex.simpleuhc.utils.LangMessages;
 import fr.rammex.simpleuhc.utils.TeamPlaceHolder;
@@ -43,6 +47,10 @@ public final class SimpleUHC extends JavaPlugin {
         OptionSetup.setup();
 
         langMessages.loadMessages();
+
+        // Initialiser le gestionnaire de configurations
+        ConfigManager.init();
+        ConfigManager.createDefaultConfig();
 
         scenarioManager.addScenario(simpleUHCManager);
 
@@ -82,12 +90,17 @@ public final class SimpleUHC extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EnchantListener(), this);
         getServer().getPluginManager().registerEvents(new MiningEvent(), this);
         getServer().getPluginManager().registerEvents(new ChangeValueListener(), this);
+        getServer().getPluginManager().registerEvents(new TeamChatListener(), this);
     }
 
     private void registerCommands(){
         getCommand("team").setExecutor(new TeamCommand());
         getCommand("simpleuhc").setExecutor(new SimpleUHCcommand());
         getCommand("teaminventory").setExecutor(new TeamInventoryCommand());
+        getCommand("tc").setExecutor(new TeamChatCommand());
+        ConfigCommand configCommand = new ConfigCommand();
+        getCommand("uhcconfig").setExecutor(configCommand);
+        getCommand("uhcconfig").setTabCompleter(configCommand);
     }
 
     public LangMessages getLangMessages() {

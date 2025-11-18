@@ -54,16 +54,17 @@ public class TeamCommand implements CommandExecutor {
                 if(args.length >= 2){
                     String teamName = args[1];
                     try {
-                        teamManager.addPlayerToTeam(teamName, player);
+                        // Utiliser acceptTeamInvite au lieu de addPlayerToTeam pour v\u00e9rifier l'invitation
+                        teamManager.acceptTeamInvite(player, teamName);
                         player.sendMessage(
                                 LangMessages.getMessage("commands.team.team_joined", null)
                                         .replace("{team}", teamName)
                         );
                     } catch (IllegalArgumentException e) {
-                        player.sendMessage("§c" + e.getMessage());
+                        player.sendMessage("\u00a7c" + e.getMessage());
                     }
                 } else {
-                    player.sendMessage("§cUsage: /team accept <team>");
+                    player.sendMessage("\u00a7cUsage: /team accept <team>");
                 }
             } else if (subcommand.equals("setleader")){
                 if(teamManager.isPlayerTeamLeader(player)){
