@@ -2,7 +2,6 @@ package fr.rammex.simpleuhc.events;
 
 import api.rammex.gameapi.option.Option;
 import api.rammex.gameapi.option.OptionType;
-import com.avaje.ebeaninternal.server.type.ScalarTypeScalaDouble;
 import fr.rammex.simpleuhc.option.OptionSetup;
 import fr.rammex.simpleuhc.utils.LangMessages;
 import org.bukkit.Material;
@@ -15,28 +14,45 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public class EnchantListener implements Listener {
+
+    // Listes statiques pour catégoriser les items
+    private static final List<Material> ARMOR_MATERIALS = Arrays.asList(
+            Material.IRON_HELMET, Material.IRON_CHESTPLATE, Material.IRON_LEGGINGS, Material.IRON_BOOTS,
+            Material.DIAMOND_HELMET, Material.DIAMOND_CHESTPLATE, Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS,
+            Material.GOLD_HELMET, Material.GOLD_CHESTPLATE, Material.GOLD_LEGGINGS, Material.GOLD_BOOTS,
+            Material.LEATHER_HELMET, Material.LEATHER_CHESTPLATE, Material.LEATHER_LEGGINGS, Material.LEATHER_BOOTS,
+            Material.CHAINMAIL_HELMET, Material.CHAINMAIL_CHESTPLATE, Material.CHAINMAIL_LEGGINGS, Material.CHAINMAIL_BOOTS
+    );
+
+    private static final List<Material> WEAPON_MATERIALS = Arrays.asList(
+            Material.WOOD_SWORD, Material.STONE_SWORD, Material.IRON_SWORD, Material.GOLD_SWORD, Material.DIAMOND_SWORD,
+            Material.BOW
+    );
+
+    private static final List<Material> TOOL_MATERIALS = Arrays.asList(
+            Material.WOOD_PICKAXE, Material.WOOD_AXE, Material.WOOD_SPADE, Material.WOOD_HOE,
+            Material.STONE_PICKAXE, Material.STONE_AXE, Material.STONE_SPADE, Material.STONE_HOE,
+            Material.IRON_PICKAXE, Material.IRON_AXE, Material.IRON_SPADE, Material.IRON_HOE,
+            Material.GOLD_PICKAXE, Material.GOLD_AXE, Material.GOLD_SPADE, Material.GOLD_HOE,
+            Material.DIAMOND_PICKAXE, Material.DIAMOND_AXE, Material.DIAMOND_SPADE, Material.DIAMOND_HOE,
+            Material.SHEARS, Material.FLINT_AND_STEEL, Material.FISHING_ROD
+    );
+
     @EventHandler
     public void onEnchantItem(EnchantItemEvent event) {
         ItemStack item = event.getItem();
-        Material mat = item.getType();
-
-        Option option = null;
-        if (mat.name().startsWith("IRON_")) {
-            option = OptionSetup.getOption("Iron Alowed Enchants");
-        } else if (mat.name().startsWith("DIAMOND_")) {
-            option = OptionSetup.getOption("Diamond Alowed Enchants");
-        }
+        Option option = getEnchantOption(item.getType());
 
         if (option != null && option.getType() == OptionType.ENCHANT) {
             Map<String, Boolean> allowed = (Map<String, Boolean>) option.getValue();
 
             event.getEnchantsToAdd().entrySet().removeIf(e -> {
-                Enchantment ench = e.getKey();
-                int level = e.getValue();
-                String key = ench.getName() + "_" + level;
+                String key = e.getKey().getName() + "_" + e.getValue();
                 return !allowed.getOrDefault(key, false);
             });
         }
@@ -54,13 +70,7 @@ public class EnchantListener implements Listener {
         ItemStack left = anvil.getItem(0);
         if (left == null) return;
 
-        Material mat = left.getType();
-        Option option = null;
-        if (mat.name().startsWith("IRON_")) {
-            option = OptionSetup.getOption("Iron Alowed Enchants");
-        } else if (mat.name().startsWith("DIAMOND_")) {
-            option = OptionSetup.getOption("Diamond Alowed Enchants");
-        }
+        Option option = getEnchantOption(left.getType());
         if (option == null || option.getType() != OptionType.ENCHANT) return;
 
         Map<String, Boolean> allowed = (Map<String, Boolean>) option.getValue();
@@ -73,5 +83,54 @@ public class EnchantListener implements Listener {
                 return;
             }
         }
+    }
+
+    /**
+     * Détermine l'option d'enchantement appropriée en fonction du type de matériau
+     * @param material Le matériau à vérifier
+     * @return L'option correspondante ou null si aucune option n'est définie
+     */
+    private Option getEnchantOption(Material material) {
+        String materialName = material.name();
+
+        // Vérification des armures fer/diamant
+        if (materialName.startsWith("IRON_") && isArmor(material)) {
+            return OptionSetup.getOption("Iron Alowed Enchants");
+        } else if (materialName.startsWith("DIAMOND_") && isArmor(material)) {
+            return OptionSetup.getOption("Diamond Alowed Enchants");
+        }
+
+        // Vérification des armes
+        if (isWeapon(material)) {
+            return OptionSetup.getOption("Weapons Alowed Enchants");
+        }
+
+        // Vérification des outils
+        if (isTool(material)) {
+            return OptionSetup.getOption("Tools Alowed Enchants");
+        }
+
+        return null;
+    }
+
+    /**
+     * Vérifie si le matériau est une armure
+     */
+    private boolean isArmor(Material material) {
+        return ARMOR_MATERIALS.contains(material);
+    }
+
+    /**
+     * Vérifie si le matériau est une arme
+     */
+    private boolean isWeapon(Material material) {
+        return WEAPON_MATERIALS.contains(material);
+    }
+
+    /**
+     * Vérifie si le matériau est un outil
+     */
+    private boolean isTool(Material material) {
+        return TOOL_MATERIALS.contains(material);
     }
 }

@@ -98,7 +98,7 @@ public class OptionSetup {
         optionManager.addOption(new Option("Game Diams Limit", "Limite de diamants minable par joueur", gameCategory, OptionType.INTEGER, 16), SimpleUHC.getSimpleUHCManager());
 
 
-        // TOUT LES MAT EN FER
+        // ARMURES EN FER
         List<Material> ironMaterials = Arrays.asList(
                 Material.IRON_HELMET,
                 Material.IRON_CHESTPLATE,
@@ -108,7 +108,7 @@ public class OptionSetup {
 
         Map<String, Boolean> ironAllowedEnchants = checkEnchants(ironMaterials);
 
-        // TOUT LES MAT EN DIAMS
+        // ARMURES EN DIAMANT
         List<Material> diamsMaterials = Arrays.asList(
                 Material.DIAMOND_HELMET,
                 Material.DIAMOND_CHESTPLATE,
@@ -118,9 +118,52 @@ public class OptionSetup {
 
         Map<String, Boolean> diamsAllowedEnchants = checkEnchants(diamsMaterials);
 
+        // ARMES
+        List<Material> weaponsMaterials = Arrays.asList(
+                Material.WOOD_SWORD,
+                Material.STONE_SWORD,
+                Material.IRON_SWORD,
+                Material.GOLD_SWORD,
+                Material.DIAMOND_SWORD,
+                Material.BOW
+        );
+
+        Map<String, Boolean> weaponsAllowedEnchants = checkEnchants(weaponsMaterials);
+
+        // OUTILS
+        List<Material> toolsMaterials = Arrays.asList(
+                Material.WOOD_PICKAXE,
+                Material.WOOD_AXE,
+                Material.WOOD_SPADE,
+                Material.WOOD_HOE,
+                Material.STONE_PICKAXE,
+                Material.STONE_AXE,
+                Material.STONE_SPADE,
+                Material.STONE_HOE,
+                Material.IRON_PICKAXE,
+                Material.IRON_AXE,
+                Material.IRON_SPADE,
+                Material.IRON_HOE,
+                Material.GOLD_PICKAXE,
+                Material.GOLD_AXE,
+                Material.GOLD_SPADE,
+                Material.GOLD_HOE,
+                Material.DIAMOND_PICKAXE,
+                Material.DIAMOND_AXE,
+                Material.DIAMOND_SPADE,
+                Material.DIAMOND_HOE,
+                Material.SHEARS,
+                Material.FLINT_AND_STEEL,
+                Material.FISHING_ROD
+        );
+
+        Map<String, Boolean> toolsAllowedEnchants = checkEnchants(toolsMaterials);
+
         // game options - enchants
-        optionManager.addOption(new Option("Diamond Alowed Enchants", "Enchants autorisé pour les pièces en diamant", gameCategory, OptionType.ENCHANT, diamsAllowedEnchants), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Iron Alowed Enchants", "Enchants autorisé pour les pièces en fer", gameCategory, OptionType.ENCHANT, ironAllowedEnchants), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Diamond Alowed Enchants", "Enchants autorisé pour les armures en diamant", gameCategory, OptionType.ENCHANT, diamsAllowedEnchants), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Iron Alowed Enchants", "Enchants autorisé pour les armures en fer", gameCategory, OptionType.ENCHANT, ironAllowedEnchants), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Weapons Alowed Enchants", "Enchants autorisé pour les armes", gameCategory, OptionType.ENCHANT, weaponsAllowedEnchants), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Tools Alowed Enchants", "Enchants autorisé pour les outils", gameCategory, OptionType.ENCHANT, toolsAllowedEnchants), SimpleUHC.getSimpleUHCManager());
 
     }
 
