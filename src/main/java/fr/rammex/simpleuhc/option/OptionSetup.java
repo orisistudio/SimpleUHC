@@ -25,81 +25,81 @@ public class OptionSetup {
         Category gameCategory = CategorySetup.getCategory("game");
 
         //Player options
-        optionManager.addOption(new Option("Player Max", "Nombre maximum de joueurs dans la partie", playerCategory, OptionType.INTEGER, 100), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Player Min", "Nombre minimum de joueurs dans la partie", playerCategory, OptionType.INTEGER, 4), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Player Max", "Maximum number of players in the game", playerCategory, OptionType.INTEGER, 100), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Player Min", "Minimum number of players in the game", playerCategory, OptionType.INTEGER, 4), SimpleUHC.getSimpleUHCManager());
 
         //World options
-        optionManager.addOption(new Option("World Border", "Taille de la bordure du monde", worldCategory, OptionType.INTEGER, 1000), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("World Border", "World border size", worldCategory, OptionType.INTEGER, 1000), SimpleUHC.getSimpleUHCManager());
 
-        // Options de terrain
-        optionManager.addOption(new Option("Terrain Min Height", "Hauteur minimale du terrain", worldCategory, OptionType.INTEGER, 60), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Terrain Max Height", "Hauteur maximale du terrain", worldCategory, OptionType.INTEGER, 90), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Terrain Scale", "\u00c9chelle de variation du terrain (0.1=plat, 1.0=montagneux)", worldCategory, OptionType.DOUBLE, 0.5), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("World Biome", "Biome du monde (AUTO pour g\u00e9n\u00e9ration automatique, ou nom d'un biome)", worldCategory, OptionType.STRING, "AUTO"), SimpleUHC.getSimpleUHCManager());
+        // Terrain options
+        optionManager.addOption(new Option("Terrain Min Height", "Minimum terrain height", worldCategory, OptionType.INTEGER, 60), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Terrain Max Height", "Maximum terrain height", worldCategory, OptionType.INTEGER, 90), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Terrain Scale", "Terrain variation scale (0.1=flat, 1.0=mountainous)", worldCategory, OptionType.DOUBLE, 0.5), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("World Biome", "Biome for spawn area 200x200 (AUTO for automatic generation) | Available biomes: PLAINS, FOREST, BIRCH_FOREST, ROOFED_FOREST, TAIGA, MEGA_TAIGA, SAVANNA, DESERT, MESA, JUNGLE, SWAMPLAND, ICE_PLAINS, EXTREME_HILLS", worldCategory, OptionType.STRING, "AUTO"), SimpleUHC.getSimpleUHCManager());
 
-        // Options d'arbres
-        optionManager.addOption(new Option("Enable Trees", "Activer la g\u00e9n\u00e9ration d'arbres", worldCategory, OptionType.BOOLEAN, true), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Min Trees Per Chunk", "Nombre minimum d'arbres par chunk", worldCategory, OptionType.INTEGER, 0), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Max Trees Per Chunk", "Nombre maximum d'arbres par chunk", worldCategory, OptionType.INTEGER, 8), SimpleUHC.getSimpleUHCManager());
+        // Tree options
+        optionManager.addOption(new Option("Enable Trees", "Enable tree generation", worldCategory, OptionType.BOOLEAN, true), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Min Trees Per Chunk", "Minimum number of trees per chunk", worldCategory, OptionType.INTEGER, 0), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Max Trees Per Chunk", "Maximum number of trees per chunk", worldCategory, OptionType.INTEGER, 8), SimpleUHC.getSimpleUHCManager());
 
-        // Options de minerais - Charbon
-        optionManager.addOption(new Option("Coal Veins Per Chunk", "Nombre de veines de charbon par chunk", worldCategory, OptionType.INTEGER, 20), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Coal Vein Size", "Taille des veines de charbon", worldCategory, OptionType.INTEGER, 16), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Coal Min Height", "Hauteur minimale du charbon", worldCategory, OptionType.INTEGER, 5), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Coal Max Height", "Hauteur maximale du charbon", worldCategory, OptionType.INTEGER, 128), SimpleUHC.getSimpleUHCManager());
+        // Ore options - Coal
+        optionManager.addOption(new Option("Coal Veins Per Chunk", "Number of coal veins per chunk", worldCategory, OptionType.INTEGER, 20), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Coal Vein Size", "Coal vein size", worldCategory, OptionType.INTEGER, 16), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Coal Min Height", "Minimum coal height", worldCategory, OptionType.INTEGER, 5), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Coal Max Height", "Maximum coal height", worldCategory, OptionType.INTEGER, 128), SimpleUHC.getSimpleUHCManager());
 
-        // Options de minerais - Fer
-        optionManager.addOption(new Option("Iron Veins Per Chunk", "Nombre de veines de fer par chunk", worldCategory, OptionType.INTEGER, 20), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Iron Vein Size", "Taille des veines de fer", worldCategory, OptionType.INTEGER, 8), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Iron Min Height", "Hauteur minimale du fer", worldCategory, OptionType.INTEGER, 5), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Iron Max Height", "Hauteur maximale du fer", worldCategory, OptionType.INTEGER, 64), SimpleUHC.getSimpleUHCManager());
+        // Ore options - Iron
+        optionManager.addOption(new Option("Iron Veins Per Chunk", "Number of iron veins per chunk", worldCategory, OptionType.INTEGER, 20), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Iron Vein Size", "Iron vein size", worldCategory, OptionType.INTEGER, 8), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Iron Min Height", "Minimum iron height", worldCategory, OptionType.INTEGER, 5), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Iron Max Height", "Maximum iron height", worldCategory, OptionType.INTEGER, 64), SimpleUHC.getSimpleUHCManager());
 
-        // Options de minerais - Or
-        optionManager.addOption(new Option("Gold Veins Per Chunk", "Nombre de veines d'or par chunk", worldCategory, OptionType.INTEGER, 2), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Gold Vein Size", "Taille des veines d'or", worldCategory, OptionType.INTEGER, 8), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Gold Min Height", "Hauteur minimale de l'or", worldCategory, OptionType.INTEGER, 5), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Gold Max Height", "Hauteur maximale de l'or", worldCategory, OptionType.INTEGER, 32), SimpleUHC.getSimpleUHCManager());
+        // Ore options - Gold
+        optionManager.addOption(new Option("Gold Veins Per Chunk", "Number of gold veins per chunk", worldCategory, OptionType.INTEGER, 2), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Gold Vein Size", "Gold vein size", worldCategory, OptionType.INTEGER, 8), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Gold Min Height", "Minimum gold height", worldCategory, OptionType.INTEGER, 5), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Gold Max Height", "Maximum gold height", worldCategory, OptionType.INTEGER, 32), SimpleUHC.getSimpleUHCManager());
 
-        // Options de minerais - Diamant
-        optionManager.addOption(new Option("Diamond Veins Per Chunk", "Nombre de veines de diamant par chunk", worldCategory, OptionType.INTEGER, 1), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Diamond Vein Size", "Taille des veines de diamant", worldCategory, OptionType.INTEGER, 7), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Diamond Min Height", "Hauteur minimale du diamant", worldCategory, OptionType.INTEGER, 3), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Diamond Max Height", "Hauteur maximale du diamant", worldCategory, OptionType.INTEGER, 16), SimpleUHC.getSimpleUHCManager());
+        // Ore options - Diamond
+        optionManager.addOption(new Option("Diamond Veins Per Chunk", "Number of diamond veins per chunk", worldCategory, OptionType.INTEGER, 1), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Diamond Vein Size", "Diamond vein size", worldCategory, OptionType.INTEGER, 7), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Diamond Min Height", "Minimum diamond height", worldCategory, OptionType.INTEGER, 3), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Diamond Max Height", "Maximum diamond height", worldCategory, OptionType.INTEGER, 16), SimpleUHC.getSimpleUHCManager());
 
-        // Options de minerais - Redstone
-        optionManager.addOption(new Option("Redstone Veins Per Chunk", "Nombre de veines de redstone par chunk", worldCategory, OptionType.INTEGER, 8), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Redstone Vein Size", "Taille des veines de redstone", worldCategory, OptionType.INTEGER, 7), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Redstone Min Height", "Hauteur minimale de la redstone", worldCategory, OptionType.INTEGER, 5), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Redstone Max Height", "Hauteur maximale de la redstone", worldCategory, OptionType.INTEGER, 16), SimpleUHC.getSimpleUHCManager());
+        // Ore options - Redstone
+        optionManager.addOption(new Option("Redstone Veins Per Chunk", "Number of redstone veins per chunk", worldCategory, OptionType.INTEGER, 8), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Redstone Vein Size", "Redstone vein size", worldCategory, OptionType.INTEGER, 7), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Redstone Min Height", "Minimum redstone height", worldCategory, OptionType.INTEGER, 5), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Redstone Max Height", "Maximum redstone height", worldCategory, OptionType.INTEGER, 16), SimpleUHC.getSimpleUHCManager());
 
-        // Options de minerais - Lapis
-        optionManager.addOption(new Option("Lapis Veins Per Chunk", "Nombre de veines de lapis par chunk", worldCategory, OptionType.INTEGER, 1), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Lapis Vein Size", "Taille des veines de lapis", worldCategory, OptionType.INTEGER, 6), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Lapis Min Height", "Hauteur minimale du lapis", worldCategory, OptionType.INTEGER, 16), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Lapis Max Height", "Hauteur maximale du lapis", worldCategory, OptionType.INTEGER, 32), SimpleUHC.getSimpleUHCManager());
+        // Ore options - Lapis
+        optionManager.addOption(new Option("Lapis Veins Per Chunk", "Number of lapis veins per chunk", worldCategory, OptionType.INTEGER, 1), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Lapis Vein Size", "Lapis vein size", worldCategory, OptionType.INTEGER, 6), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Lapis Min Height", "Minimum lapis height", worldCategory, OptionType.INTEGER, 16), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Lapis Max Height", "Maximum lapis height", worldCategory, OptionType.INTEGER, 32), SimpleUHC.getSimpleUHCManager());
 
-        // Options de minerais - \u00c9meraude
-        optionManager.addOption(new Option("Emerald Veins Per Chunk", "Nombre de veines d'\u00e9meraude par chunk", worldCategory, OptionType.INTEGER, 1), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Emerald Vein Size", "Taille des veines d'\u00e9meraude", worldCategory, OptionType.INTEGER, 4), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Emerald Min Height", "Hauteur minimale de l'\u00e9meraude", worldCategory, OptionType.INTEGER, 4), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Emerald Max Height", "Hauteur maximale de l'\u00e9meraude", worldCategory, OptionType.INTEGER, 32), SimpleUHC.getSimpleUHCManager());
+        // Ore options - Emerald
+        optionManager.addOption(new Option("Emerald Veins Per Chunk", "Number of emerald veins per chunk", worldCategory, OptionType.INTEGER, 1), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Emerald Vein Size", "Emerald vein size", worldCategory, OptionType.INTEGER, 4), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Emerald Min Height", "Minimum emerald height", worldCategory, OptionType.INTEGER, 4), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Emerald Max Height", "Maximum emerald height", worldCategory, OptionType.INTEGER, 32), SimpleUHC.getSimpleUHCManager());
 
-        // Options de minerais communs
-        optionManager.addOption(new Option("Dirt Veins Per Chunk", "Nombre de poches de terre par chunk", worldCategory, OptionType.INTEGER, 10), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Gravel Veins Per Chunk", "Nombre de poches de gravier par chunk", worldCategory, OptionType.INTEGER, 8), SimpleUHC.getSimpleUHCManager());
+        // Common ore options
+        optionManager.addOption(new Option("Dirt Veins Per Chunk", "Number of dirt pockets per chunk", worldCategory, OptionType.INTEGER, 10), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Gravel Veins Per Chunk", "Number of gravel pockets per chunk", worldCategory, OptionType.INTEGER, 8), SimpleUHC.getSimpleUHCManager());
 
         //Game options
-        optionManager.addOption(new Option("Game Team", "Activer ou non les équipes", gameCategory, OptionType.BOOLEAN, false), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Game Team Size", "Taille des équipes si activer", gameCategory, OptionType.INTEGER, 2), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Game PvP", "Délais avant la phase pvp en minutes", gameCategory, OptionType.INTEGER, 15), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Game Meetup", "Délais en minutes avant le Meetup", gameCategory, OptionType.INTEGER, 60), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Game Meetup Speed", "Temps en minutes pour que la border atteigne la taille voulue", gameCategory, OptionType.INTEGER, 10), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Game Meetup Radius", "Rayon du Meetup en blocs", gameCategory, OptionType.INTEGER, 100), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Game Starter Kit", "Kit de démarrage ( pas dispo encore )", gameCategory, OptionType.BOOLEAN, false), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Game Diams Limit", "Limite de diamants minable par joueur", gameCategory, OptionType.INTEGER, 16), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Apple Drop Rate", "Multiplicateur du taux de drop de pommes (1.0 = normal, 2.0 = double, etc.)", gameCategory, OptionType.DOUBLE, 1.0), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Flint Drop Rate", "Multiplicateur du taux de drop de silex (1.0 = normal, 2.0 = double, etc.)", gameCategory, OptionType.DOUBLE, 1.0), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("XP Multiplier", "Multiplicateur du drop d'XP (1.0 = normal, 2.0 = double, etc.)", gameCategory, OptionType.DOUBLE, 1.0), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Game Team", "Enable or disable teams", gameCategory, OptionType.BOOLEAN, false), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Game Team Size", "Team size if enabled", gameCategory, OptionType.INTEGER, 2), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Game PvP", "Delay before PvP phase in minutes", gameCategory, OptionType.INTEGER, 15), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Game Meetup", "Delay in minutes before Meetup", gameCategory, OptionType.INTEGER, 60), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Game Meetup Speed", "Time in minutes for the border to reach desired size", gameCategory, OptionType.INTEGER, 10), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Game Meetup Radius", "Meetup radius in blocks", gameCategory, OptionType.INTEGER, 100), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Game Starter Kit", "Starter kit (not available yet)", gameCategory, OptionType.BOOLEAN, false), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Game Diams Limit", "Diamond mining limit per player", gameCategory, OptionType.INTEGER, 16), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Apple Drop Rate", "Apple drop rate multiplier (1.0 = normal, 2.0 = double, etc.)", gameCategory, OptionType.DOUBLE, 1.0), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Flint Drop Rate", "Flint drop rate multiplier (1.0 = normal, 2.0 = double, etc.)", gameCategory, OptionType.DOUBLE, 1.0), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("XP Multiplier", "XP drop multiplier (1.0 = normal, 2.0 = double, etc.)", gameCategory, OptionType.DOUBLE, 1.0), SimpleUHC.getSimpleUHCManager());
 
 
         // ARMURES EN FER
@@ -164,10 +164,10 @@ public class OptionSetup {
         Map<String, Boolean> toolsAllowedEnchants = checkEnchants(toolsMaterials);
 
         // game options - enchants
-        optionManager.addOption(new Option("Diamond Alowed Enchants", "Enchants autorisé pour les armures en diamant", gameCategory, OptionType.ENCHANT, diamsAllowedEnchants), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Iron Alowed Enchants", "Enchants autorisé pour les armures en fer", gameCategory, OptionType.ENCHANT, ironAllowedEnchants), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Weapons Alowed Enchants", "Enchants autorisé pour les armes", gameCategory, OptionType.ENCHANT, weaponsAllowedEnchants), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Tools Alowed Enchants", "Enchants autorisé pour les outils", gameCategory, OptionType.ENCHANT, toolsAllowedEnchants), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Diamond Alowed Enchants", "Allowed enchants for diamond armor", gameCategory, OptionType.ENCHANT, diamsAllowedEnchants), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Iron Alowed Enchants", "Allowed enchants for iron armor", gameCategory, OptionType.ENCHANT, ironAllowedEnchants), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Weapons Alowed Enchants", "Allowed enchants for weapons", gameCategory, OptionType.ENCHANT, weaponsAllowedEnchants), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Tools Alowed Enchants", "Allowed enchants for tools", gameCategory, OptionType.ENCHANT, toolsAllowedEnchants), SimpleUHC.getSimpleUHCManager());
 
     }
 

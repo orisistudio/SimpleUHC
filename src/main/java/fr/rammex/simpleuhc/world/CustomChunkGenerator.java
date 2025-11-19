@@ -98,13 +98,18 @@ public class CustomChunkGenerator extends ChunkGenerator {
         String configuredBiome = WorldGenerationConfig.getWorldBiome();
 
         if (configuredBiome != null && !configuredBiome.equalsIgnoreCase("AUTO")) {
-            // Essayer de convertir le nom en biome
-            try {
-                return Biome.valueOf(configuredBiome.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                // Si le biome n'est pas valide, continuer avec la génération automatique
-                System.err.println("[SimpleUHC] Biome invalide: " + configuredBiome + ", utilisation de la génération automatique.");
+            // Vérifier si on est dans la zone de 200x200 autour du spawn (0,0)
+            // Zone : de -100 à +100 sur X et Z
+            if (x >= -100 && x <= 100 && z >= -100 && z <= 100) {
+                // Essayer de convertir le nom en biome
+                try {
+                    return Biome.valueOf(configuredBiome.toUpperCase());
+                } catch (IllegalArgumentException e) {
+                    // Si le biome n'est pas valide, continuer avec la génération automatique
+                    System.err.println("[SimpleUHC] Biome invalide: " + configuredBiome + ", utilisation de la génération automatique.");
+                }
             }
+            // En dehors de la zone de 200x200, utiliser la génération automatique
         }
 
         // Génération automatique par bruit (comportement par défaut)

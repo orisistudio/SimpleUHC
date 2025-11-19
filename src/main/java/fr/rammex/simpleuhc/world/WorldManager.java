@@ -9,14 +9,14 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class WorldManager {
     private static World oriniginalWorld;
+    private static String currentWorldId = null;
 
     private static void setOriginalWorld(World world) {
         oriniginalWorld = world;
@@ -29,7 +29,10 @@ public class WorldManager {
 
 
     public static void createWorld(){
-        WorldCreator creator = new WorldCreator("UHC_" + getActualDate());
+        // Générer un nouvel UUID pour ce monde
+        currentWorldId = UUID.randomUUID().toString().substring(0, 8);
+
+        WorldCreator creator = new WorldCreator("UHC_" + currentWorldId);
 
         // Utiliser le g\u00e9n\u00e9rateur personnalis\u00e9 avec des biomes terrestres uniquement
         creator.generator(new CustomChunkGenerator());
@@ -53,7 +56,7 @@ public class WorldManager {
 
     public static void teleportPlayer(Player player) {
         setOriginalWorld(player.getWorld());
-        World world = org.bukkit.Bukkit.getWorld("UHC_"+getActualDate());
+        World world = org.bukkit.Bukkit.getWorld("UHC_" + currentWorldId);
         if (world != null) {
             Location spawnLocation = getRandomLocation();
             if (spawnLocation != null) {
@@ -110,7 +113,7 @@ public class WorldManager {
 
     // Java
     private static Location getRandomLocation() {
-        World world = org.bukkit.Bukkit.getWorld("UHC_" + getActualDate());
+        World world = org.bukkit.Bukkit.getWorld("UHC_" + currentWorldId);
         Location spawnLocation = getSpawnLocation();
         if (world != null && spawnLocation != null) {
             int border = (int) world.getWorldBorder().getSize() / 2;
@@ -133,7 +136,7 @@ public class WorldManager {
     }
 
     private static Location getSpawnLocation(){
-        World world = org.bukkit.Bukkit.getWorld("UHC_"+getActualDate());
+        World world = org.bukkit.Bukkit.getWorld("UHC_" + currentWorldId);
         if (world != null) {
             return world.getSpawnLocation();
         } else {
@@ -141,15 +144,9 @@ public class WorldManager {
         }
     }
 
-    private static String getActualDate(){
-        LocalDate today = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
-        return today.format(formatter);
-    }
-
     // rajouter method pour réduire progressivement la world border
     public static void shrinkWorldBorder(int newSize, long seconds) {
-        World world = org.bukkit.Bukkit.getWorld("UHC_" + getActualDate());
+        World world = org.bukkit.Bukkit.getWorld("UHC_" + currentWorldId);
         if (world != null) {
             world.getWorldBorder().setSize(newSize*2, seconds);
         } else {
@@ -158,7 +155,7 @@ public class WorldManager {
     }
 
     private static void addSapling() {
-        World gameWorld = org.bukkit.Bukkit.getWorld("UHC_" + getActualDate());
+        World gameWorld = org.bukkit.Bukkit.getWorld("UHC_" + currentWorldId);
         System.out.println("Start the creation of the roofed forest");
         (new Thread(() -> (new BukkitRunnable() {
             int yInicial = 50;
@@ -204,7 +201,7 @@ public class WorldManager {
     }
 
     private static void taiga(){
-        World world = org.bukkit.Bukkit.getWorld("UHC_" + getActualDate());
+        World world = org.bukkit.Bukkit.getWorld("UHC_" + currentWorldId);
         System.out.println("Start the creation of the taiga");
         (new Thread(() -> (new BukkitRunnable() {
             int yInicial = 50;
