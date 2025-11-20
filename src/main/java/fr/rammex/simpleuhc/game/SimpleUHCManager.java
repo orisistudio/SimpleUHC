@@ -28,7 +28,8 @@ public class SimpleUHCManager extends AbstractScenario {
                 "1.0",
                 "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2JiMzExZjNiYTFjMDdjM2QxMTQ3Y2QyMTBkODFmZTExZmQ4YWU5ZTNkYjIxMmEwZmE3NDg5NDZjMzYzMyJ9fX0",
                 100,
-                4);
+                4,
+                "SimpleUHC");
     }
 
     @Override

@@ -95,14 +95,28 @@ public final class SimpleUHC extends JavaPlugin {
     }
 
     private void registerCommands(){
-        getCommand("team").setExecutor(new TeamCommand());
-        getCommand("simpleuhc").setExecutor(new SimpleUHCcommand());
-        getCommand("teaminventory").setExecutor(new TeamInventoryCommand());
-        getCommand("tc").setExecutor(new TeamChatCommand());
-        getCommand("tcc").setExecutor(new TeamCoordinatesCommand());
-        ConfigCommand configCommand = new ConfigCommand();
-        getCommand("uhcconfig").setExecutor(configCommand);
-        getCommand("uhcconfig").setTabCompleter(configCommand);
+        // Vérifier que les commandes existent avant de les enregistrer
+        if (getCommand("team") != null) {
+            getCommand("team").setExecutor(new TeamCommand());
+        }
+        if (getCommand("simpleuhc") != null) {
+            getCommand("simpleuhc").setExecutor(new SimpleUHCcommand());
+        }
+        if (getCommand("teaminventory") != null) {
+            getCommand("teaminventory").setExecutor(new TeamInventoryCommand());
+        }
+        if (getCommand("tc") != null) {
+            getCommand("tc").setExecutor(new TeamChatCommand());
+        }
+        if (getCommand("tcc") != null) {
+            getCommand("tcc").setExecutor(new TeamCoordinatesCommand());
+        }
+
+        if (getCommand("uhcconfig") != null) {
+            ConfigCommand configCommand = new ConfigCommand();
+            getCommand("uhcconfig").setExecutor(configCommand);
+            getCommand("uhcconfig").setTabCompleter(configCommand);
+        }
     }
 
     public LangMessages getLangMessages() {
