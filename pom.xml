@@ -76,7 +76,8 @@
       <artifactId>spigot-api</artifactId>
       <version>1.8-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
-    </dependency><dependency>
+    </dependency>
+      <dependency>
       <groupId>com.github.orisis</groupId>
       <artifactId>guitoolkit-legacy</artifactId>
       <version>2.0.1</version>

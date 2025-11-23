@@ -60,16 +60,26 @@ public class StartTask extends AbstractTask {
     @Override
     protected void onFinish() {
         SimpleUHCManager.isGameRunning = true;
-        GameAPI.instance.getTaskManager().addTask(mainTask);
+
+        // Ajouter les tasks seulement si elles n'existent pas déjà
+        if (GameAPI.instance.getTaskManager().getTaskByName("MainTask") == null) {
+            GameAPI.instance.getTaskManager().addTask(mainTask);
+        }
         GameAPI.instance.getTaskManager().startTask(mainTask);
 
-        GameAPI.instance.getTaskManager().addTask(meetupTask);
+        if (GameAPI.instance.getTaskManager().getTaskByName("MeetupTask") == null) {
+            GameAPI.instance.getTaskManager().addTask(meetupTask);
+        }
         GameAPI.instance.getTaskManager().startTask(meetupTask);
 
-        GameAPI.instance.getTaskManager().addTask(pvpTask);
+        if (GameAPI.instance.getTaskManager().getTaskByName("PvpTask") == null) {
+            GameAPI.instance.getTaskManager().addTask(pvpTask);
+        }
         GameAPI.instance.getTaskManager().startTask(pvpTask);
 
-        GameAPI.instance.getTaskManager().addTask(invisibleTask);
+        if (GameAPI.instance.getTaskManager().getTaskByName("InvisibleTask") == null) {
+            GameAPI.instance.getTaskManager().addTask(invisibleTask);
+        }
         GameAPI.instance.getTaskManager().startTask(invisibleTask);
 
         System.out.println("Team actived : "+TeamManager.isTeamActivated());
