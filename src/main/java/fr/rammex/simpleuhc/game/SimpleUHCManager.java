@@ -2,20 +2,19 @@ package fr.rammex.simpleuhc.game;
 
 import api.rammex.gameapi.GameAPI;
 import api.rammex.gameapi.role.Role;
-import api.rammex.gameapi.scenario.AbstractScenario;
+import api.rammex.gameapi.game.AbstractGame;
 import api.rammex.gameapi.task.AbstractTask;
 import fr.rammex.simpleuhc.task.StartTask;
 import fr.rammex.simpleuhc.utils.LangMessages;
 import fr.rammex.simpleuhc.world.WorldManager;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleUHCManager extends AbstractScenario {
+public class SimpleUHCManager extends AbstractGame {
     private AbstractTask startTask;
     private List<Role> roles = new ArrayList<>();
     public static boolean pvpEnabled = false;

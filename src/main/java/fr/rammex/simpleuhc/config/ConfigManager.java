@@ -2,9 +2,8 @@ package fr.rammex.simpleuhc.config;
 
 import api.rammex.gameapi.option.Option;
 import api.rammex.gameapi.option.OptionManager;
-import api.rammex.gameapi.scenario.AbstractScenario;
+import api.rammex.gameapi.game.AbstractGame;
 import fr.rammex.simpleuhc.SimpleUHC;
-import fr.rammex.simpleuhc.option.OptionSetup;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -182,7 +181,7 @@ public class ConfigManager {
 
     private static List<Option> getOptions() {
         List<Option> options = new ArrayList<>();
-        Map<Option, AbstractScenario> optionMap = SimpleUHC.instance.getOptionManager().getOptions();
+        Map<Option, AbstractGame> optionMap = SimpleUHC.instance.getOptionManager().getOptions();
         for (Option option : optionMap.keySet()) {
             options.add(option);
         }

@@ -4,7 +4,7 @@ import api.rammex.gameapi.GameAPI;
 import api.rammex.gameapi.category.CategoryManager;
 import api.rammex.gameapi.module.ModuleManager;
 import api.rammex.gameapi.option.OptionManager;
-import api.rammex.gameapi.scenario.ScenarioManager;
+import api.rammex.gameapi.game.GameManager;
 import fr.rammex.simpleuhc.commands.ConfigCommand;
 import fr.rammex.simpleuhc.commands.SimpleUHCcommand;
 import fr.rammex.simpleuhc.commands.TeamCommand;
@@ -26,7 +26,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SimpleUHC extends JavaPlugin {
     public static SimpleUHC instance;
-    private ScenarioManager scenarioManager;
+    private GameManager scenarioManager;
     private OptionManager optionManager;
     private SimpleUHCManager simpleUHCManager;
     private CategoryManager categoryManager;
@@ -73,7 +73,7 @@ public final class SimpleUHC extends JavaPlugin {
     public static SimpleUHCManager getSimpleUHCManager() {
         return instance.simpleUHCManager;
     }
-    public ScenarioManager getScenarioManager() {
+    public GameManager getScenarioManager() {
         return scenarioManager;
     }
     public OptionManager getOptionManager() {

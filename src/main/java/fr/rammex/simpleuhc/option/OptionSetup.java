@@ -88,6 +88,13 @@ public class OptionSetup {
         optionManager.addOption(new Option("Dirt Veins Per Chunk", "Number of dirt pockets per chunk", worldCategory, OptionType.INTEGER, 10), SimpleUHC.getSimpleUHCManager());
         optionManager.addOption(new Option("Gravel Veins Per Chunk", "Number of gravel pockets per chunk", worldCategory, OptionType.INTEGER, 8), SimpleUHC.getSimpleUHCManager());
 
+        // Cave options
+        optionManager.addOption(new Option("Enable Caves", "Enable cave generation", worldCategory, OptionType.BOOLEAN, true), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Cave Min Height", "Minimum height for cave generation", worldCategory, OptionType.INTEGER, 5), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Cave Max Height", "Maximum height for cave generation", worldCategory, OptionType.INTEGER, 60), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Cave Scale", "Cave size scale (0.5=small, 1.0=normal, 2.0=large)", worldCategory, OptionType.DOUBLE, 1.0), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Cave Threshold", "Cave density threshold (0.0=more caves, 0.5=normal, 1.0=fewer caves)", worldCategory, OptionType.DOUBLE, 0.3), SimpleUHC.getSimpleUHCManager());
+
         //Game options
         optionManager.addOption(new Option("Game Team", "Enable or disable teams", gameCategory, OptionType.BOOLEAN, false), SimpleUHC.getSimpleUHCManager());
         optionManager.addOption(new Option("Game Team Size", "Team size if enabled", gameCategory, OptionType.INTEGER, 2), SimpleUHC.getSimpleUHCManager());

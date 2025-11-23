@@ -165,4 +165,25 @@ public class WorldGenerationConfig {
     public static int getGravelVeinsPerChunk() {
         return (int) OptionSetup.getOption("Gravel Veins Per Chunk").getValue();
     }
+
+    // ========== CAVES ==========
+    public static boolean isCaveGenerationEnabled() {
+        return (boolean) OptionSetup.getOption("Enable Caves").getValue();
+    }
+
+    public static int getCaveMinHeight() {
+        return (int) OptionSetup.getOption("Cave Min Height").getValue();
+    }
+
+    public static int getCaveMaxHeight() {
+        return (int) OptionSetup.getOption("Cave Max Height").getValue();
+    }
+
+    public static double getCaveScale() {
+        return (double) OptionSetup.getOption("Cave Scale").getValue();
+    }
+
+    public static double getCaveThreshold() {
+        return (double) OptionSetup.getOption("Cave Threshold").getValue();
+    }
 }

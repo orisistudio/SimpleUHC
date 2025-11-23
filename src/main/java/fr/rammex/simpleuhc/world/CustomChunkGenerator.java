@@ -16,12 +16,14 @@ public class CustomChunkGenerator extends ChunkGenerator {
     private final SimplexNoise heightNoise;
     private final SimplexNoise biomeNoise;
     private final SimplexNoise detailNoise;
+    private final SimplexNoise caveNoise;
 
     public CustomChunkGenerator() {
         long seed = System.currentTimeMillis();
         this.heightNoise = new SimplexNoise(seed);
         this.biomeNoise = new SimplexNoise(seed + 1000);
         this.detailNoise = new SimplexNoise(seed + 2000);
+        this.caveNoise = new SimplexNoise(seed + 3000);
     }
 
     @Override
@@ -48,11 +50,19 @@ public class CustomChunkGenerator extends ChunkGenerator {
                         // Bedrock au fond
                         result[index] = (byte) Material.BEDROCK.getId();
                     } else if (y < terrainHeight - 4) {
-                        // Pierre en profondeur
-                        result[index] = (byte) Material.STONE.getId();
+                        // Pierre en profondeur - vérifier s'il faut générer une cave
+                        if (shouldGenerateCave(worldX, y, worldZ)) {
+                            result[index] = (byte) Material.AIR.getId();
+                        } else {
+                            result[index] = (byte) Material.STONE.getId();
+                        }
                     } else if (y < terrainHeight - 1) {
-                        // Terre pr\u00e8s de la surface
-                        result[index] = (byte) Material.DIRT.getId();
+                        // Terre près de la surface - vérifier s'il faut générer une cave
+                        if (shouldGenerateCave(worldX, y, worldZ)) {
+                            result[index] = (byte) Material.AIR.getId();
+                        } else {
+                            result[index] = (byte) Material.DIRT.getId();
+                        }
                     } else if (y == terrainHeight - 1) {
                         // Herbe en surface
                         Biome biome = getBiomeAt(worldX, worldZ);
@@ -72,6 +82,41 @@ public class CustomChunkGenerator extends ChunkGenerator {
         }
 
         return result;
+    }
+
+    /**
+     * Détermine si une cave doit être générée à cette position
+     * @param x coordonnée X du monde
+     * @param y coordonnée Y (hauteur)
+     * @param z coordonnée Z du monde
+     * @return true si une cave doit être générée
+     */
+    private boolean shouldGenerateCave(int x, int y, int z) {
+        // Vérifier si la génération de caves est activée
+        if (!WorldGenerationConfig.isCaveGenerationEnabled()) {
+            return false;
+        }
+
+        // Ne pas générer de caves trop près de la surface ou du bedrock
+        int minCaveHeight = WorldGenerationConfig.getCaveMinHeight();
+        int maxCaveHeight = WorldGenerationConfig.getCaveMaxHeight();
+
+        if (y < minCaveHeight || y > maxCaveHeight) {
+            return false;
+        }
+
+        // Utiliser le bruit 3D pour créer des caves naturelles
+        double caveScale = WorldGenerationConfig.getCaveScale();
+        double caveThreshold = WorldGenerationConfig.getCaveThreshold();
+
+        // Combiner plusieurs octaves de bruit pour des caves plus intéressantes
+        double noise1 = caveNoise.noise3D(x * caveScale * 0.015, y * caveScale * 0.015, z * caveScale * 0.015);
+        double noise2 = caveNoise.noise3D(x * caveScale * 0.03, y * caveScale * 0.03, z * caveScale * 0.03) * 0.5;
+
+        double combinedNoise = (noise1 + noise2) / 1.5;
+
+        // Si le bruit est au-dessus du seuil, générer une cave
+        return combinedNoise > caveThreshold;
     }
 
     private double getHeight(int x, int z) {
