@@ -8,15 +8,10 @@ import org.bukkit.generator.BlockPopulator;
 
 import java.util.Random;
 
-/**
- * Populator personnalis\u00e9 pour g\u00e9n\u00e9rer des minerais dans le monde
- * IMPORTANT: Ne g\u00e9n\u00e8re que dans le chunk actuel pour \u00e9viter les StackOverflow
- */
 public class CustomOrePopulator extends BlockPopulator {
 
     @Override
     public void populate(World world, Random random, Chunk chunk) {
-        // G\u00e9n\u00e9rer diff\u00e9rents types de minerais avec les options configurables
         generateOre(chunk, random, Material.COAL_ORE,
                 WorldGenerationConfig.getCoalVeinsPerChunk(),
                 WorldGenerationConfig.getCoalVeinSize(),
@@ -59,7 +54,6 @@ public class CustomOrePopulator extends BlockPopulator {
                 WorldGenerationConfig.getEmeraldMinHeight(),
                 WorldGenerationConfig.getEmeraldMaxHeight());
 
-        // Minerais communs avec les options configurables
         generateOre(chunk, random, Material.DIRT,
                 WorldGenerationConfig.getDirtVeinsPerChunk(), 32, 0, 128);
         generateOre(chunk, random, Material.GRAVEL,
@@ -70,7 +64,6 @@ public class CustomOrePopulator extends BlockPopulator {
                              int veinsPerChunk, int veinSize,
                              int minHeight, int maxHeight) {
 
-        // G\u00e9n\u00e9rer un nombre al\u00e9atoire de veines entre 1 et le maximum configur\u00e9
         int actualVeins = veinsPerChunk > 0 ? 1 + random.nextInt(veinsPerChunk) : 0;
 
         for (int i = 0; i < actualVeins; i++) {
@@ -111,24 +104,20 @@ public class CustomOrePopulator extends BlockPopulator {
             int zEnd = (int) Math.floor(zPos + radius / 2.0);
 
             for (int xx = xStart; xx <= xEnd; xx++) {
-                // V\u00e9rifier que nous sommes dans les limites du chunk (0-15)
                 if (xx < 0 || xx > 15) continue;
 
                 double xDist = (xx + 0.5 - xPos) / (radius / 2.0);
                 if (xDist * xDist < 1) {
                     for (int yy = yStart; yy <= yEnd; yy++) {
-                        // V\u00e9rifier que nous sommes dans les limites de hauteur (0-127 pour 1.8)
                         if (yy < 0 || yy > 127) continue;
 
                         double yDist = (yy + 0.5 - yPos) / (radius / 2.0);
                         if (xDist * xDist + yDist * yDist < 1) {
                             for (int zz = zStart; zz <= zEnd; zz++) {
-                                // V\u00e9rifier que nous sommes dans les limites du chunk (0-15)
                                 if (zz < 0 || zz > 15) continue;
 
                                 double zDist = (zz + 0.5 - zPos) / (radius / 2.0);
                                 if (xDist * xDist + yDist * yDist + zDist * zDist < 1) {
-                                    // Utiliser chunk.getBlock au lieu de world.getBlockAt
                                     Block block = chunk.getBlock(xx, yy, zz);
                                     if (block.getType() == Material.STONE) {
                                         block.setType(material);

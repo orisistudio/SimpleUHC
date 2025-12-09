@@ -2,10 +2,6 @@ package fr.rammex.simpleuhc.world;
 
 import java.util.Random;
 
-/**
- * Classe SimplexNoise pour g\u00e9n\u00e9rer du bruit proc\u00e9dural
- * Utilis\u00e9e pour cr\u00e9er des terrains naturels et vari\u00e9s
- */
 public class SimplexNoise {
     private final int[] perm = new int[512];
     private final int[] permMod12 = new int[512];
@@ -27,7 +23,6 @@ public class SimplexNoise {
             p[i] = i;
         }
 
-        // Shuffle
         for (int i = 255; i > 0; i--) {
             int j = random.nextInt(i + 1);
             int temp = p[i];
@@ -108,21 +103,12 @@ public class SimplexNoise {
         return 70.0 * (n0 + n1 + n2);
     }
 
-    /**
-     * Génère du bruit 3D pour la création de caves
-     * @param xin coordonnée X
-     * @param yin coordonnée Y
-     * @param zin coordonnée Z
-     * @return valeur de bruit entre -1 et 1
-     */
     public double noise3D(double xin, double yin, double zin) {
         double n0, n1, n2, n3;
 
-        // Skewing and unskewing factors for 3D
         final double F3 = 1.0 / 3.0;
         final double G3 = 1.0 / 6.0;
 
-        // Skew the input space to determine which simplex cell we're in
         double s = (xin + yin + zin) * F3;
         int i = fastFloor(xin + s);
         int j = fastFloor(yin + s);
@@ -136,7 +122,6 @@ public class SimplexNoise {
         double y0 = yin - Y0;
         double z0 = zin - Z0;
 
-        // Determine which simplex we are in
         int i1, j1, k1;
         int i2, j2, k2;
 
@@ -168,7 +153,6 @@ public class SimplexNoise {
         double y3 = y0 - 1.0 + 3.0 * G3;
         double z3 = z0 - 1.0 + 3.0 * G3;
 
-        // Work out the hashed gradient indices
         int ii = i & 255;
         int jj = j & 255;
         int kk = k & 255;
@@ -177,7 +161,6 @@ public class SimplexNoise {
         int gi2 = permMod12[ii + i2 + perm[jj + j2 + perm[kk + k2]]];
         int gi3 = permMod12[ii + 1 + perm[jj + 1 + perm[kk + 1]]];
 
-        // Calculate the contribution from the four corners
         double t0 = 0.6 - x0 * x0 - y0 * y0 - z0 * z0;
         if (t0 < 0) {
             n0 = 0.0;
@@ -210,7 +193,6 @@ public class SimplexNoise {
             n3 = t3 * t3 * dot(grad3[gi3], x3, y3, z3);
         }
 
-        // Add contributions from each corner to get the final noise value
         return 32.0 * (n0 + n1 + n2 + n3);
     }
 

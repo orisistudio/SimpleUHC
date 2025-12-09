@@ -28,17 +28,15 @@ public class CustomChunkGenerator extends ChunkGenerator {
 
     @Override
     public byte[] generate(World world, Random random, int chunkX, int chunkZ) {
-        byte[] result = new byte[32768]; // 16x16x128 pour 1.8
+        byte[] result = new byte[32768];
 
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
                 int worldX = chunkX * 16 + x;
                 int worldZ = chunkZ * 16 + z;
 
-                // G\u00e9n\u00e9ration de la hauteur du terrain avec plusieurs octaves de bruit
                 double height = getHeight(worldX, worldZ);
 
-                // Convertir la hauteur en blocs (utilise les options configurables)
                 int minHeight = WorldGenerationConfig.getTerrainMinHeight();
                 int maxHeight = WorldGenerationConfig.getTerrainMaxHeight();
                 int terrainHeight = (int) (minHeight + height * (maxHeight - minHeight));
@@ -47,24 +45,20 @@ public class CustomChunkGenerator extends ChunkGenerator {
                     int index = (x * 16 + z) * 128 + y;
 
                     if (y == 0) {
-                        // Bedrock au fond
                         result[index] = (byte) Material.BEDROCK.getId();
                     } else if (y < terrainHeight - 4) {
-                        // Pierre en profondeur - vérifier s'il faut générer une cave
                         if (shouldGenerateCave(worldX, y, worldZ)) {
                             result[index] = (byte) Material.AIR.getId();
                         } else {
                             result[index] = (byte) Material.STONE.getId();
                         }
                     } else if (y < terrainHeight - 1) {
-                        // Terre près de la surface - vérifier s'il faut générer une cave
                         if (shouldGenerateCave(worldX, y, worldZ)) {
                             result[index] = (byte) Material.AIR.getId();
                         } else {
                             result[index] = (byte) Material.DIRT.getId();
                         }
                     } else if (y == terrainHeight - 1) {
-                        // Herbe en surface
                         Biome biome = getBiomeAt(worldX, worldZ);
                         if (biome == Biome.DESERT || biome == Biome.DESERT_HILLS) {
                             result[index] = (byte) Material.SAND.getId();
@@ -74,7 +68,6 @@ public class CustomChunkGenerator extends ChunkGenerator {
                             result[index] = (byte) Material.GRASS.getId();
                         }
                     } else if (y >= terrainHeight) {
-                        // Air au-dessus
                         result[index] = (byte) Material.AIR.getId();
                     }
                 }

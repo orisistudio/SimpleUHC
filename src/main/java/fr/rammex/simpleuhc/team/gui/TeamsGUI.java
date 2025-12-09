@@ -72,7 +72,7 @@ public class TeamsGUI {
                     }else {
                         player.sendMessage(LangMessages.getMessage("gui.teams_gui.not_invited", null));
                     }
-                } // handle le clique droit pour quitter l'équipe si il en fait partie
+                }
                 else if (clickType.isRightClick()){
                     if(teamManager.isPlayerInTeam(teamName, player)) {
                         if(teamManager.isPlayerAloneInTeam(player)){
@@ -97,8 +97,7 @@ public class TeamsGUI {
             }));
 
             buttons.add(button);
-            // changement de ligne si on atteint la fin de la ligne sinon on incrémente la colonne
-            if ( x+1 != 3 & y != 5 || x+1 != 5 & y != 5 ){ // emplacement pour création et delete d'équipe
+            if ( x+1 != 3 & y != 5 || x+1 != 5 & y != 5 ){
                 x++;
                 if (x >= 9) {
                     x = 0;
@@ -122,7 +121,6 @@ public class TeamsGUI {
         Icon icon = new Icon(LangMessages.getMessage("gui.teams_gui.create_team", null), iconItem, lore);
 
         return new Button(3,5,icon, ( (player, clickType) -> {
-            // handle le clique gauche pour créer une équipe
             if(clickType.isLeftClick()) {
                 if(!teamManager.isPlayerInAnyTeam(player)) {
                     TeamCreationGUI.setupGUI(player);
@@ -140,7 +138,6 @@ public class TeamsGUI {
         Icon icon = new Icon(LangMessages.getMessage("gui.teams_gui.delete_team", null), iconItem, lore);
 
         return new Button(5,5,icon, ( (player, clickType) -> {
-            // handle le clique gauche pour supprimer son équipe
             if(clickType.isLeftClick()) {
                 if(teamManager.isPlayerInAnyTeam(player) && teamManager.isPlayerTeamLeader(player)) {
                     try {

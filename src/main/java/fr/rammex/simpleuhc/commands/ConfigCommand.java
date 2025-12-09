@@ -10,15 +10,12 @@ import org.bukkit.entity.Player;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * Commande /uhcconfig pour g\u00e9rer les configurations
- */
 public class ConfigCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!sender.hasPermission("simpleuhc.admin")) {
-            sender.sendMessage("\u00a7cVous n'avez pas la permission d'utiliser cette commande.");
+            sender.sendMessage("&cVous n'avez pas la permission d'utiliser cette commande.");
             return true;
         }
 
@@ -60,61 +57,61 @@ public class ConfigCommand implements CommandExecutor, TabCompleter {
 
     private void handleSave(CommandSender sender, String[] args) {
         if (args.length < 2) {
-            sender.sendMessage("\u00a7cUsage: /uhcconfig save <nom>");
+            sender.sendMessage("&cUsage: /uhcconfig save <nom>");
             return;
         }
 
         String configName = args[1];
 
         if (ConfigManager.configExists(configName)) {
-            sender.sendMessage("\u00a7cUne configuration avec ce nom existe d\u00e9j\u00e0. Utilisez /uhcconfig delete " + configName + " d'abord.");
+            sender.sendMessage("&cUne configuration avec ce nom existe déjà. Utilisez /uhcconfig delete " + configName + " d'abord.");
             return;
         }
 
         if (ConfigManager.saveConfig(configName)) {
-            sender.sendMessage("\u00a7aConfiguration '\u00a76" + configName + "\u00a7a' sauvegard\u00e9e avec succ\u00e8s !");
+            sender.sendMessage("&aConfiguration '&6" + configName + "&a' sauvegardée avec succés !");
         } else {
-            sender.sendMessage("\u00a7cErreur lors de la sauvegarde de la configuration. V\u00e9rifiez que le nom est valide.");
+            sender.sendMessage("&cErreur lors de la sauvegarde de la configuration. Vérifiez que le nom est valide.");
         }
     }
 
     private void handleLoad(CommandSender sender, String[] args) {
         if (args.length < 2) {
-            sender.sendMessage("\u00a7cUsage: /uhcconfig load <nom>");
+            sender.sendMessage("&cUsage: /uhcconfig load <nom>");
             return;
         }
 
         String configName = args[1];
 
         if (!ConfigManager.configExists(configName)) {
-            sender.sendMessage("\u00a7cLa configuration '\u00a76" + configName + "\u00a7c' n'existe pas.");
+            sender.sendMessage("&cLa configuration '&6" + configName + "&cn'existe pas.");
             return;
         }
 
         if (ConfigManager.loadConfig(configName)) {
-            sender.sendMessage("\u00a7aConfiguration '\u00a76" + configName + "\u00a7a' charg\u00e9e avec succ\u00e8s !");
+            sender.sendMessage("&aConfiguration '&6" + configName + "&a' chargée avec succès !");
         } else {
-            sender.sendMessage("\u00a7cErreur lors du chargement de la configuration.");
+            sender.sendMessage("&cErreur lors du chargement de la configuration.");
         }
     }
 
     private void handleDelete(CommandSender sender, String[] args) {
         if (args.length < 2) {
-            sender.sendMessage("\u00a7cUsage: /uhcconfig delete <nom>");
+            sender.sendMessage("&cUsage: /uhcconfig delete <nom>");
             return;
         }
 
         String configName = args[1];
 
         if (!ConfigManager.configExists(configName)) {
-            sender.sendMessage("\u00a7cLa configuration '\u00a76" + configName + "\u00a7c' n'existe pas.");
+            sender.sendMessage("&cLa configuration '&6" + configName + "&c' n'existe pas.");
             return;
         }
 
         if (ConfigManager.deleteConfig(configName)) {
-            sender.sendMessage("\u00a7aConfiguration '\u00a76" + configName + "\u00a7a' supprim\u00e9e avec succ\u00e8s !");
+            sender.sendMessage("&aConfiguration '&6" + configName + "&a' supprimée avec succès !");
         } else {
-            sender.sendMessage("\u00a7cErreur lors de la suppression de la configuration.");
+            sender.sendMessage("&cErreur lors de la suppression de la configuration.");
         }
     }
 
@@ -122,19 +119,19 @@ public class ConfigCommand implements CommandExecutor, TabCompleter {
         List<String> configs = ConfigManager.getConfigList();
 
         if (configs.isEmpty()) {
-            sender.sendMessage("\u00a7eAucune configuration sauvegard\u00e9e.");
+            sender.sendMessage("&eAucune configuration sauvegardée.");
             return;
         }
 
-        sender.sendMessage("\u00a76\u00a7lConfigurations disponibles:");
+        sender.sendMessage("&6&lConfigurations disponibles:");
         for (String config : configs) {
-            sender.sendMessage("\u00a7e  - \u00a7a" + config);
+            sender.sendMessage("&e  - &a" + config);
         }
     }
 
     private void handleInfo(CommandSender sender, String[] args) {
         if (args.length < 2) {
-            sender.sendMessage("\u00a7cUsage: /uhcconfig info <nom>");
+            sender.sendMessage("&cUsage: /uhcconfig info <nom>");
             return;
         }
 
@@ -142,29 +139,29 @@ public class ConfigCommand implements CommandExecutor, TabCompleter {
         Map<String, Object> info = ConfigManager.getConfigInfo(configName);
 
         if (info == null) {
-            sender.sendMessage("\u00a7cLa configuration '\u00a76" + configName + "\u00a7c' n'existe pas.");
+            sender.sendMessage("&cLa configuration '&6" + configName + "&c' n'existe pas.");
             return;
         }
 
-        sender.sendMessage("\u00a76\u00a7lInformations sur '\u00a7e" + configName + "\u00a76\u00a7l':");
-        sender.sendMessage("\u00a7e  Nom: \u00a7a" + info.get("name"));
+        sender.sendMessage("&6&lInformations sur '&e" + configName + "&6&l':");
+        sender.sendMessage("&e  Nom: &a" + info.get("name"));
 
         long created = (long) info.get("created");
         if (created > 0) {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            sender.sendMessage("\u00a7e  Cr\u00e9\u00e9e le: \u00a7a" + sdf.format(new Date(created)));
+            sender.sendMessage("&e  Créée le: &a" + sdf.format(new Date(created)));
         }
 
-        sender.sendMessage("\u00a7e  Version: \u00a7a" + info.get("version"));
+        sender.sendMessage("&e  Version: &a" + info.get("version"));
     }
 
     private void sendHelp(CommandSender sender) {
-        sender.sendMessage("\u00a76\u00a7l===== Gestion des Configurations UHC =====");
-        sender.sendMessage("\u00a7e/uhcconfig save <nom> \u00a77- Sauvegarde la configuration actuelle");
-        sender.sendMessage("\u00a7e/uhcconfig load <nom> \u00a77- Charge une configuration");
-        sender.sendMessage("\u00a7e/uhcconfig delete <nom> \u00a77- Supprime une configuration");
-        sender.sendMessage("\u00a7e/uhcconfig list \u00a77- Liste toutes les configurations");
-        sender.sendMessage("\u00a7e/uhcconfig info <nom> \u00a77- Affiche les infos d'une configuration");
+        sender.sendMessage("&6&l===== Gestion des Configurations UHC =====");
+        sender.sendMessage("&7e/uhcconfig save <nom> &7- Sauvegarde la configuration actuelle");
+        sender.sendMessage("&e/uhcconfig load <nom> &7- Charge une configuration");
+        sender.sendMessage("&e/uhcconfig delete <nom> &7- Supprime une configuration");
+        sender.sendMessage("&e/uhcconfig list &7- Liste toutes les configurations");
+        sender.sendMessage("&e/uhcconfig info <nom> &7- Affiche les infos d'une configuration");
     }
 
     @Override

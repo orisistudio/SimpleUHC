@@ -54,7 +54,6 @@ public class TeamCommand implements CommandExecutor {
                 if(args.length >= 2){
                     String teamName = args[1];
                     try {
-                        // Utiliser acceptTeamInvite au lieu de addPlayerToTeam pour v\u00e9rifier l'invitation
                         teamManager.acceptTeamInvite(player, teamName);
                         player.sendMessage(
                                 LangMessages.getMessage("commands.team.team_joined", null)

@@ -20,7 +20,6 @@ import java.util.Map;
 
 public class EnchantListener implements Listener {
 
-    // Listes statiques pour catégoriser les items
     private static final List<Material> ARMOR_MATERIALS = Arrays.asList(
             Material.IRON_HELMET, Material.IRON_CHESTPLATE, Material.IRON_LEGGINGS, Material.IRON_BOOTS,
             Material.DIAMOND_HELMET, Material.DIAMOND_CHESTPLATE, Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS,
@@ -61,7 +60,7 @@ public class EnchantListener implements Listener {
     @EventHandler
     public void onAnvilClick(InventoryClickEvent event) {
         if (event.getInventory().getType() != InventoryType.ANVIL) return;
-        if (event.getRawSlot() != 2) return; // Slot de sortie
+        if (event.getRawSlot() != 2) return;
 
         AnvilInventory anvil = (AnvilInventory) event.getInventory();
         ItemStack result = anvil.getItem(2);
@@ -85,27 +84,19 @@ public class EnchantListener implements Listener {
         }
     }
 
-    /**
-     * Détermine l'option d'enchantement appropriée en fonction du type de matériau
-     * @param material Le matériau à vérifier
-     * @return L'option correspondante ou null si aucune option n'est définie
-     */
     private Option getEnchantOption(Material material) {
         String materialName = material.name();
 
-        // Vérification des armures fer/diamant
         if (materialName.startsWith("IRON_") && isArmor(material)) {
             return OptionSetup.getOption("Iron Alowed Enchants");
         } else if (materialName.startsWith("DIAMOND_") && isArmor(material)) {
             return OptionSetup.getOption("Diamond Alowed Enchants");
         }
 
-        // Vérification des armes
         if (isWeapon(material)) {
             return OptionSetup.getOption("Weapons Alowed Enchants");
         }
 
-        // Vérification des outils
         if (isTool(material)) {
             return OptionSetup.getOption("Tools Alowed Enchants");
         }
@@ -113,23 +104,14 @@ public class EnchantListener implements Listener {
         return null;
     }
 
-    /**
-     * Vérifie si le matériau est une armure
-     */
     private boolean isArmor(Material material) {
         return ARMOR_MATERIALS.contains(material);
     }
 
-    /**
-     * Vérifie si le matériau est une arme
-     */
     private boolean isWeapon(Material material) {
         return WEAPON_MATERIALS.contains(material);
     }
 
-    /**
-     * Vérifie si le matériau est un outil
-     */
     private boolean isTool(Material material) {
         return TOOL_MATERIALS.contains(material);
     }

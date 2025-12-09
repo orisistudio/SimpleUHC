@@ -29,15 +29,13 @@ public class WorldManager {
 
 
     public static void createWorld(){
-        // Générer un nouvel UUID pour ce monde
         currentWorldId = UUID.randomUUID().toString().substring(0, 8);
 
         WorldCreator creator = new WorldCreator("UHC_" + currentWorldId);
 
-        // Utiliser le g\u00e9n\u00e9rateur personnalis\u00e9 avec des biomes terrestres uniquement
         creator.generator(new CustomChunkGenerator());
 
-        Bukkit.broadcastMessage("\u00a7a\u00a7lCr\u00e9ation du monde personnalis\u00e9 en cours, des freezes peuvent survenir...");
+        Bukkit.broadcastMessage("&a&lCréation du monde personnalisé en cours, des freezes peuvent survenir...");
         World world = org.bukkit.Bukkit.createWorld(creator);
         if (world != null) {
             world.setGameRuleValue("doDaylightCycle", "false");
@@ -50,7 +48,7 @@ public class WorldManager {
             addSapling();
             //taiga();
         } else {
-            SimpleUHC.instance.getLogger().warning("La cr\u00e9ation du monde a \u00e9chou\u00e9.");
+            SimpleUHC.instance.getLogger().warning("La création du monde a échoué.");
         }
     }
 
@@ -76,7 +74,6 @@ public class WorldManager {
         TeamManager teamManager = new TeamManager();
         Map<Map<TeamColor, String>, List<Player>> teams = teamManager.getTeams();
 
-        // Téléporte chaque équipe
         teams.values().forEach(team -> {
             System.out.println("Teleporting team of size: " + team.size());
             Location spawnLocation = getRandomLocation();
@@ -92,7 +89,6 @@ public class WorldManager {
             }
         });
 
-        // Téléporte les joueurs sans équipe
         for (Player player : Bukkit.getOnlinePlayers()) {
             setOriginalWorld(player.getWorld());
             System.out.println("Teleporting player: " + player.getName());
@@ -109,9 +105,6 @@ public class WorldManager {
         }
     }
 
-
-
-    // Java
     private static Location getRandomLocation() {
         World world = org.bukkit.Bukkit.getWorld("UHC_" + currentWorldId);
         Location spawnLocation = getSpawnLocation();
@@ -144,7 +137,6 @@ public class WorldManager {
         }
     }
 
-    // rajouter method pour réduire progressivement la world border
     public static void shrinkWorldBorder(int newSize, long seconds) {
         World world = org.bukkit.Bukkit.getWorld("UHC_" + currentWorldId);
         if (world != null) {

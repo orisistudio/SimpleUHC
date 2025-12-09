@@ -18,7 +18,6 @@ public class TeamManager {
     private static Map<Map<TeamColor,String>, List<Player>> teams = new HashMap<>(); // Map première map pour la couleur et Nom de la team et la deuxième liste pour les joueurs dans la team
     private static Map<String, Player> teamLeaders = new HashMap<>(); // Map pour gérer les leaders des équipes, Le string est le nom de la team
 
-    // Inventaires partagés par nom d'équipe
     private static Map<String, Inventory> teamInventories = new HashMap<>();
 
     public int getTeamSize() {
@@ -64,7 +63,7 @@ public class TeamManager {
             if (teamInfo.containsValue(teamName)) {
                 teams.remove(teamInfo);
                 teamLeaders.remove(teamName);
-                teamInventories.remove(teamName); // supprime l'inventaire partagé
+                teamInventories.remove(teamName);
                 return;
             }
         }
@@ -218,12 +217,6 @@ public class TeamManager {
         }
     }
 
-    /**
-     * Retourne (et crée si nécessaire) l'inventaire partagé pour une équipe.
-     * @param teamName nom de l'équipe
-     * @param requestedTeamSize taille maximale de l'équipe (utilisée pour calculer la taille de l'inventaire)
-     * @return Inventory partagé
-     */
     public Inventory getTeamInventory(String teamName, int requestedTeamSize) {
         Inventory existing = teamInventories.get(teamName);
         int desiredSize = Math.max(9, ((requestedTeamSize + 8) / 9) * 9);
@@ -233,7 +226,6 @@ public class TeamManager {
             return inv;
         }
         if (existing.getSize() != desiredSize) {
-            // recrée en conservant les items existants
             Inventory inv = Bukkit.createInventory(null, desiredSize, "Inventaire équipe : " + teamName);
             int copyLimit = Math.min(existing.getSize(), inv.getSize());
             for (int i = 0; i < copyLimit; i++) {

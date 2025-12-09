@@ -23,19 +23,16 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-// Listener principal pour gérer les événements liés aux joueurs dans l'UHC
 public class PlayerListener implements Listener {
 
     TeamManager teamManager = new TeamManager();
 
-    // Gère l'arrivée d'un joueur pendant une partie en cours
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e){
         if(SimpleUHCManager.isGameRunning){
             Player player = e.getPlayer();
-            e.setJoinMessage(""); // Pas de message de join
+            e.setJoinMessage("");
 
-            // Met le joueur en mode spectateur et l'informe
             player.setGameMode(GameMode.SPECTATOR);
             player.sendMessage(LangMessages.getMessage("events.player.game_already_started", null));
         } else {
@@ -53,13 +50,12 @@ public class PlayerListener implements Listener {
         }
     }
 
-    // Gère le départ d'un joueur pendant une partie en cours
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e){
         if(SimpleUHCManager.isGameRunning){
-            e.setQuitMessage(""); // Pas de message de quit
+            e.setQuitMessage("");
             Player player = e.getPlayer();
-            // Si le joueur n'est pas spectateur ou créatif, il est considéré comme mort
+
             if(!player.getGameMode().equals(GameMode.SPECTATOR) || !player.getGameMode().equals(GameMode.CREATIVE)){
                 playerDie(player);
             }
@@ -71,23 +67,21 @@ public class PlayerListener implements Listener {
         }
     }
 
-    // Gère les dégâts infligés par une entité à un joueur pendant la partie (PVP)
     @EventHandler
     public void playerGetDamagedByEntity(EntityDamageByEntityEvent e){
         if(SimpleUHCManager.isGameRunning && SimpleUHCManager.pvpEnabled){
             if(e.getEntity() instanceof Player){
                 Player p = (Player) e.getEntity();
-                playerDie(p); // Le joueur meurt
-                p.setGameMode(GameMode.SPECTATOR); // Passe en spectateur
+                playerDie(p);
+                p.setGameMode(GameMode.SPECTATOR);
             }
         }
     }
 
-    // Gère la mort d'un joueur (message et passage en spectateur)
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent e){
         if(SimpleUHCManager.isGameRunning){
-            e.setDeathMessage(""); // Pas de message de mort
+            e.setDeathMessage("");
             Player player = e.getEntity();
             playerDie(player);
             player.setGameMode(GameMode.SPECTATOR);
@@ -130,7 +124,6 @@ public class PlayerListener implements Listener {
                     if(isTeamModeActivated){
                         String playerTeam = teamManager.getPlayerTeamName(player);
                         String damagerTeam = teamManager.getPlayerTeamName(damager);
-                        // Empêche les dégâts entre membres de la même équipe
                         if(playerTeam != null && damagerTeam != null && playerTeam.equals(damagerTeam)){
                             e.setCancelled(true);
                         }
@@ -140,12 +133,9 @@ public class PlayerListener implements Listener {
         }
     }
 
-    // Méthode utilitaire pour gérer la mort d'un joueur
     public void playerDie(Player player){
-        // Met immédiatement le joueur en spectateur pour que le comptage soit correct
         player.setGameMode(GameMode.SPECTATOR);
 
-        // Construire la liste des survivants (mode SURVIVAL)
         List<Player> survivors = new ArrayList<>();
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.playSound(p.getLocation(), Sound.ENDERDRAGON_GROWL, 1, 1);
@@ -161,7 +151,6 @@ public class PlayerListener implements Listener {
         Bukkit.broadcastMessage(deathMsg);
 
         boolean isTeamModeActivated = (boolean) OptionSetup.getOption("Game Team").getValue();
-        // Si un seul joueur reste (hors mode équipe), il gagne la partie
         if(!isTeamModeActivated){
             if(playersAlive == 1){
                 Player winner = survivors.get(0);
@@ -170,9 +159,9 @@ public class PlayerListener implements Listener {
                 winner.teleport(spawnLocation);
                 SimpleUHC.getSimpleUHCManager().onDisable();
             }
-        } else { // Vérifie la condition de victoire en mode équipe
+        } else {
             Object winCondition = WinCondition.isWinConditionMetTeams();
-            if(winCondition instanceof String){ // Si une équipe a gagné
+            if(winCondition instanceof String){
                 String winningTeam = (String) winCondition;
                 Bukkit.broadcastMessage(LangMessages.getMessage("events.player.team_won", null).replace("{team}", winningTeam));
                 for (Player p : Bukkit.getOnlinePlayers()){
@@ -183,7 +172,7 @@ public class PlayerListener implements Listener {
                     }
                 }
                 SimpleUHC.getSimpleUHCManager().onDisable();
-            } else if(winCondition instanceof Boolean && (Boolean) winCondition){ // Si un joueur solo a gagné
+            } else if(winCondition instanceof Boolean && (Boolean) winCondition){
                 if(playersAlive == 1){
                     Player winner = survivors.get(0);
                     Bukkit.broadcastMessage(LangMessages.getMessage("events.player.player_won", null).replace("{player}", winner.getName()));

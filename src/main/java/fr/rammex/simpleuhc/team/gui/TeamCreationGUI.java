@@ -94,7 +94,7 @@ public class TeamCreationGUI {
         return new Button(3,2,icon, ( (player, clickType) -> {
             try{
                 TeamManager.createTeam(teamColor, teamName, players, teamSize);
-            } catch (IllegalArgumentException e){ // handle l'erreur si le nom est déjà utilisé ou invalide
+            } catch (IllegalArgumentException e){
                 player.sendMessage("§c" + e.getMessage());
                 return;
             }

@@ -8,9 +8,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-/**
- * Commande /tc pour basculer entre le chat global et le chat d'\u00e9quipe
- */
 public class TeamChatCommand implements CommandExecutor {
 
     private final TeamManager teamManager;
@@ -28,16 +25,13 @@ public class TeamChatCommand implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        // V\u00e9rifier si le joueur est dans une \u00e9quipe
         if (!teamManager.isPlayerInAnyTeam(player)) {
             player.sendMessage(LangMessages.getMessage("team.chat.not_in_team", null));
             return true;
         }
 
-        // Basculer le mode team chat
         TeamChatManager.toggleTeamChat(player);
 
-        // Informer le joueur
         if (TeamChatManager.isInTeamChatMode(player)) {
             player.sendMessage(LangMessages.getMessage("team.chat.enabled", null));
         } else {

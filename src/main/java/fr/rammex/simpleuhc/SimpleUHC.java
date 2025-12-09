@@ -49,7 +49,6 @@ public final class SimpleUHC extends JavaPlugin {
 
         langMessages.loadMessages();
 
-        // Initialiser le gestionnaire de configurations
         ConfigManager.init();
         ConfigManager.createDefaultConfig();
 
@@ -95,7 +94,6 @@ public final class SimpleUHC extends JavaPlugin {
     }
 
     private void registerCommands(){
-        // Vérifier que les commandes existent avant de les enregistrer
         if (getCommand("team") != null) {
             getCommand("team").setExecutor(new TeamCommand());
         }
