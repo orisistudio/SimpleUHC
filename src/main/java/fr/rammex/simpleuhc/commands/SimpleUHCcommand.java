@@ -19,7 +19,8 @@ public class SimpleUHCcommand implements CommandExecutor {
 
         String message = "§6§lSimpleUHC §r§7- §eA simple UHC plugin by Rammex\n\n" +
                 "§eCommands:\n" +
-                "§6/uhc start §7- §eStart the UHC game\n" +
+                "§6/uhc create §7- §eCreate the UHC world (with chunk generation)\n" +
+                "§6/uhc start §7- §eStart the UHC game (after world is ready)\n" +
                 "§6/uhc stop §7- §eStop the UHC game\n" +
                 "§6/uhc tp §7- §eTeleport to the UHC world\n" +
                 "§6/team §7- §eOpen the team management GUI\n";
@@ -29,8 +30,18 @@ public class SimpleUHCcommand implements CommandExecutor {
             return true;
         } else {
             String subcommand = args[0].toLowerCase();
-            if(subcommand.equals("start")){
+            if(subcommand.equals("create")){
+                player.sendMessage("§6§lSimpleUHC §r§7- §eCréation du monde UHC en cours...");
                 SimpleUHC.getSimpleUHCManager().onEnable();
+            }
+            else if(subcommand.equals("start")){
+                if(WorldManager.isWorldReady()){
+                    player.sendMessage("§6§lSimpleUHC §r§7- §eDémarrage du jeu...");
+                    SimpleUHC.getSimpleUHCManager().startGame();
+                } else {
+                    player.sendMessage("§c§lErreur : §rLe monde n'est pas encore prêt !");
+                    player.sendMessage("§eVeuillez d'abord créer le monde avec §6/uhc create §eet attendre la fin de la génération.");
+                }
             }
             else if(subcommand.equals("stop")){
                 SimpleUHC.getSimpleUHCManager().onDisable();
@@ -43,7 +54,6 @@ public class SimpleUHCcommand implements CommandExecutor {
                 SimpleUHC.instance.getLangMessages().loadMessages();
                 player.sendMessage("§6§lSimpleUHC §r§7- §eConfiguration reloaded.");
             }
-
             else {
                 player.sendMessage(message);
             }

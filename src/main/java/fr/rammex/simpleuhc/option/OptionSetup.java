@@ -26,7 +26,7 @@ public class OptionSetup {
 
         //Player options
         optionManager.addOption(new Option("Player Max", "Maximum number of players in the game", playerCategory, OptionType.INTEGER, 100), SimpleUHC.getSimpleUHCManager());
-        optionManager.addOption(new Option("Player Min", "Minimum number of players in the game", playerCategory, OptionType.INTEGER, 4), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Player Min", "Minimum number of players in the game", playerCategory, OptionType.INTEGER, 80), SimpleUHC.getSimpleUHCManager());
 
         //World options
         optionManager.addOption(new Option("World Border", "World border size", worldCategory, OptionType.INTEGER, 1000), SimpleUHC.getSimpleUHCManager());
@@ -94,6 +94,13 @@ public class OptionSetup {
         optionManager.addOption(new Option("Cave Max Height", "Maximum height for cave generation", worldCategory, OptionType.INTEGER, 60), SimpleUHC.getSimpleUHCManager());
         optionManager.addOption(new Option("Cave Scale", "Cave size scale (0.5=small, 1.0=normal, 2.0=large)", worldCategory, OptionType.DOUBLE, 1.0), SimpleUHC.getSimpleUHCManager());
         optionManager.addOption(new Option("Cave Threshold", "Cave density threshold (0.0=more caves, 0.5=normal, 1.0=fewer caves)", worldCategory, OptionType.DOUBLE, 0.3), SimpleUHC.getSimpleUHCManager());
+
+        // World generation options
+        optionManager.addOption(new Option("Chunks Per Batch", "Number of chunks to load before pausing (higher = faster but more lag)", worldCategory, OptionType.INTEGER, 400), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Replace Ocean Biomes", "Replace ocean biomes with forests", worldCategory, OptionType.BOOLEAN, true), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Cave Ores Only", "Remove ores that are not exposed to air (SLOW - increases generation time)", worldCategory, OptionType.BOOLEAN, false), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Sugar Cane Percentage", "Percentage of sugar cane generation near water (0-100)", worldCategory, OptionType.INTEGER, 30), SimpleUHC.getSimpleUHCManager());
+        optionManager.addOption(new Option("Generate Custom Veins", "Enable custom ore vein generation (uses ore options above)", worldCategory, OptionType.BOOLEAN, true), SimpleUHC.getSimpleUHCManager());
 
         //Game options
         optionManager.addOption(new Option("Game Team", "Enable or disable teams", gameCategory, OptionType.BOOLEAN, false), SimpleUHC.getSimpleUHCManager());

@@ -19,6 +19,7 @@ public enum TeamColor {
     CYAN(new ItemStack(Material.WOOL, 1, (short) 9), "Cyan", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjAyOTBlYWQ3YmIzY2MzZjhlMTkyNThlMDNjMDFiYWJhZmY1NTU0MGZiOTE0OWZkMGI1NTliMTZmYjJlMjJmIn19fQ==");
 
 
+
     private final ItemStack item;
     private final String color;
     private final String headBase64;
